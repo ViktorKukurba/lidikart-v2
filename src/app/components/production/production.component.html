@@ -1,0 +1,16 @@
+<div class="row grids text-center">
+  <div class="col-lg-3 col-md-3 col-xs-6 col-sm-4 gallery-cat" *ngFor="let cat of categories">
+    <div class="view circle view-tenth">
+      <a [routerLink]="cat.id">
+        <div class="inner_content clearfix">
+          <h6>{{cat.name}}</h6>
+          <div class="product-image">
+            <img src="{{cat.img}}"/>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="product_container wow bounceIn" data-wow-delay="0.4s">
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<div id="galleries-navigation">
+  <h3 *ngIf="title">{{title}}</h3>
+  <ul *ngIf="categories && categories.length">
+    <li *ngFor="let cat of categories">
+      <!--<a [routerLink]="[cat.id]">{{cat.name}}</a>-->
+      <a [href]="'/gallery' + cat.id">{{cat.name}}</a>
+    </li>
+  </ul>
+</div>
+<router-outlet></router-outlet>
