@@ -55,7 +55,6 @@ export class GalleryService {
   }
 
   public getCategoryImagesObs(category:number):Observable<any> {
-    console.log('category:', category)
     return this.posts.map(posts => {
       return posts.filter(post => {
         return post.better_featured_image && (!category || category && post.categories.includes(+category))
@@ -64,7 +63,6 @@ export class GalleryService {
   }
 
   public getCategoryImages(category:number):Array<any> {
-    console.log('category:', category)
     return this.posts_.value.filter(post => {
       return post.better_featured_image && (!category || category && post.categories.includes(+category))
     }).map(this.toImageItem)
@@ -77,7 +75,6 @@ export class GalleryService {
         return post.better_featured_image && (!category || category && post.categories.includes(+category))
       }).map(this.toImageItem)
     })
-    console.log('tt', t, this.posts);
     this.filteredImages_.next(t)
   }
 }
