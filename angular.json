@@ -22,12 +22,14 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.css",
               "src/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/tether/dist/js/tether.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.js"
             ]
           },
           "configurations": {
@@ -75,12 +77,14 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery/dist/jquery.js",
               "node_modules/tether/dist/js/tether.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.js",
+              "node_modules/@fancyapps/fancybox/dist/jquery.fancybox.js"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/bootstrap/dist/scss/bootstrap.scss",
+              "node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.css",
               "src/styles.scss"
             ],
             "assets": [
@@ -133,7 +137,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "css"
+      "styleext": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "app"

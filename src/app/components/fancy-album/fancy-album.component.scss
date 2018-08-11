@@ -1,0 +1,24 @@
+.image {
+    text-align: center;
+
+    a {
+        box-shadow: 10px 10px 10px rgba(50, 50, 50, 0.5);
+        overflow: hidden;
+        margin: .5em auto;
+        display: block;
+        position: relative;
+        background: #DC554F url(../../../assets/images/lidikart.jpg) no-repeat center;
+        background-size: cover;
+        height: 158px;
+        width: 225px;
+    }
+
+    img {
+        min-height: 158px;
+        min-width: 225px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}

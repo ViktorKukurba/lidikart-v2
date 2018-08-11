@@ -4,19 +4,32 @@
 
 .nav-link {
   cursor: pointer;
+  padding: 2em 1em;
+
+  a {
+    color: black;
+  }
+
+  &:hover a {
+    color: white;
+  }
 }
 
 nav {
   border-bottom: black solid 1px;
 }
 
-.navbar-brand h1 {
-  color: rgba(130, 40, 80, 0.8);
-  text-align: center;
-  font-size: 2em;
-  font-weight: 800;
-  margin-bottom: 0;
-  float: left;
+.navbar-brand {
+  > * {
+    display: inline-block;
+  }
+  h1 {
+    color: rgba(130, 40, 80, 0.8);
+    text-align: center;
+    font-size: 2em;
+    font-weight: 800;
+    margin-bottom: 0;
+  }
 }
 
 h1 span {
@@ -33,7 +46,6 @@ h1 span {
   background-image: url(../../../assets/images/lidikart-logo.png);
   background-size: 200%;
   background-position: 50% 45%;
-  float: left;
 }
 
 .navbar-collapse {
@@ -42,4 +54,19 @@ h1 span {
 
 .dropdown-menu {
   margin: 0;
+}
+
+ul.lang {
+  padding: 0;
+  margin: 0;
+  li {
+    display: inline-block;
+    padding: 0 .5em;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .navbar-brand h1 {
+    font-size: 1.5em;
+  }
 }

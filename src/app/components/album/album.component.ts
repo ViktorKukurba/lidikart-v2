@@ -1,22 +1,26 @@
 import { Component, OnInit, Input, SimpleChange } from '@angular/core';
-import { Gallery, GalleryItem, ImageItem } from '@ngx-gallery/core';
+import { Gallery, GalleryRef, GalleryItem, ImageItem } from '@ngx-gallery/core';
 import { Lightbox } from '@ngx-gallery/lightbox';
 import { Router, ActivatedRoute } from '@angular/router';
-import { GalleryService } from '../../services/gallery.service'
-import { combineLatest } from 'rxjs/observable/combineLatest';
+
+import { GalleryService } from '../../services/gallery.service';
+import { AppSettings } from '../../constants';
+import { LAGalleryItem } from '../../types';
+
+const GALLERY_PATH = AppSettings.ROUTE.GALLERY;
 
 @Component({
   selector: 'app-album',
   templateUrl: './album.component.html',
-  styleUrls: ['./album.component.css'],
+  styleUrls: ['./album.component.scss'],
   inputs:['posts']
 })
 export class AlbumComponent implements OnInit {
   @Input() posts:Array<any> = [];
-  items: GalleryItem[];
+  items: LAGalleryItem[];
   category: number;
   pic: number;
-
+  galleryRef: GalleryRef;
 
   constructor(
       public gallery: Gallery,
@@ -27,50 +31,79 @@ export class AlbumComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('ngOnInitngOnInit')
-    combineLatest(this.route.params, this.galleryService.posts).subscribe(res => {
-      var params = res[0];
-      console.log('combineLatest', params)
-      this.pic = params.pic;
-      if (this.category != params.category || this.category === undefined) {
-        this.loadGallery();
-        if (this.pic && this.items.length) {
-          this.openGallery(this.pic)
-        }
-        // this.pic = undefined;
-      }
-      this.category = params.category;
-    })
+    this.galleryRef = this.gallery.ref('lightbox');
+    const params = this.route.params['value'];
+    this.route.params.subscribe(params => {
+      this.galleryService.setImagesSerie(params.serie);
+    });
 
-    this.gallery.ref('lightbox').indexChanged().subscribe(item => {
-      const ID = item.items[item.currIndex].post.id;
-      const url = this.category ? `gallery/${this.category}` : `gallery`;
-      console.log('router.navigate')
-      this.router.navigate([url, {pic: ID}]);
-    })
+    this.galleryService.filteredImages.subscribe((posts:LAGalleryItem[]) => {
+      this.items = posts;
+      this.galleryRef.load(this.items);
+    });
+
+    this.galleryRef.indexChanged.subscribe(item => {
+      this.pic = (<LAGalleryItem>item.items[item.currIndex]).post.id;
+      this.router.navigate([GALLERY_PATH, this.getOptParams()]);
+    });
+
+    setTimeout(() => {
+      if (params.pic) {
+        this.openGallery(params.pic);
+      }
+    });
+
+    function hasParent(el:Node, cssClass, index = 3) {
+      if (el['classList'].contains(cssClass)) {
+        console.log('CLOSEEE');
+        return true;
+      }
+
+      if (index === 0 || !el.parentNode) {
+        return false;
+      }
+      return hasParent(el.parentNode, cssClass, index - 1);
+    }
 
     document.body.addEventListener('click', e => {
-      if (e.target['classList'].contains('g-btn-close')) {
-        const url = this.category ? `gallery/${this.category}` : 'gallery';
-        this.router.navigate([url]);
+      if (hasParent(<Node>e.target, 'g-btn-close')) {
+        this.pic = null;
+        this.router.navigate([GALLERY_PATH, this.getOptParams()]);
       }
     })
   }
 
   openGallery(id, i=this.getIndexById(id)) {
-    const url = this.category ? `gallery/${this.category}` : `gallery`;
-    this.router.navigate([url, {pic: id}]);
+    this.pic = id;
+    this.router.navigate([`/${GALLERY_PATH}`, this.getOptParams()]);
     this.lightbox.open(i, 'lightbox', {
       panelClass: 'fullscreen'
     });
+  }
+
+  private getOptParams():Object {
+    console.log('this.route.params', this.route.params['value']);
+    var optParams:any = {};
+    if (this.pic) {
+      optParams.pic = this.pic;
+    }
+
+    if (this.category) {
+      optParams.serie = this.category;
+    }
+    return optParams;
   }
 
   private getIndexById(id) {
     return this.items.indexOf(this.items.find(i => i['post'].id === +id))
   }
 
-  private loadGallery() {
-    this.items = this.galleryService.getCategoryImages(this.category)
-    this.gallery.ref('lightbox').load(this.items);
-  }
+  // private loadGallery() {
+  //   console.log('loadGallery', this.category);
+  //   this.items = this.galleryService.getCategoryImages(this.category);
+  //   this.galleryService.filteredPosts.subscribe((posts) => {
+  //     console.log('filtered test', posts);
+  //   });
+  //   this.galleryRef.load(this.items);
+  // }
 }

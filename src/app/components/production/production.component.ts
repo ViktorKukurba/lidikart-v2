@@ -7,7 +7,7 @@ const PAGE = 'production';
 @Component({
   selector: 'app-production',
   templateUrl: './production.component.html',
-  styleUrls: ['./production.component.css']
+  styleUrls: ['./production.component.scss']
 })
 export class ProductionComponent implements OnInit {
   categories:Array<Object> = []

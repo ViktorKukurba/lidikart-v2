@@ -6,7 +6,7 @@ import { AppDataService } from '../../services/app-data.service'
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.css']
+  styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
   pages = [];
@@ -17,9 +17,8 @@ export class NavigationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataService.getPageCategories().subscribe((pages) => {
-      this.pages = pages;
+    this.dataService.getPageCategories().subscribe((pages:Array<any>) => {
+      this.pages = pages.filter(page => page.slug !== 'production');
     })
   }
-
 }

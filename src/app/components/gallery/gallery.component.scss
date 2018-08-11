@@ -1,0 +1,36 @@
+#galleries-navigation {
+    ul {
+        display: table;
+        list-style-type: none;
+        margin: 0;
+        padding: 10px;
+        text-align: center;
+        width: 100%;
+        li {
+          display: table-cell;
+          padding: .5em;
+          font-weight: 800;
+          text-align: center;
+          text-align-last: end;
+          a {
+            color: #888;
+            font-weight: 500;
+          }
+          a.selected {
+            color: black;
+            //color: rgba(130, 40, 80, 0.8);
+          }
+    
+          a:hover {
+            color: black;
+            //color: rgba(130, 40, 80, 0.8);
+          }
+        }
+      }
+}
+
+@media only screen and (max-width: 420px) {
+    #galleries-navigation {
+        overflow-x: scroll;
+    }
+}
