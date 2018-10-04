@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { AppDataService } from '../../services/app-data.service'
+import { ActivatedRoute } from '@angular/router';
+
+import { AppDataService } from '../../services/app-data.service';
+import { GalleryService } from '../../services/gallery.service';
 
 const PAGE = 'production';
 
@@ -9,14 +12,25 @@ const PAGE = 'production';
   templateUrl: './production.component.html',
   styleUrls: ['./production.component.scss']
 })
-export class ProductionComponent implements OnInit {
-  categories:Array<Object> = []
-  constructor(private dataService:AppDataService) { }
+export class ProductionComponent {
+  categories:Array<Object> = [];
+  posts = [];
 
-  ngOnInit() {
-    this.dataService.getPageCategories().subscribe(pages => {
-      this.categories = pages.filter((page) => page.slug === PAGE)[0].categories[PAGE];
+  private albumState;
+  constructor(private dataService:AppDataService,
+    private galleryService:GalleryService,
+    private route: ActivatedRoute) {
+      galleryService.wallCategories.subscribe(categories => {
+        var ids = <Array<string|number>>categories.map(category => {
+          return <string|number>category.id;
+        }).filter(id => Boolean(id));
+        ids.length && this.dataService.getPostsByCategories(ids).subscribe(response => {
+          this.posts = response.map(p => galleryService.toImageItem(p));
+      })
+
+      route.params.subscribe(params => {
+        this.albumState = params;
+      });
     })
   }
-
 }

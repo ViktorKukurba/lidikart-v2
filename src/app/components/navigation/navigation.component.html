@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light">
-  <a class="navbar-brand" href="#">
-    <h1>LidikART<span translate="title" class="ng-scope">інший світ</span></h1>
+  <a class="navbar-brand" [routerLink]="dataService.langURLPrefix">
+    <h1>LidikART<span translate="title" class="ng-scope">{{title}}</span></h1>
     <div class="logo-image"></div>
   </a>
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -8,22 +8,12 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav dropdown" *ngFor="let page of pages" >
-        <a class="nav-item nav-link" [routerLink]="page.slug">{{page.title.rendered}}</a>
-      <!-- <div *ngIf="page.categories[page.slug]; then dropdown else link"></div>
-
-      <ng-template #link><a class="nav-item nav-link" [routerLink]="page.slug">{{page.title.rendered}}</a></ng-template>
-      <ng-template #dropdown>
-        <a class="nav-link dropdown-toggle" (click)="navigateTo(page.slug)" id="nav-cat-{{page.slug}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{page.title.rendered}}
-        </a>
-        <div class="dropdown-menu" [attr.aria-labelledby]="'nav-cat-' + page.slug">
-          <a class="dropdown-item" *ngFor="let category of page.categories[page.slug]" [routerLink]="['/' + page.slug, category.id]">{{category.name}}</a>
-        </div>
-      </ng-template> -->
+        <a class="nav-item nav-link" [ngClass]="{active2: page.slug === 'gallery' && router.url === '/'}" [routerLink]="page.link" routerLinkActive="active">{{page.title.rendered}}</a>
+        <!-- <a class="nav-item nav-link" [routerLink]="[{ outlets: { primary: [page.link],banner: ['about'] } }]" routerLinkActive="active">{{page.title.rendered}}</a> -->
+        
     </div>
   </div>
   <ul class="lang">
-    <li>EN</li>
-    <li>UA</li>
+    <li *ngFor="let lang of languages" [ngClass]="{active: lang.value===language}"><a (click)="selectLanguage(lang.value)">{{lang.label}}</a></li>
   </ul>
 </nav>

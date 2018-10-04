@@ -55,7 +55,6 @@ export class AlbumComponent implements OnInit {
 
     function hasParent(el:Node, cssClass, index = 3) {
       if (el['classList'].contains(cssClass)) {
-        console.log('CLOSEEE');
         return true;
       }
 
@@ -76,9 +75,6 @@ export class AlbumComponent implements OnInit {
   openGallery(id, i=this.getIndexById(id)) {
     this.pic = id;
     this.router.navigate([`/${GALLERY_PATH}`, this.getOptParams()]);
-    this.lightbox.open(i, 'lightbox', {
-      panelClass: 'fullscreen'
-    });
   }
 
   private getOptParams():Object {

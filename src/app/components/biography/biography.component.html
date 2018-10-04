@@ -1,0 +1,12 @@
+<div class="about-description">
+  <!-- <img [src]="image" ng-if="image"> -->
+  <div *ngIf="pageData" class="about-content" [innerHtml]="pageData.content.rendered">
+
+  </div>
+  <a [href]="resume.link"
+     target="_blank" class="pdf-link">
+      <span>Резюме</span>
+      <span></span>
+  </a>
+  <!-- <div class="fb-share-button" [data-href]="fbHref" data-type="button_count"></div> -->
+</div>

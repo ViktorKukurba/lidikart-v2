@@ -4,10 +4,12 @@
 
 .nav-link {
   cursor: pointer;
-  padding: 2em 1em;
 
   a {
     color: black;
+    &.active2 {
+      color: rgba(0,0,0,.9);
+    }
   }
 
   &:hover a {
@@ -16,7 +18,7 @@
 }
 
 nav {
-  border-bottom: black solid 1px;
+  padding: 0;
 }
 
 .navbar-brand {
@@ -62,6 +64,13 @@ ul.lang {
   li {
     display: inline-block;
     padding: 0 .5em;
+    cursor: pointer;
+    > a {
+      color: rgba(0,0,0,.5);
+    }
+    &.active > a {
+      color: rgba(0,0,0,.9);
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { AppDataService } from '../../services/app-data.service';
 
@@ -7,11 +7,12 @@ import { AppDataService } from '../../services/app-data.service';
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent implements OnInit {
-
-  constructor(private dataService:AppDataService) { }
-
-  ngOnInit() {
+export class FooterComponent {
+  pages:Array<Object>;
+  constructor(private dataService:AppDataService) {
+    dataService.pages.subscribe(pages => {
+      this.pages = pages;
+    })
   }
 
 }

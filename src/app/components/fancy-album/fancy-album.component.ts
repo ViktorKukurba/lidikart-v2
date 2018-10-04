@@ -1,7 +1,7 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { GalleryService } from '../../services/gallery.service';
+import { AppSettings } from '../../constants'
 
 declare var jQuery: any
 
@@ -11,46 +11,47 @@ declare var jQuery: any
   styleUrls: ['./fancy-album.component.scss']
 })
 export class FancyAlbumComponent implements OnInit {
+  @Input()
   items: Array<any> = [];
+  @Input()
+  pic:number;
   serie: String = '';
-  pic: number;
   url: String;
+  routeParams;
 
   constructor(
-    private galleryService: GalleryService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {
-    this.route.url.subscribe((url) => {
+    this.route.url.subscribe(url => {
       this.url = url.map(us => us.path).join('/');
     });
 
     this.route.params.subscribe(params => {
-      this.serie = params.serie;
+      this.routeParams = {...params};
       this.pic = +params.pic;
-      this.galleryService.setImagesSerie(params.serie);
-      this.router.navigate([this.url, this.getOptParams()]);
-    });
-
-    this.galleryService.filteredImages.subscribe((posts:Array<any>) => {
-      this.items = posts;
+      if (!this.pic) {
+        jQuery.fancybox.close();
+      }
     });
 
     this.initFancyBox();
+    this.openPic();
   }
 
-  private getOptParams():Object {
-    var optParams:any = {};
-    if (this.serie) {
-      optParams.serie = this.serie;
-    }
-
+  private openPic() {
     if (this.pic) {
-      optParams.pic = this.pic;
+      const click = () => {
+        if (this.items.length) {
+          jQuery(`[data-pic-id="${this.pic}"]`).click();
+        } else {
+          setTimeout(click, 1e1);
+        }
+      }
+      click();
     }
-    return optParams;
   }
 
   private initFancyBox():void {
@@ -58,11 +59,17 @@ export class FancyAlbumComponent implements OnInit {
     jQuery(document).on({
       'beforeShow.fb': (e, instance, current, firstRun) => {
         this.pic = current.opts.picId;
-        this.router.navigate([this.url, this.getOptParams()]);
+        this.routeParams.pic = this.pic;
+        this.router.navigate([this.url || AppSettings.ROUTE.GALLERY, this.routeParams]);
       },
       'beforeClose.fb': () => {
         this.pic = null;
-        this.router.navigate([this.url, this.getOptParams()]);
+        delete this.routeParams.pic;
+        if (Object.keys(this.routeParams).length) {
+          this.router.navigate([this.url, this.routeParams]);
+        } else {
+          this.router.navigate([this.url]);
+        }
       }
     });
   }

@@ -28,6 +28,14 @@ $footerColor2: rgba(130, 40, 80, .7);
     }
   }
 
+  ul.site-map {
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+    padding: 0 1rem;
+    margin: 0;
+  }
+
   h3 {
     text-shadow: 5px 5px 5px rgba(50, 50, 50, 0.5);
     margin-bottom: 5px;
@@ -272,7 +280,7 @@ $footerColor2: rgba(130, 40, 80, .7);
 }
 
 .header_bottom {
-  visibility: hidden;
+  // visibility: hidden;
 }
 
 .loaded {
@@ -292,5 +300,14 @@ $footerColor2: rgba(130, 40, 80, .7);
 }
 
 .footer {
-  visibility: hidden;
+  // visibility: hidden;
+
+
+  // position: absolute;
+  width: 100%;
+  left: 0;
+  .container {
+    max-width: 85%;
+    width: 85%;
+  }
 }

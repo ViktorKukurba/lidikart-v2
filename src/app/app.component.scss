@@ -1,9 +1,16 @@
-.container {
-  font-family: "Comfortaa", "Open Sans", sans-serif;
-  background: #F6F6F6;
-  color: #333;
-  width: 80%;
-  min-height: 100vh;
+// .container {
+//   color: #333;
+//   // width: 85%;
+//   // min-height: 100vh;
+//   // max-width: 85%;
+
+//   .content {
+//     min-height: 50%;
+//   }
+// }
+
+.app-content {
+  // min-height: 100vh;
 }
 
 @media only screen and (max-width: 420px) {
