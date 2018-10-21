@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 
@@ -12,25 +12,29 @@ const PAGE = 'production';
   templateUrl: './production.component.html',
   styleUrls: ['./production.component.scss']
 })
-export class ProductionComponent {
+export class ProductionComponent implements OnDestroy {
   categories:Array<Object> = [];
   posts = [];
-
-  private albumState;
+  private sub;
+  public albumState;
   constructor(private dataService:AppDataService,
     private galleryService:GalleryService,
     private route: ActivatedRoute) {
-      galleryService.wallCategories.subscribe(categories => {
+      this.sub = galleryService.wallCategories.subscribe(categories => {
         var ids = <Array<string|number>>categories.map(category => {
           return <string|number>category.id;
         }).filter(id => Boolean(id));
         ids.length && this.dataService.getPostsByCategories(ids).subscribe(response => {
-          this.posts = response.map(p => galleryService.toImageItem(p));
+          this.posts = response.map(p => GalleryService.toImageItem(p));
       })
 
       route.params.subscribe(params => {
         this.albumState = params;
       });
     })
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 }

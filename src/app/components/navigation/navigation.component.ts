@@ -16,7 +16,7 @@ export class NavigationComponent {
   language:String;
   
   constructor(
-    private dataService:AppDataService,
+    public dataService:AppDataService,
     private router: Router) { 
       this.languages = this.dataService.languages;
 
@@ -58,7 +58,7 @@ export class NavigationComponent {
         }
       })
 
-      this.dataService.setILanguage(lang);
+      this.dataService.setLanguage(lang);
       if (params) {
         this.router.navigate([url, params]);
       } else {

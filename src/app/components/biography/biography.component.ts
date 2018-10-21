@@ -8,8 +8,8 @@ import { AppDataService } from '../../services/app-data.service';
   styleUrls: ['./biography.component.scss']
 })
 export class BiographyComponent implements OnInit {
-  private pageData;
-  private resume;
+  pageData;
+  resume;
   private lang;
   constructor(private appData:AppDataService) {
     appData.lang.subscribe(l => {

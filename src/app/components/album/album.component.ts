@@ -78,7 +78,6 @@ export class AlbumComponent implements OnInit {
   }
 
   private getOptParams():Object {
-    console.log('this.route.params', this.route.params['value']);
     var optParams:any = {};
     if (this.pic) {
       optParams.pic = this.pic;

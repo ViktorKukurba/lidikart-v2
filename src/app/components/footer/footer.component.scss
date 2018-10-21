@@ -34,6 +34,13 @@ $footerColor2: rgba(130, 40, 80, .7);
     -moz-columns: 2;
     padding: 0 1rem;
     margin: 0;
+    li a {
+      color: rgba(0,0,0,.9);
+    }
+  }
+
+  .section-title {
+      color: rgba(0,0,0,.9);
   }
 
   h3 {

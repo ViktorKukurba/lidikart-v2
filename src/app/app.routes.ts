@@ -2,7 +2,9 @@ import { Routes } from '@angular/router';
 
 import { ProductionComponent } from './components/production/production.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
-import { BiographyComponent } from './components/biography/biography.component'
+import { BiographyComponent } from './components/biography/biography.component';
+import { ExhibitionsComponent } from './components/exhibitions/exhibitions.component';
+import { ExhibitionComponent } from './components/exhibition/exhibition.component';
 import { AppSettings } from './constants';
 
 
@@ -21,6 +23,12 @@ const ROUTES = [{
     data: {
       banner: true
     }
+  }, {
+    path: 'exhibitions',
+    component: ExhibitionsComponent
+  }, {
+    path: 'exhibitions/:id',
+    component: ExhibitionComponent
   }
 ];
 

@@ -8,7 +8,7 @@ import { Router, ActivatedRoute, NavigationEnd, RoutesRecognized } from '@angula
   styleUrls: ['./banner.component.scss']
 })
 export class BannerComponent implements OnInit {
-  private showBanner:Boolean = false;
+  showBanner:Boolean = false;
   constructor(private router:Router, private route:ActivatedRoute) {
     router.events.subscribe(e => {
       if (e instanceof RoutesRecognized) {

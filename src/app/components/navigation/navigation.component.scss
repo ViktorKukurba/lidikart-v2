@@ -7,9 +7,10 @@
 
   a {
     color: black;
-    &.active2 {
-      color: rgba(0,0,0,.9);
-    }
+  }
+
+  &.active2 {
+    color: rgba(0,0,0,.9);
   }
 
   &:hover a {

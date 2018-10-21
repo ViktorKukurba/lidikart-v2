@@ -13,7 +13,7 @@ import { AppSettings } from '../../constants'
 export class GalleryComponent implements AfterViewInit {
   categories:Array<any> = [];
   pictures = [];
-  albumState: Object = {};
+  albumState:{pic?:string} = {};
   private lang_;
   private serie_;
   @ViewChild('filter')
@@ -30,13 +30,12 @@ export class GalleryComponent implements AfterViewInit {
     });
 
     this.galleryService.filteredImages.subscribe((posts:Array<any>) => {
-      console.log('fff', posts);
       this.pictures = posts;
     });
 
-    this.appService.lang.subscribe(lang => {
-      this.lang_ = lang;
-    })
+    // this.appService.lang.subscribe(lang => {
+    //   this.lang_ = lang;
+    // })
 
     this.route.params.subscribe(params => {
       this.albumState = params;

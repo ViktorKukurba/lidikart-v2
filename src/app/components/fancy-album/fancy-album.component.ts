@@ -1,9 +1,19 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewContainerRef, TemplateRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { AppSettings } from '../../constants'
+// import { FacebookService, InitParams } from 'ngx-facebook';
+
+import { AppSettings } from '../../constants';
+
+import { DomService } from '../../services/dom.service';
 
 declare var jQuery: any
+
+@Component({
+  selector: 'fb-wrapper',
+  template: `<div href="https://github.com/zyra/ngx-facebook"></div>`,
+})
+export class FbWrapperComponent { }
 
 @Component({
   selector: 'app-fancy-album',
@@ -15,13 +25,16 @@ export class FancyAlbumComponent implements OnInit {
   items: Array<any> = [];
   @Input()
   pic:number;
-  serie: String = '';
   url: String;
   routeParams;
+  @ViewChild(TemplateRef)
+  like:TemplateRef<any>;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private viewContainer: ViewContainerRef,
+    private domService: DomService,
   ) { }
 
   ngOnInit() {
@@ -31,6 +44,7 @@ export class FancyAlbumComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.routeParams = {...params};
+      delete this.routeParams.id;
       this.pic = +params.pic;
       if (!this.pic) {
         jQuery.fancybox.close();
@@ -55,13 +69,32 @@ export class FancyAlbumComponent implements OnInit {
   }
 
   private initFancyBox():void {
-    jQuery.fancybox.defaults.hash = false;    
+    jQuery.fancybox.defaults.hash = false;
+    jQuery.fancybox.defaults.caption = ( instance, item ) => {
+      var id = item.opts.picId;
+      if (typeof id === 'string') {
+        id = +id.replace('pic-', '');
+      }
+      const post = this.items.find(i => i.post.id === id).post;
+      const tmpl = `<div class="fb-like" 
+        data-href="https://lidikart.com.ua/picture/${id}" 
+        data-layout="standard" 
+        data-action="like"
+        data-show-faces="false">
+      </div>`;
+      return `<span>${post.title.rendered}</span>${tmpl}`;
+    }
+    jQuery.fancybox.defaults.thumbs.autoStart = true; 
     jQuery(document).on({
       'beforeShow.fb': (e, instance, current, firstRun) => {
         this.pic = current.opts.picId;
         this.routeParams.pic = this.pic;
         this.router.navigate([this.url || AppSettings.ROUTE.GALLERY, this.routeParams]);
       },
+      'beforeLoad.fb': () => {
+        (<any>window).FB.XFBML.parse(document.getElementById(`fb-like-${this.pic}`));
+      },
+
       'beforeClose.fb': () => {
         this.pic = null;
         delete this.routeParams.pic;

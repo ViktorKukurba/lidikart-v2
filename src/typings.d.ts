@@ -7,3 +7,9 @@ interface NodeModule {
 interface JQuery {
   fancybox(options?: any): any;
 }
+
+interface FB {
+  XFBML: {
+    parse(): any;
+  }
+}

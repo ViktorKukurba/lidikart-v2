@@ -8,7 +8,7 @@ import { AppDataService } from '../../services/app-data.service'
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-  category:Object = {}
+  category:{description?: string, name?: string} = {}
   posts:Array<Object> = []
 
   constructor(private route:ActivatedRoute, private dataService:AppDataService) { }

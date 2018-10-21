@@ -1,7 +1,23 @@
 @import '~@ngx-gallery/core/styles/gallery';
 @import '~@ngx-gallery/core/styles/lightbox';
 
+$linkHover: rgba(130,40,80, 0.8);
+
 body {
     font-family: "Comfortaa", "Open Sans", sans-serif;
     background: #F6F6F6;
+}
+
+.fancybox-caption > span {
+    padding-right: 1em;
+}
+
+a {
+    color: #1B242F;
+    text-decoration: none;
+    transition: 0.5s all;
+}
+
+a:hover {
+    color: $linkHover;
 }

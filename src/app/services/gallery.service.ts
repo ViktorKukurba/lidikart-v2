@@ -29,12 +29,12 @@ export class GalleryService {
       var [posts, category] = res;
       this.filteredImages_.next(posts.filter(post => {
         return (post.better_featured_image || post.format === 'video') && (!category || category && post.categories.includes(category))
-      }).map(p => this.toImageItem(p)));
+      }).map(p => GalleryService.toImageItem(p)));
     });
 
     dataService.lang.subscribe(lang => {
       this.lang = lang;
-    })
+    });
 
     this.galleryCategories.subscribe(categories => {
       var ids = <Array<string|number>>categories.map(category => {
@@ -61,6 +61,12 @@ export class GalleryService {
     });
   }
 
+  static formatPosts(posts, category) {
+    return posts.filter(post => {
+      return (post.better_featured_image || post.format === 'video') && (!category || category && post.categories.includes(category))
+    }).map(p => GalleryService.toImageItem(p));
+  }
+
   private loadPageCategories() {
     this.dataService.pages.subscribe((pages:Array<any>) => {
       if (pages.length) {
@@ -83,16 +89,16 @@ export class GalleryService {
     })
   }
 
-  toImageItem(post):LAGalleryItem {
-    var imageItem = new ImageItem(this.getThumb(post));
+  static toImageItem(post):LAGalleryItem {
+    var imageItem = new ImageItem(GalleryService.getThumb(post));
     imageItem['post'] = post;
     return <LAGalleryItem>imageItem;
   }
 
-  private getThumb(item) {
+  private static getThumb(item) {
     if (item.format === 'video') {
       return {
-        thumb: "https://img.youtube.com/vi/" + this.extractVideoID(item.acf.url) + "/mqdefault.jpg"
+        thumb: "https://img.youtube.com/vi/" + GalleryService.extractVideoID(item.acf.url) + "/mqdefault.jpg"
       };
     }
     return {
@@ -101,7 +107,7 @@ export class GalleryService {
     }
   }
 
-  private extractVideoID(url){
+  private static extractVideoID(url){
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
     var match = url.match(regExp);
     if ( match && match[7].length == 11 ){
