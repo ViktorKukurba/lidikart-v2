@@ -12,4 +12,5 @@ export default class Utils {
         }
         return str;
       }
+      static imagePath = '../../../assets/images/'
     }

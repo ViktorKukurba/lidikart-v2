@@ -39,6 +39,8 @@ import { BannerComponent } from './components/banner/banner.component';
 import { ExhibitionsComponent } from './components/exhibitions/exhibitions.component';
 import { ImgLoaderDirective } from './directives/img-loader.directive';
 import { ExhibitionComponent } from './components/exhibition/exhibition.component';
+import { StatementComponent } from './components/statement/statement.component';
+import { ContactsComponent } from './components/contacts/contacts.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { ExhibitionComponent } from './components/exhibition/exhibition.componen
     BannerComponent,
     ExhibitionsComponent,
     ImgLoaderDirective,
-    ExhibitionComponent
+    ExhibitionComponent,
+    StatementComponent,
+    ContactsComponent
   ],
   imports: [
     BrowserModule,

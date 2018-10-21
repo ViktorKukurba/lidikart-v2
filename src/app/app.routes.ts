@@ -5,6 +5,9 @@ import { GalleryComponent } from './components/gallery/gallery.component';
 import { BiographyComponent } from './components/biography/biography.component';
 import { ExhibitionsComponent } from './components/exhibitions/exhibitions.component';
 import { ExhibitionComponent } from './components/exhibition/exhibition.component';
+import { StatementComponent } from './components/statement/statement.component';
+import { ContactsComponent } from './components/contacts/contacts.component';
+
 import { AppSettings } from './constants';
 
 
@@ -29,6 +32,18 @@ const ROUTES = [{
   }, {
     path: 'exhibitions/:id',
     component: ExhibitionComponent
+  }, {
+    path: 'statement',
+    component: StatementComponent,
+    data: {
+      banner: true
+    }
+  }, {
+    path: 'contacts',
+    component: ContactsComponent,
+    data: {
+      banner: true
+    }
   }
 ];
 
