@@ -1,9 +1,11 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { fromEvent, forkJoin, merge } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
-// import { FacebookService, InitParams } from 'ngx-facebook';
-
-import { langRoutes } from './app.routes'
+import { langRoutes } from './app.routes';
+import { AppDataService } from './services/app-data.service'
 
 @Component({
   selector: 'app-root',
@@ -14,32 +16,46 @@ export class AppComponent implements OnInit {
   title = 'app';
   @ViewChild('header')
   private header;
+  @ViewChild('banner', {read: ElementRef})
+  private banner:ElementRef;
   @ViewChild('footer')
   private footer;
   contentHeight:string|number = 0;
-  constructor(private router: Router, private container: ElementRef,
-    // private fb: FacebookService
-    ) {
-    // const initParams: InitParams = {
-    //   appId: '237271143059295',
-    //   xfbml: true,
-    //   version: 'v2.8'
-    // };
- 
-    // fb.init(initParams);
+  constructor(private router: Router, private translate:TranslateService, private dataService: AppDataService) {
+    translate.setDefaultLang(dataService.langValue);
+    this.setTranslations();
+    const resizeStream = fromEvent(window, 'resize');
+    const routeChangeStream = router.events.pipe(filter(e => e instanceof NavigationEnd));
+    merge(resizeStream, routeChangeStream).subscribe(e => {
+      setTimeout(() => this.setContentHeight());
+    });
     router.config.unshift(...langRoutes);
   }
 
   ngOnInit() {
     this.setContentHeight();
+  }
 
-    window.addEventListener('resize', () => {
-      this.setContentHeight();
-    })
+  private setTranslations() {
+    this.translate.setTranslation('en', {
+      Title: 'another world',
+      Contact: 'Contact',
+      JoinSocial: 'Join us' 
+    });
+    this.translate.setTranslation('ua', {
+      Title: 'інший світ',
+      Contact: 'Контакти',
+      JoinSocial: 'Приєднуйтесь' 
+    });
+  }
+
+  private getHeight(...args) {
+    return args.reduce((sum, el) => {
+      return sum + el.nativeElement.offsetHeight
+    }, 0)
   }
 
   private setContentHeight() {
-    const h = this.footer.nativeElement.offsetHeight + this.header.nativeElement.offsetHeight;
-    this.contentHeight = window.innerHeight - h + 'px';
+    this.contentHeight = window.innerHeight - this.getHeight(this.footer, this.header, this.banner) + 'px';
   }
 }

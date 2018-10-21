@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Router, ActivatedRoute, NavigationEnd, RoutesRecognized } from '@angular/router'
+import { Router, ActivatedRoute, RoutesRecognized } from '@angular/router'
 
 @Component({
   selector: 'app-banner',

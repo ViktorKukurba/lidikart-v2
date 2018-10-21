@@ -41,6 +41,7 @@ import { ImgLoaderDirective } from './directives/img-loader.directive';
 import { ExhibitionComponent } from './components/exhibition/exhibition.component';
 import { StatementComponent } from './components/statement/statement.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { ContactsComponent } from './components/contacts/contacts.component';
     GalleryModule.forRoot(),
     LightboxModule.forRoot(),
     GallerizeModule,
+    TranslateModule.forRoot(),
     RouterModule.forRoot(
         ROUTES,
         // {enableTracing: true} // <-- debugging purposes only
@@ -74,6 +76,7 @@ import { ContactsComponent } from './components/contacts/contacts.component';
     Ng4LoadingSpinnerModule.forRoot(),
     // FacebookModule.forRoot()
   ],
+  exports: [TranslateModule],
   providers: [AppDataService, GalleryService, DomService, {
     provide: HTTP_INTERCEPTORS,
     useClass: AppInterceptor,

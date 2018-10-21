@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AppDataService } from '../../services/app-data.service';
 
@@ -14,5 +15,4 @@ export class FooterComponent {
       this.pages = pages;
     })
   }
-
 }

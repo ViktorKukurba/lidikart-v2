@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin, BehaviorSubject, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, distinctUntilChanged } from 'rxjs/operators';
 import { AppSettings } from '../constants';
 
 import { WpPage } from '../interfaces/wp-page';
@@ -30,9 +30,8 @@ export class AppDataService {
       await this.loadPageCategories()
     });
 
-    this.category.subscribe(categoryId => {
+    this.category.pipe(distinctUntilChanged()).subscribe(categoryId => {
       this.getPostsByCategories([categoryId]).subscribe((posts) => {
-        console.log('test111', posts);
         this.posts_.next(posts);
       })
     })

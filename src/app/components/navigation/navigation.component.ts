@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AppDataService } from '../../services/app-data.service';
 
@@ -17,6 +18,7 @@ export class NavigationComponent {
   
   constructor(
     public dataService:AppDataService,
+    private translate:TranslateService,
     private router: Router) { 
       this.languages = this.dataService.languages;
 
@@ -41,6 +43,7 @@ export class NavigationComponent {
 
   selectLanguage(lang:string) {
     if (this.language !== lang) {
+      this.translate.use(lang);
       let url = this.router.url.split(';')[0];
       if (this.language === 'ua') {
         url = `${lang}/${url}`;
