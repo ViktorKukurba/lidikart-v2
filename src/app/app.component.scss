@@ -1,3 +1,10 @@
+.route-content > * {
+  position: relative;
+  // top: 0;
+}
+.app-content {
+  position: relative;
+}
 @media only screen and (max-width: 420px) {
   .container {
     width : 100%;

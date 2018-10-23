@@ -12,9 +12,6 @@ import { RouterModule } from '@angular/router';
 
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
-
-// import { FacebookModule } from 'ngx-facebook';
-
 import { AppDataService } from './services/app-data.service';
 import { GalleryService } from './services/gallery.service';
 import { DomService } from './services/dom.service';

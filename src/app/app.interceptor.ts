@@ -19,7 +19,6 @@ export class AppInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         this.count++;
-        console.log('this.count', this.count)
         if (this.count > 0) this.spinner.show();
 
         let handleObs: Observable<HttpEvent<any>> = next.handle(req);
@@ -30,7 +29,6 @@ export class AppInterceptor implements HttpInterceptor {
         }), tap(event => {
             if (event instanceof HttpResponse) {
                 this.count--;
-                console.log(this.count);
                 if (this.count == 0) this.spinner.hide();
             }
         }));

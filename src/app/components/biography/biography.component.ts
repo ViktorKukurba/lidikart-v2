@@ -10,15 +10,11 @@ import { AppDataService } from '../../services/app-data.service';
 export class BiographyComponent implements OnInit {
   pageData;
   resume;
-  private lang;
   constructor(private appData:AppDataService) {
-    appData.lang.subscribe(l => {
-      this.lang = l;
-    })
     appData.pages.subscribe(pages => {
       this.pageData = pages.find(p => p.slug === 'about');
       this.resume = {
-        link: `../documents/${this.lang}'-resume.pdf`,
+        link: `../documents/${appData.langValue}'-resume.pdf`,
         name: 'pages.resume.action'
       };
     })

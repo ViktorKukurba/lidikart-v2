@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin, BehaviorSubject, Subject } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
-import { AppSettings } from '../constants';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
+import { AppSettings } from '../constants';
 import { WpPage } from '../interfaces/wp-page';
 import { WpCategory } from '../interfaces/wp-category';
 
@@ -12,8 +13,8 @@ const SERVICE_URL = '//lidikart.com.ua/wp-json/wp/v2';
 @Injectable()
 export class AppDataService {
 
-  private lang_ = new BehaviorSubject<string>(location.pathname.startsWith("/en") ? 'en' : 'ua');
-  lang = this.lang_.asObservable();
+  // private lang_ = new BehaviorSubject<string>(location.pathname.startsWith("/en") ? 'en' : 'ua');
+  // lang = this.lang_.asObservable();
   languages = AppSettings.LANGUAGES;
   private pages_ = new BehaviorSubject<Array<WpPage>>([]);
   private categories_ = new BehaviorSubject<Array<WpCategory>>([]);
@@ -24,11 +25,18 @@ export class AppDataService {
   posts = this.posts_.asObservable();
   category = this.category_.asObservable();
 
+  postsMap = {};
 
-  constructor(public http:HttpClient) {
-    this.lang.subscribe(async () => {
-      await this.loadPageCategories()
-    });
+
+  constructor(
+    public http:HttpClient,
+    public translate:TranslateService) {
+      translate.setDefaultLang('en');
+      translate.onLangChange.subscribe(async (event: LangChangeEvent) => {
+        await this.loadPageCategories()
+      });
+      this.setTranslations();
+      translate.use(location.pathname.startsWith("/en") ? 'en' : 'ua');
 
     this.category.pipe(distinctUntilChanged()).subscribe(categoryId => {
       this.getPostsByCategories([categoryId]).subscribe((posts) => {
@@ -37,8 +45,23 @@ export class AppDataService {
     })
   }
 
-  public setLanguage(lang:string):void {
-    this.lang_.next(lang);
+  private setTranslations() {
+    this.translate.setTranslation('en', {
+      All: 'All',
+      Title: 'another world',
+      Contact: 'Contact',
+      JoinSocial: 'Join us' ,
+      FollowSocial: 'Find us in social networks',
+      GoShops: 'Visit me'
+    });
+    this.translate.setTranslation('ua', {
+      All: 'Усе',
+      Title: 'інший світ',
+      Contact: 'Контакти',
+      JoinSocial: 'Приєднуйтесь',
+      FollowSocial: 'Слідкуйте в мережах',
+      GoShops: 'Завітайте на'
+    });
   }
 
   public setCategory(categoryId) {
@@ -46,31 +69,42 @@ export class AppDataService {
   }
 
   get langURLPrefix() {
-    return AppSettings.LANGUAGES.find(l => l.value === this.lang_.value).path
+    return AppSettings.LANGUAGES.find(l => l.value === this.langValue).path
   }
 
   get langValue():string {
-    return this.lang_.value;
+    return this.translate.currentLang;
   }
 
   getAllPosts():Observable<any> {
-    return forkJoin(this.http.get(`${SERVICE_URL}/posts?per=1000&lang=${this.lang_.value}`))
+    return forkJoin(this.http.get(`${SERVICE_URL}/posts?per=1000&lang=${this.langValue}`))
   }
 
   getCategoryData(categoryId):Observable<any> {
     return forkJoin([
-      this.http.get(`${SERVICE_URL}/categories/${categoryId}?lang=${this.lang_.value}`),
-      this.http.get(`${SERVICE_URL}/posts?per_page=100&categories=${categoryId}&lang=${this.lang_.value}`)
+      this.http.get(`${SERVICE_URL}/categories/${categoryId}?lang=${this.langValue}`),
+      this.http.get(`${SERVICE_URL}/posts?per_page=100&categories=${categoryId}&lang=${this.langValue}`)
     ]);
   }
 
   getPostsByCategories(categoriesIds:Array<number|string>):Observable<any> {
-    return this.http.get(`${SERVICE_URL}/posts?per_page=100&categories=${categoriesIds.join(',')}&lang=${this.lang_.value}`)
+    const url = `${SERVICE_URL}/posts?per_page=100&categories=${categoriesIds.join(',')}&lang=${this.langValue}`;
+    return new Observable(observer => {
+      if (this.postsMap[url]) {
+        observer.next(this.postsMap[url]);
+        return observer.complete();
+      }
+      this.http.get(url).subscribe((posts) => {
+          this.postsMap[url] = posts;
+          observer.next(this.postsMap[url]);
+          observer.complete();
+        });
+    });
   }
 
   loadPageCategories() {
-    let pages =  this.http.get(`${SERVICE_URL}/pages?per_page=100&lang=${this.lang_.value}`)
-    let categories = this.http.get(`${SERVICE_URL}/categories?per_page=100&lang=${this.lang_.value}`)
+    let pages =  this.http.get(`${SERVICE_URL}/pages?per_page=100&lang=${this.langValue}`)
+    let categories = this.http.get(`${SERVICE_URL}/categories?per_page=100&lang=${this.langValue}`)
     return forkJoin([pages, categories]).subscribe((response:Array<any>) => {
       var pages = response[0].filter(page => page.slug !== 'production').sort((a, b) => {
         return a.menu_order - b.menu_order;
@@ -101,8 +135,8 @@ export class AppDataService {
   }
 
   getPageCategories():Observable<Array<any>> {
-    let pages =  this.http.get(`${SERVICE_URL}/pages?per_page=100&lang=${this.lang_.value}`)
-    let categories = this.http.get(`${SERVICE_URL}/categories?per_page=100&lang=${this.lang_.value}`)
+    let pages =  this.http.get(`${SERVICE_URL}/pages?per_page=100&lang=${this.langValue}`)
+    let categories = this.http.get(`${SERVICE_URL}/categories?per_page=100&lang=${this.langValue}`)
 
     return forkJoin([pages, categories]).pipe(map((response:Array<Array<any>>):Array<any> => {
       var pages = response[0].sort((a, b) => {
@@ -122,7 +156,6 @@ export class AppDataService {
             var parent = categories.filter(function(category) {
               return category.id === parentId;
             })[0];
-            console.log('parent.slug', parent.slug);
             page.categories[parent.slug] = page.categories[parent.slug] || [];
             page.categories[parent.slug].push(category);
           }

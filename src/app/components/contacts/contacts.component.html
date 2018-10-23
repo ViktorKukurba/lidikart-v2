@@ -6,12 +6,12 @@
         </p>
       </div>
       <div class="social-info">
-        <p><span translate="pages.contacts.social"></span></p>
+        <p><span translate>FollowSocial</span></p>
          <a [href]="contact.fb" >Facebook<span class="fb-contact"></span></a>
          <a [href]="contact.instagram">Instagram<span class="instagram-contact"></span></a>
       </div>
       <div class="shops-info">
-        <p><span translate="pages.contacts.shops"></span></p>
+        <p><span translate>GoShops</span></p>
         <a *ngFor="let shop of shops" [href]="[shop.link]" target="_blank" [title]="shop.title" >{{shop.title}}<img [src]="shop.image"/></a>
       </div>
     </div>

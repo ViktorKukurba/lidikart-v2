@@ -32,9 +32,9 @@ export class GalleryService {
       }).map(p => GalleryService.toImageItem(p)));
     });
 
-    dataService.lang.subscribe(lang => {
-      this.lang = lang;
-    });
+    // dataService.lang.subscribe(lang => {
+    //   this.lang = lang;
+    // });
 
     this.galleryCategories.subscribe(categories => {
       var ids = <Array<string|number>>categories.map(category => {
@@ -80,7 +80,7 @@ export class GalleryService {
 
         if (galleryCategories.length) {
           galleryCategories.unshift({
-            name: this.lang === 'ua' ? 'Усе' : 'All'
+            name: this.dataService.langValue === 'ua' ? 'Усе' : 'All'
           });
         }
         this.galleryCategories_.next(galleryCategories);

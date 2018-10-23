@@ -5,8 +5,8 @@
         <app-navigation></app-navigation>
       </div>
       <app-banner #banner class="col-12"></app-banner>
-      <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-md-10 offset-md-1 app-content" [ngStyle]="{'min-height': contentHeight}">
-          <router-outlet class="content"></router-outlet>
+    <div [@myAnimation]="getState(o)" class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-md-10 offset-md-1 app-content" [ngStyle]="{'min-height': contentHeight}">
+          <router-outlet #o="outlet" class="route-content"></router-outlet>
       </div>
       <div #footer class="col-12">
           <app-footer></app-footer>

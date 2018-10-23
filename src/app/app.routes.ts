@@ -13,7 +13,7 @@ import { AppSettings } from './constants';
 
 const ROUTES = [{
     path: '',
-    component: GalleryComponent,
+    component: GalleryComponent
   }, {
     path: AppSettings.ROUTE.GALLERY,
     component: GalleryComponent,

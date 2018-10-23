@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 
 import { AppDataService } from '../../services/app-data.service';
 
@@ -14,38 +13,27 @@ export class NavigationComponent {
   private url:String = '';
   pages = [];
   languages:Array<any>;
-  language:String;
   
   constructor(
     public dataService:AppDataService,
-    private translate:TranslateService,
     private router: Router) { 
       this.languages = this.dataService.languages;
 
       this.dataService.pages.subscribe((pages:Array<any>) => {
         this.pages = pages;
       });
-  
-      this.dataService.lang.subscribe((lang:string) => {
-        this.language = lang;
-      });
-
-      console.log('this.router.url', this.router.url);
     }
-
-  get title() {
-    return this.language === 'ua' ? 'інший світ' : 'another world';
-  }
 
   navigateTo(page) {
     this.router.navigate([page])
   }
 
   selectLanguage(lang:string) {
-    if (this.language !== lang) {
-      this.translate.use(lang);
+    const oldLang = this.dataService.langValue;
+    if (oldLang !== lang) {
+      this.dataService.translate.use(lang);
       let url = this.router.url.split(';')[0];
-      if (this.language === 'ua') {
+      if (oldLang === 'ua') {
         url = `${lang}/${url}`;
       } else if (lang === 'ua') {
         url = url.substring(3);
@@ -61,7 +49,7 @@ export class NavigationComponent {
         }
       })
 
-      this.dataService.setLanguage(lang);
+      this.dataService.translate.use(lang);
       if (params) {
         this.router.navigate([url, params]);
       } else {

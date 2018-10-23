@@ -14,6 +14,6 @@
     </div>
   </div>
   <ul class="lang">
-    <li *ngFor="let lang of languages" [ngClass]="{active: lang.value===language}"><a (click)="selectLanguage(lang.value)">{{lang.label}}</a></li>
+    <li *ngFor="let lang of languages" [ngClass]="{active: lang.value===dataService.langValue}"><a (click)="selectLanguage(lang.value)">{{lang.label}}</a></li>
   </ul>
 </nav>
