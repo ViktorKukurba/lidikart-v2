@@ -12,9 +12,6 @@ const SERVICE_URL = '//lidikart.com.ua/wp-json/wp/v2';
 
 @Injectable()
 export class AppDataService {
-
-  // private lang_ = new BehaviorSubject<string>(location.pathname.startsWith("/en") ? 'en' : 'ua');
-  // lang = this.lang_.asObservable();
   languages = AppSettings.LANGUAGES;
   private pages_ = new BehaviorSubject<Array<WpPage>>([]);
   private categories_ = new BehaviorSubject<Array<WpCategory>>([]);
@@ -47,6 +44,7 @@ export class AppDataService {
 
   private setTranslations() {
     this.translate.setTranslation('en', {
+      Download: 'Download',
       All: 'All',
       Title: 'another world',
       Contact: 'Contact',
@@ -55,6 +53,7 @@ export class AppDataService {
       GoShops: 'Visit me'
     });
     this.translate.setTranslation('ua', {
+      Download: 'Скачати',
       All: 'Усе',
       Title: 'інший світ',
       Contact: 'Контакти',

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 
 import { AppDataService } from '../../services/app-data.service';
 
@@ -10,7 +10,7 @@ import { AppDataService } from '../../services/app-data.service';
 export class BiographyComponent implements OnInit {
   pageData;
   resume;
-  constructor(private appData:AppDataService) {
+  constructor(private appData:AppDataService, private element: ElementRef) {
     appData.pages.subscribe(pages => {
       this.pageData = pages.find(p => p.slug === 'about');
       this.resume = {
@@ -21,6 +21,7 @@ export class BiographyComponent implements OnInit {
   }
 
   ngOnInit() {
+    (<any>window).FB.XFBML.parse(this.element.nativeElement);
   }
 
 }

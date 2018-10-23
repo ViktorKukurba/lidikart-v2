@@ -1,12 +1,20 @@
-<div class="about-description">
-  <!-- <img [src]="image" ng-if="image"> -->
-  <div *ngIf="pageData" class="about-content" [innerHtml]="pageData.content.rendered">
-
+<div class="about-description p-4">
+  <div *ngIf="pageData" class="about-content" [innerHtml]="pageData.content.rendered"></div>
+  <div class="row">
+    <div class="col-6">
+      <div class="fb-like" 
+        data-href="https://lidikart.com.ua" 
+        data-layout="standard" 
+        data-action="like"
+        data-show-faces="false">
+      </div>
+    </div>
+    <div class="col-6">
+        <a [href]="resume.link"target="_blank" class="pdf-link">
+            <span translate>Download</span>
+            <span class="icon"></span>
+        </a>
+    </div>
   </div>
-  <a [href]="resume.link"
-     target="_blank" class="pdf-link">
-      <span>Резюме</span>
-      <span></span>
-  </a>
   <!-- <div class="fb-share-button" [data-href]="fbHref" data-type="button_count"></div> -->
 </div>

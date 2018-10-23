@@ -14,8 +14,6 @@ export class GalleryService {
   private images_ = new Subject<ImageItem[]>();
   private category_ = new Subject<Number>();
 
-  private lang:String;
-
   galleryCategories = this.galleryCategories_.asObservable();
   wallCategories = this.wallCategories_.asObservable();
   posts = this.posts_.asObservable();
@@ -31,10 +29,6 @@ export class GalleryService {
         return (post.better_featured_image || post.format === 'video') && (!category || category && post.categories.includes(category))
       }).map(p => GalleryService.toImageItem(p)));
     });
-
-    // dataService.lang.subscribe(lang => {
-    //   this.lang = lang;
-    // });
 
     this.galleryCategories.subscribe(categories => {
       var ids = <Array<string|number>>categories.map(category => {
@@ -73,7 +67,6 @@ export class GalleryService {
         var galleryCategories = pages.filter(function(page) {
           return page.slug === 'gallery';
         })[0].categories.art;
-        console.log('galleryCategories', galleryCategories);
         var wallCategories = pages.filter(function(page) {
           return page.slug === 'decor';
         })[0].categories.production

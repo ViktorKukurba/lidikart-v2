@@ -1,0 +1,24 @@
+:host ::ng-deep .about-content {
+    .resume-strong {
+        font-size: large;
+        font-weight: bolder;
+    }
+
+    a {
+        color: #003cb3;
+    }
+}
+
+.pdf-link span:nth-child(2) {
+    background: url(../../../assets/images/icons/pdf.svg);
+    width: 39px;
+    height: 39px;
+    display: inline-block;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.pdf-link span:nth-child(1) {
+    line-height: 40px;
+    vertical-align: top;
+}
