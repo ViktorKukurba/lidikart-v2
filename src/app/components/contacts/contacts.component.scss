@@ -38,6 +38,7 @@
         padding: 20px 0;
         border-bottom: 1px black solid;
         a {
+          text-transform: capitalize;
           margin: 10px;
           span {
             background-size: contain;
@@ -54,6 +55,7 @@
         a {
           display: inline-block;
           padding: 0 4px;
+          text-transform: capitalize;
         }
         img {
           width: 50px;
@@ -61,33 +63,4 @@
         }
     }
     }
-
-   
-
-    .fb-contact {
-        background: url(../../../assets/images/social/facebook.svg);
-    //    background: url(../images/social/contact-fb.svg);
-      }
-    
-      .phone-contact {
-        background: url(../../../assets/images/icons/phone.svg);
-    //    background: url(../images/icons/contact-phone.svg);
-      }
-    
-      .mail-contact {
-        background: url(../../../assets/images/icons/mail.svg);
-    //    background: url(../images/icons/contact-mail.svg);
-      }
-    
-      .vk-contact {
-        background: url(../../../assets/images/social/vk.svg);
-      }
-    
-      .twitter-contact {
-        background: url(../../../assets/images/social/twitter.svg);
-      }
-    
-      .instagram-contact {
-        background: url(../../../assets/images/social/instagram.svg);
-      }
     }

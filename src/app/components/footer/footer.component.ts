@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Contacts } from '../../types';
 
 import { AppDataService } from '../../services/app-data.service';
 
@@ -9,10 +9,15 @@ import { AppDataService } from '../../services/app-data.service';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent {
-  pages:Array<Object>;
+  pages:Array<Object> = [];
+  social = [];
+  contacts:Contacts;
   constructor(private dataService:AppDataService) {
     dataService.pages.subscribe(pages => {
       this.pages = pages;
-    })
+    });
+    const {social, contacts} = dataService.getContactsData();
+    this.social = social;
+    this.contacts = contacts;
   }
 }

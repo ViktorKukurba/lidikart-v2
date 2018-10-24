@@ -2,15 +2,19 @@
     text-align: center;
 
     a {
-        box-shadow: 10px 10px 10px rgba(50, 50, 50, 0.5);
         overflow: hidden;
-        margin: .5em auto;
+        margin: 1em auto;
         display: block;
         position: relative;
         background: #DC554F url(../../../assets/images/lidikart.jpg) no-repeat center;
         background-size: cover;
         height: 158px;
         width: 225px;
+    }
+
+    a:hover {
+        box-shadow: 10px 10px 10px rgba(50, 50, 50, 0.5);
+        transform: scale(1.05);
     }
 
     img {

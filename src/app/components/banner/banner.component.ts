@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Router, ActivatedRoute, RoutesRecognized } from '@angular/router'
+import { Router, RoutesRecognized } from '@angular/router'
 
 @Component({
   selector: 'app-banner',
@@ -8,16 +8,19 @@ import { Router, ActivatedRoute, RoutesRecognized } from '@angular/router'
   styleUrls: ['./banner.component.scss']
 })
 export class BannerComponent implements OnInit {
-  showBanner:Boolean = false;
-  constructor(private router:Router, private route:ActivatedRoute) {
+  show:Boolean = false;
+  constructor(private router:Router) {
     router.events.subscribe(e => {
       if (e instanceof RoutesRecognized) {
-        this.showBanner = e.state.root.firstChild.data.banner;
+        this.show = Boolean(e.state.root.firstChild.data.banner);
       }
     });
   }
 
-  ngOnInit() {
+  get height() {
+    return this.show ? 101 : 1;
   }
 
+  ngOnInit() {
+  }
 }

@@ -1,13 +1,23 @@
+.open .banner {
+    height: 100px;
+}
 .banner {
     background: url(../../../assets/images/banner.jpg) no-repeat center top;
     background-size: 100% auto;
-    padding: 5.5em 0 1em;
-    height: 100px;
+    // padding: 5.5em 0 1em;
+    height: 0px;
     top: 0;
     left: 0;
-
+    transition: .4s height ease-in-out;
+    transition-delay: 0.4s;
 }
 
+.open .line {
+    width: 0;
+}
 .line {
+    width: 100%;
     border-bottom: black solid 1px;
+    transition: 1s width ease-in-out;
+    transition-delay: 0.8s;
 }

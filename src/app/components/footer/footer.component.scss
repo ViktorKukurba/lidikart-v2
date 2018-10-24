@@ -71,6 +71,7 @@ $footerColor2: rgba(130, 40, 80, .7);
     ul {
     //   font-family: $defaultFont;
       padding-bottom: 10px;
+      margin: 0;
       li {
         > a {
           text-decoration:none;
@@ -136,24 +137,6 @@ $footerColor2: rgba(130, 40, 80, .7);
       width: 39px;
       height: 39px;
     }
-    .vk {
-      background: url(../../../assets/images/social/vk.svg);
-      background-size: 100%;
-    }
-
-    .facebook {
-      background: url(../../../assets/images/social/facebook.svg);
-      background-size: 100%;
-    }
-
-    .twitter {
-      background: url(../../../assets/images/social/twitter.svg);
-      background-size: 100%;
-    }
-    .instagram {
-      background: url(../../../assets/images/social/instagram.svg);
-      background-size: 100%;
-    }
   }
   .about-footer {
     text-align: justify;
@@ -216,24 +199,10 @@ $footerColor2: rgba(130, 40, 80, .7);
     color:#F94B4B;
   }
 
-  .mail-ico {
-    background: url(../../../assets/images/icons/mail.svg);
+  .mail {
     width: 39px;
     height: 39px;
-    float: left;
     display: inline-block;
-    background-size: 100%;
-    background-repeat: no-repeat;
-  }
-
-  .phone-ico {
-    background: url(../../../assets/images/icons/phone.svg);
-    width: 39px;
-    height: 39px;
-    float: left;
-    display: inline-block;
-    background-size: 100%;
-    background-repeat: no-repeat;
   }
 }
 
@@ -249,12 +218,7 @@ $footerColor2: rgba(130, 40, 80, .7);
       margin-bottom: .5em;
     }
 
-    .mail-ico {
-      width: 25px;
-      height: 25px;
-    }
-
-    .phone-ico {
+    .mail {
       width: 25px;
       height: 25px;
     }

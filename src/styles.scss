@@ -3,6 +3,10 @@
 
 $linkHover: rgba(130,40,80, 0.8);
 
+$icons: 'youtube' 'facebook' 'phone' 'mail' 'vkontakte' 'twitter' 'instagram' 'behance';
+html, body {
+    height: 100%;
+}
 body {
     font-family: "Comfortaa", "Open Sans", sans-serif;
     background: #F6F6F6;
@@ -20,4 +24,21 @@ a {
 
 a:hover {
     color: $linkHover;
+}
+
+// Icons.
+.la-icon {
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 28px;
+    height: 28px;
+    display: inline-block;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+@each $i in $icons {
+    .la-icon.#{$i} {
+        background-image: url(assets/images/social/#{$i}.svg);
+    }
 }

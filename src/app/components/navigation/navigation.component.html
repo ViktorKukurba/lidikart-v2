@@ -7,13 +7,12 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav dropdown" *ngFor="let page of pages" >
-        <a class="nav-item nav-link" [ngClass]="{active2: page.slug === 'gallery' && router.url === '/'}" [routerLink]="page.link" routerLinkActive="active">{{page.title.rendered}}</a>
+    <div class="navbar-nav dropdown" *ngFor="let page of pages" routerLinkActive="active" [ngClass]="{active2: page.slug === 'gallery' && router.url === '/'}">
+        <a class="nav-item nav-link" [routerLink]="page.link">{{page.title.rendered}}</a>
         <!-- <a class="nav-item nav-link" [routerLink]="[{ outlets: { primary: [page.link],banner: ['about'] } }]" routerLinkActive="active">{{page.title.rendered}}</a> -->
-        
     </div>
   </div>
-  <ul class="lang">
+  <ul class="lang d-none d-lg-flex">
     <li *ngFor="let lang of languages" [ngClass]="{active: lang.value===dataService.langValue}"><a (click)="selectLanguage(lang.value)">{{lang.label}}</a></li>
   </ul>
 </nav>

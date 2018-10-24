@@ -53,19 +53,19 @@ export class AlbumComponent implements OnInit {
       }
     });
 
-    function hasParent(el:Node, cssClass, index = 3) {
-      if (el['classList'].contains(cssClass)) {
+    function hasParent(el:HTMLElement, cssClass, index = 3) {
+      if (el.classList.contains(cssClass)) {
         return true;
       }
 
       if (index === 0 || !el.parentNode) {
         return false;
       }
-      return hasParent(el.parentNode, cssClass, index - 1);
+      return hasParent(<HTMLElement>el.parentNode, cssClass, index - 1);
     }
 
     document.body.addEventListener('click', e => {
-      if (hasParent(<Node>e.target, 'g-btn-close')) {
+      if (hasParent(<HTMLElement>e.target, 'g-btn-close')) {
         this.pic = null;
         this.router.navigate([GALLERY_PATH, this.getOptParams()]);
       }

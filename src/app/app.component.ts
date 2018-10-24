@@ -1,20 +1,12 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { transition, trigger, useAnimation } from '@angular/animations';
 import { fromEvent, merge } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { langRoutes } from './app.routes';
 import { AppDataService } from './services/app-data.service';
-import {
-  transition,
-  trigger,
-  query,
-  style,
-  animate,
-  group,
-  animateChild
-} from '@angular/animations';
+import { routerAnimation } from './animations/router.animation';
 
 
 @Component({
@@ -23,21 +15,7 @@ import {
   styleUrls: ['./styles/fonts.css', './app.component.scss'],
   animations: [
     trigger('myAnimation', [
-      transition('* <=> *', [
-        /* order */
-        /* 1 */ query(':enter, :leave', style({ position: 'absolute', width:'100%' })
-          , { optional: true }),
-        /* 2 */ group([  // block executes in parallel
-          query(':enter', [
-            style({ transform: 'translateX({{offsetEnter}}%)', opacity: 0 }),
-            animate('0.4s ease-in-out', style({ transform: 'translateX(0%)', opacity: 1 }))
-          ], { optional: true }),
-          query(':leave', [
-            style({ transform: 'translateX(0%)', opacity: 1 }),
-            animate('0.4s ease-in-out', style({ transform: 'translateX({{offsetLeave}}%)', opacity: 0}))
-          ], { optional: true }),
-        ])
-      ])
+      transition('* <=> *', useAnimation(routerAnimation))
   ])]
 })
 export class AppComponent implements OnInit {
@@ -46,13 +24,13 @@ export class AppComponent implements OnInit {
   @ViewChild('header')
   private header;
   @ViewChild('banner', {read: ElementRef})
-  private banner:ElementRef;
+  private banner;
+  @ViewChild('banner')
+  private bannerComponent;
   @ViewChild('footer')
   private footer;
   contentHeight:string|number = 0;
-  constructor(private router: Router, private translate:TranslateService, private dataService: AppDataService) {
-    // translate.setDefaultLang(dataService.langValue);
-    // this.setTranslations();
+  constructor(private router: Router, private dataService: AppDataService, private route: ActivatedRoute) {
     const resizeStream = fromEvent(window, 'resize');
     const routeChangeStream = router.events.pipe(filter(e => e instanceof NavigationEnd));
     merge(resizeStream, routeChangeStream).subscribe(e => {
@@ -93,6 +71,7 @@ export class AppComponent implements OnInit {
   }
 
   private setContentHeight() {
-    this.contentHeight = window.innerHeight - this.getHeight(this.footer, this.header, this.banner) + 'px';
+    console.log('111', this.getHeight(this.footer, this.header), this.bannerComponent.height, window.innerHeight)
+    this.contentHeight = window.innerHeight - this.getHeight(this.footer, this.header) - this.bannerComponent.height + 'px';
   }
 }

@@ -7,6 +7,7 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { AppSettings } from '../constants';
 import { WpPage } from '../interfaces/wp-page';
 import { WpCategory } from '../interfaces/wp-category';
+import Utils from '../utils';
 
 const SERVICE_URL = '//lidikart.com.ua/wp-json/wp/v2';
 
@@ -163,5 +164,53 @@ export class AppDataService {
       this.pages_.next(pages);
       return pages;
     }));
+  }
+
+  public getContactsData() {
+    return {
+      contacts: {
+        email: 'lidikart22@gmail.com',
+        mobile: '+380961721752'
+      },
+      social: [{
+        network: 'facebook',
+        url: 'https://www.facebook.com/LidikArt'
+      }, {
+        network: 'instagram',
+        url: 'https://instagram.com/lidikart'
+      }, {
+        network: 'youtube',
+        url: 'https://www.youtube.com/channel/UCTfD6w37zeMgQuJ4fj3o2oA'
+      }
+        // vk: 'http://vk.com/lidikart',
+        // twitter: 'https://twitter.com/Lllidik',
+      ],
+  
+    shops: [{
+      title: 'behance',
+      image: Utils.imagePath + 'shops/behance-thumb.png',
+      link: 'https://www.behance.net/LidikArt'
+    }, 
+      // {
+      //   title: 'shutterstock',
+      //   image: Utils.imagePath + 'shops/shutterstock-thumb.jpg',
+      //   link: 'http://www.shutterstock.com/cat.mhtml?gallery_id=3563846&page=1'
+      // },
+      //  {
+      //  title: 'etsy',
+      //  link: 'https://www.etsy.com/shop/LidikArt',
+      //  image: require.toUrl('../images/shops/etsy-thumb.png')
+      //}, {
+      //  title: 'saatchiart',
+      //  link: 'http://www.saatchiart.com/account/artworks/780825',
+      //  image: require.toUrl('../images/shops/saatchiart-thumb.png')
+      //},
+      // {
+      //   title: 'fineartamerica',
+      //   image: Utils.imagePath + 'shops/fineartamerica-thumb.jpg',
+      //   link: 'http://fineartamerica.com/profiles/lidia-matviyenko.html'
+      // }
+    ]
+    }
   }
 }

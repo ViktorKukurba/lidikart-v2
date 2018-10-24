@@ -33,10 +33,6 @@ export class GalleryComponent implements AfterViewInit {
       this.pictures = posts;
     });
 
-    // this.appService.lang.subscribe(lang => {
-    //   this.lang_ = lang;
-    // })
-
     this.route.params.subscribe(params => {
       this.albumState = params;
       this.serie_ = Number(params.serie);

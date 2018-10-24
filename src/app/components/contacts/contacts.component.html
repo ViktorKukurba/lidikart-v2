@@ -1,18 +1,17 @@
 <div class="contacts-container">
-    <div *ngIf="contact" class="contact-items col-xs-12">
+    <div *ngIf="contacts" class="contact-items col-xs-12">
       <div class="contact-info">
         <p>
-          <a [href]="'mailto:' + contact.email" target="_top" class="mail-contact">E-mail: {{contact.email}}</a>
+          <a [href]="'mailto:' + contacts.email" target="_top" class="mail-contact">E-mail: {{contacts.email}}</a>
         </p>
       </div>
       <div class="social-info">
         <p><span translate>FollowSocial</span></p>
-         <a [href]="contact.fb" >Facebook<span class="fb-contact"></span></a>
-         <a [href]="contact.instagram">Instagram<span class="instagram-contact"></span></a>
+         <a *ngFor="let s of social" [href]="s.url" >{{s.network}}<span class="la-icon {{s.network}}"></span></a>
       </div>
       <div class="shops-info">
         <p><span translate>GoShops</span></p>
-        <a *ngFor="let shop of shops" [href]="[shop.link]" target="_blank" [title]="shop.title" >{{shop.title}}<img [src]="shop.image"/></a>
+        <a *ngFor="let shop of shops" [href]="[shop.link]" target="_blank" [title]="shop.title" >{{shop.title}}<span class="la-icon {{shop.title}}"></span></a>
       </div>
     </div>
   </div>
