@@ -47,10 +47,10 @@ const ROUTES = [{
   }
 ];
 
-const langRoutes:Routes = ROUTES.reduce((routes, route) => {
-  var lRoutes = AppSettings.LANGUAGES.filter(l => l.path).map((language) => {
-    var lRoute = {...route};
-    lRoute.path = language.path + (language.path && lRoute.path ? '/' : '') + lRoute.path
+const langRoutes: Routes = ROUTES.reduce((routes, route) => {
+  const lRoutes = AppSettings.LANGUAGES.filter(l => l.path).map((language) => {
+    const lRoute = {...route};
+    lRoute.path = language.path + (language.path && lRoute.path ? '/' : '') + lRoute.path;
     return lRoute;
   });
   lRoutes.forEach(lRoute => {routes = routes.concat(lRoute)});

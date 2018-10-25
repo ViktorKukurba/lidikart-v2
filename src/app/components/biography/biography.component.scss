@@ -9,13 +9,9 @@
     }
 }
 
-.pdf-link span:nth-child(2) {
-    background: url(../../../assets/images/icons/pdf.svg);
+.pdf-link span.pdf {
     width: 39px;
     height: 39px;
-    display: inline-block;
-    background-size: 100%;
-    background-repeat: no-repeat;
 }
 
 .pdf-link span:nth-child(1) {

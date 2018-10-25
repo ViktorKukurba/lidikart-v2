@@ -5,7 +5,6 @@ nav {
 
 .navbar-collapse {
   align-items: stretch;
-  // justify-content: space-around;
 }
 .navbar {
   .dropdown {
@@ -27,7 +26,10 @@ nav {
     cursor: pointer;
     font-weight: bolder;
     padding: 0 1em;
-    
+  }
+  .navbar-toggler {
+    border: none;
+    outline: none;
   }
 }
 

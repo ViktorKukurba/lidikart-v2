@@ -3,7 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 
 import { GalleryService } from '../../services/gallery.service';
 import { AppDataService } from '../../services/app-data.service';
-import { AppSettings } from '../../constants'
+import { AppSettings } from '../../constants';
+import { WpCategory } from '../../interfaces/wp-category';
+import { LAGalleryItem } from '../../types';
 
 @Component({
   selector: 'app-gallery',
@@ -11,13 +13,12 @@ import { AppSettings } from '../../constants'
   styleUrls: ['./gallery.component.scss']
 })
 export class GalleryComponent implements AfterViewInit {
-  categories:Array<any> = [];
+  categories: Array<any> = [];
   pictures = [];
-  albumState:{pic?:string} = {};
-  private lang_;
+  albumState: {pic?: string} = {};
   private serie_;
   @ViewChild('filter')
-  private navifation;
+  private navigation;
   private top_;
   GALLERY_PATH = AppSettings.ROUTE.GALLERY;
   constructor(
@@ -25,11 +26,11 @@ export class GalleryComponent implements AfterViewInit {
     private appService: AppDataService,
     private route:ActivatedRoute) {
 
-    this.galleryService.galleryCategories.subscribe((categories:Array<any>) => {
+    this.galleryService.galleryCategories.subscribe((categories: Array<WpCategory>) => {
       this.categories = categories.filter(c => c.slug !== 'general' && !(c.slug && c.slug.includes('-no-show')));
     });
 
-    this.galleryService.filteredImages.subscribe((posts:Array<any>) => {
+    this.galleryService.filteredImages.subscribe((posts: Array<LAGalleryItem>) => {
       this.pictures = posts;
     });
 
@@ -40,8 +41,8 @@ export class GalleryComponent implements AfterViewInit {
     });
 
     window.addEventListener('scroll', evt => {
-      var pageY = window.pageYOffset || document.documentElement.scrollTop,
-          nav = this.navifation.nativeElement;
+      const pageY = window.pageYOffset || document.documentElement.scrollTop,
+          nav = this.navigation.nativeElement;
 
       if (pageY >= this.top_) {
         nav.classList.add('fixed');
@@ -52,7 +53,7 @@ export class GalleryComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.top_ = this.navifation.nativeElement.getBoundingClientRect().top;
+    this.top_ = this.navigation.nativeElement.getBoundingClientRect().top;
   }
 
   get urlPath() {

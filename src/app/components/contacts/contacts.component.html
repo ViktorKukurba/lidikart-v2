@@ -1,16 +1,16 @@
-<div class="contacts-container">
-    <div *ngIf="contacts" class="contact-items col-xs-12">
+<div class="contacts-container p-4">
+    <div *ngIf="contacts" class="contact-items col-xs-12 text-center">
       <div class="contact-info">
-        <p>
-          <a [href]="'mailto:' + contacts.email" target="_top" class="mail-contact">E-mail: {{contacts.email}}</a>
-        </p>
+          <a [href]="'mailto:' + contacts.email" target="_top" class="mail-contact">
+              <span class="la-icon mail"></span>E-mail: {{contacts.email}}
+          </a>
       </div>
       <div class="social-info">
-        <p><span translate>FollowSocial</span></p>
+          <span class="d-block pb-4" translate>FollowSocial</span>
          <a *ngFor="let s of social" [href]="s.url" >{{s.network}}<span class="la-icon {{s.network}}"></span></a>
       </div>
       <div class="shops-info">
-        <p><span translate>GoShops</span></p>
+        <span class="d-block pb-4" translate>GoShops</span>
         <a *ngFor="let shop of shops" [href]="[shop.link]" target="_blank" [title]="shop.title" >{{shop.title}}<span class="la-icon {{shop.title}}"></span></a>
       </div>
     </div>

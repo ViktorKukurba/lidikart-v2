@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AppDataService } from '../../services/app-data.service';
+import { WpPage } from '../../interfaces/wp-page';
 
 @Component({
   selector: 'app-navigation',
@@ -9,26 +10,26 @@ import { AppDataService } from '../../services/app-data.service';
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent {
-  private routeParams:{lang?:String} = {};
-  private url:String = '';
-  pages = [];
-  languages:Array<any>;
-  
+  private routeParams: {lang?: String} = {};
+  private url: String = '';
+  pages: Array<WpPage> = [];
+  languages: Array<any>;
+
   constructor(
-    public dataService:AppDataService,
-    private router: Router) { 
+    public dataService: AppDataService,
+    private router: Router) {
       this.languages = this.dataService.languages;
 
-      this.dataService.pages.subscribe((pages:Array<any>) => {
+      this.dataService.pages.subscribe((pages: Array<WpPage>) => {
         this.pages = pages;
       });
     }
 
   navigateTo(page) {
-    this.router.navigate([page])
+    this.router.navigate([page]);
   }
 
-  selectLanguage(lang:string) {
+  selectLanguage(lang: string) {
     const oldLang = this.dataService.langValue;
     if (oldLang !== lang) {
       this.dataService.translate.use(lang);
@@ -39,10 +40,10 @@ export class NavigationComponent {
         url = url.substring(3);
       }
 
-      var params = null;
+      let params = null;
 
       this.router.url.split(';').forEach(item => {
-        const [prop, val] = item.split('=')
+        const [prop, val] = item.split('=');
         if (val) {
           params = params || {};
           params[prop] = val;

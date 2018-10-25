@@ -4,8 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { AppDataService } from '../../services/app-data.service';
 import { GalleryService } from '../../services/gallery.service';
-
-const PAGE = 'production';
+import { WpCategory } from '../../interfaces/wp-category';
 
 @Component({
   selector: 'app-production',
@@ -13,16 +12,16 @@ const PAGE = 'production';
   styleUrls: ['./production.component.scss']
 })
 export class ProductionComponent implements OnDestroy {
-  categories:Array<Object> = [];
+  categories: Array<WpCategory> = [];
   posts = [];
   private sub;
   public albumState;
-  constructor(private dataService:AppDataService,
-    private galleryService:GalleryService,
+  constructor(private dataService: AppDataService,
+    private galleryService: GalleryService,
     private route: ActivatedRoute) {
       this.sub = galleryService.wallCategories.subscribe(categories => {
-        var ids = <Array<string|number>>categories.map(category => {
-          return <string|number>category.id;
+        var ids = categories.map(category => {
+          return category.id;
         }).filter(id => Boolean(id));
         ids.length && this.dataService.getPostsByCategories(ids).subscribe(response => {
           this.posts = response.map(p => GalleryService.toImageItem(p));

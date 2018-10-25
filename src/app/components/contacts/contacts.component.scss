@@ -1,66 +1,20 @@
 .contacts-container {
-    .contact-items {
-        padding: 15px 0;
-        text-align: center;
-    
-        p {
-          vertical-align: middle;
-          height: 2em;
-          a {
-            background-repeat: no-repeat;
-            background-size: contain;
-            display: inline-block;
-            cursor: pointer;
-    //        height: 2em;
-            padding-left: 2em;
-            position: relative;
-            top: .5em;
-    //        width: 2em;
-    
-            &.phone-contact {
-              margin-left: .3em;
-              padding-left: 1.7em;
-            }
-          }
-        }
-
-        .contact-info {
-            border-bottom: 1px black solid;
-            padding: 0 0 20px 0;
-            p {
-              display: block;
-            }
-            a {
-              // font-family: $defaultFont;
-            }
-          }
-    .social-info {
-        padding: 20px 0;
-        border-bottom: 1px black solid;
-        a {
-          text-transform: capitalize;
-          margin: 10px;
-          span {
-            background-size: contain;
-            width: 28px;
-            height: 28px;
-            display: inline-block;
-            margin-left: 5px;
-            vertical-align: middle;
-          }
-        }
+  .contact-items {
+    > div {
+      padding: 20px 0;
+      a {
+        text-transform: capitalize;
+        margin: 1em;
       }
-      .shops-info {
-        padding: 20px 0;
-        a {
-          display: inline-block;
-          padding: 0 4px;
-          text-transform: capitalize;
-        }
-        img {
-          width: 50px;
-          padding: 10px;
-        }
+      &:not(:last-child) {
+        border-bottom: 1px black solid;
+      }
     }
+    .contact-info {
+      .la-icon.mail {
+        height: 2em;
+        margin-right: 5px;
+      }
     }
-    }
+  }
+}

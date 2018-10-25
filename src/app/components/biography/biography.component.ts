@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
+import { filter } from 'rxjs/operators';
 
 import { AppDataService } from '../../services/app-data.service';
 
@@ -9,19 +10,15 @@ import { AppDataService } from '../../services/app-data.service';
 })
 export class BiographyComponent implements OnInit {
   pageData;
-  resume;
-  constructor(private appData:AppDataService, private element: ElementRef) {
-    appData.pages.subscribe(pages => {
+  resumeLink:string;
+  constructor(private appData: AppDataService, private element: ElementRef) {
+    appData.pages.pipe(filter(pages => Boolean(pages.length))).subscribe(pages => {
       this.pageData = pages.find(p => p.slug === 'about');
-      this.resume = {
-        link: `../documents/${appData.langValue}'-resume.pdf`,
-        name: 'pages.resume.action'
-      };
+      this.resumeLink = this.pageData.acf[`resume_${appData.langValue}`].url;
     })
   }
 
   ngOnInit() {
     (<any>window).FB.XFBML.parse(this.element.nativeElement);
   }
-
 }

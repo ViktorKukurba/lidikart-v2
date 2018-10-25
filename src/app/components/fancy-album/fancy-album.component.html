@@ -1,8 +1,8 @@
 <div class="album-wrapper row">
   <ng-content></ng-content>
   <div *ngFor="let item of items" class="col-lg-4 col-xl-3 col-md-4 col-xs-6 col-sm-6 image">
-    <a *ngIf="item && item.post.format === 'standard'" class="thumbnail fancybox slide" attr.data-pic-id="{{item.post.id}}" data-fancybox="gallery" rel="ligthbox" href="{{item.data.src}}">
-      <img class="img-responsive" alt="" [src]="item.data.thumb">
+    <a *ngIf="item && item.post.format === 'standard'" class="thumbnail fancybox slide" attr.data-pic-id="{{item.post.id}}" data-fancybox="gallery" rel="ligthbox" href="{{item.src}}">
+      <img class="img-responsive" alt="" [src]="item.thumb">
     </a>
 
     <a *ngIf="item && item.post.format === 'video'" href={{item.post.acf.url}}
@@ -11,7 +11,7 @@
        title="{{item.post.title}}"
        attr.data-pic-id="{{item.post.id}}"
        data-fancybox-group="button">
-      <img src="{{item.data.thumb}}" />
+      <img src="{{item.thumb}}" />
     </a>
   </div>
 </div>

@@ -1,8 +1,13 @@
-import { GalleryItem } from '@ngx-gallery/core';
+import { WpPost } from '../interfaces/wp-post'
 
-type LAGalleryItem = GalleryItem & {post: any}
+type LAGalleryItem = {
+    src?: string,
+    post: WpPost,
+    format: string,
+    thumb: string
+}
 
-type Contacts = { email:string }
+type Contacts = { email: string }
 
 export {
     LAGalleryItem,

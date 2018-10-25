@@ -1,8 +1,8 @@
 export class AppSettings {
-    public static ROUTE:any = {
+    public static ROUTE: any = {
         GALLERY: 'gallery',
         DECOR: 'decor'
-    }
+    };
 
     public static LANGUAGES = [{
         label: 'EN',
@@ -12,5 +12,5 @@ export class AppSettings {
         label: 'UA',
         value: 'ua',
         path: ''
-      }]
+      }];
 }

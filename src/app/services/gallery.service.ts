@@ -1,56 +1,41 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject, combineLatest } from 'rxjs';
-import { ImageItem } from '@ngx-gallery/core';
 import { AppDataService } from './app-data.service';
 import { LAGalleryItem } from '../types';
+import { WpPost } from '../interfaces/wp-post';
+import { WpCategory } from '../interfaces/wp-category';
+import { WpPage } from '../interfaces/wp-page';
 
 @Injectable()
 export class GalleryService {
 
-  private galleryCategories_ = new BehaviorSubject<any>([]);
-  private wallCategories_ = new BehaviorSubject<Array<any>>([]);
-  private posts_ = new BehaviorSubject<any>([]);
+  private galleryCategories_ = new BehaviorSubject<WpCategory[]>([]);
+  private wallCategories_ = new BehaviorSubject<Array<WpCategory>>([]);
+  private posts_ = new BehaviorSubject<WpPost[]>([]);
   private filteredImages_ = new BehaviorSubject<LAGalleryItem[]>([]);
-  private images_ = new Subject<ImageItem[]>();
   private category_ = new Subject<Number>();
 
   galleryCategories = this.galleryCategories_.asObservable();
   wallCategories = this.wallCategories_.asObservable();
   posts = this.posts_.asObservable();
-  images = this.images_.asObservable();
   filteredImages = this.filteredImages_.asObservable();
   category = this.category_.asObservable();
 
-  constructor(private dataService:AppDataService) {
+  constructor(private dataService: AppDataService) {
     this.loadPageCategories();
-    combineLatest(this.posts, this.category).subscribe((res:Array<[any, Number]>) => {
-      var [posts, category] = res;
+    combineLatest(this.posts, this.category).subscribe((res: [Array<WpPost>, number]) => {
+      const [posts, category] = res;
       this.filteredImages_.next(posts.filter(post => {
         return (post.better_featured_image || post.format === 'video') && (!category || category && post.categories.includes(category))
       }).map(p => GalleryService.toImageItem(p)));
     });
 
     this.galleryCategories.subscribe(categories => {
-      var ids = <Array<string|number>>categories.map(category => {
-        return <string|number>category.id;
+      const ids = categories.map(category => {
+        return category.id;
       }).filter(id => Boolean(id));
       ids.length && this.dataService.getPostsByCategories(ids).subscribe(response => {
         this.posts_.next(response);
-        this.images_.next(response.filter(post => {
-          return post.better_featured_image || post.format === 'video';
-        }).map(post => {
-          if (post.format === 'video') {
-            return {
-              format: post.format,
-              url: post.acf.url
-            };
-          }
-          return {
-            format: post.format,
-            src: post.better_featured_image.source_url,
-            thumb: post.better_featured_image.media_details.sizes.thumbnail.source_url
-          };
-        }));
       });
     });
   }
@@ -62,12 +47,12 @@ export class GalleryService {
   }
 
   private loadPageCategories() {
-    this.dataService.pages.subscribe((pages:Array<any>) => {
+    this.dataService.pages.subscribe((pages: Array<WpPage>) => {
       if (pages.length) {
-        var galleryCategories = pages.filter(function(page) {
+        const galleryCategories = pages.filter(function(page) {
           return page.slug === 'gallery';
         })[0].categories.art;
-        var wallCategories = pages.filter(function(page) {
+        const wallCategories = pages.filter(function(page) {
           return page.slug === 'decor';
         })[0].categories.production
 
@@ -82,21 +67,19 @@ export class GalleryService {
     })
   }
 
-  static toImageItem(post):LAGalleryItem {
-    var imageItem = new ImageItem(GalleryService.getThumb(post));
-    imageItem['post'] = post;
-    return <LAGalleryItem>imageItem;
-  }
-
-  private static getThumb(item) {
-    if (item.format === 'video') {
+  public static toImageItem(post):LAGalleryItem {
+    if (post.format === 'video') {
       return {
-        thumb: "https://img.youtube.com/vi/" + GalleryService.extractVideoID(item.acf.url) + "/mqdefault.jpg"
-      };
+        post,
+        format: post.format,
+        thumb: `https://img.youtube.com/vi/${GalleryService.extractVideoID(post.acf.url)}/mqdefault.jpg`
+      }
     }
     return {
-      thumb: item.better_featured_image.media_details.sizes.medium.source_url,
-      src: item.better_featured_image.source_url
+      post,
+      format: post.format,
+      thumb: post.better_featured_image.media_details.sizes.medium.source_url,
+      src: post.better_featured_image.source_url
     }
   }
 

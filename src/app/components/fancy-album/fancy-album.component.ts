@@ -1,19 +1,10 @@
 import { Component, OnInit, Input, ViewContainerRef, TemplateRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-// import { FacebookService, InitParams } from 'ngx-facebook';
-
 import { AppSettings } from '../../constants';
-
-import { DomService } from '../../services/dom.service';
+import { LAGalleryItem } from '../../types';
 
 declare var jQuery: any
-
-@Component({
-  selector: 'fb-wrapper',
-  template: `<div href="https://github.com/zyra/ngx-facebook"></div>`,
-})
-export class FbWrapperComponent { }
 
 @Component({
   selector: 'app-fancy-album',
@@ -22,9 +13,9 @@ export class FbWrapperComponent { }
 })
 export class FancyAlbumComponent implements OnInit {
   @Input()
-  items: Array<any> = [];
+  items: Array<LAGalleryItem> = [];
   @Input()
-  pic:number;
+  pic: number;
   url: String;
   routeParams;
   @ViewChild(TemplateRef)
@@ -34,7 +25,6 @@ export class FancyAlbumComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private viewContainer: ViewContainerRef,
-    private domService: DomService,
   ) { }
 
   ngOnInit() {
@@ -68,19 +58,19 @@ export class FancyAlbumComponent implements OnInit {
     }
   }
 
-  private initFancyBox():void {
+  private initFancyBox(): void {
     jQuery.fancybox.defaults.hash = false;
-    jQuery.fancybox.defaults.caption = ( instance, item ) => {
-      var id = item.opts.picId;
+    jQuery.fancybox.defaults.caption = (instance, item) => {
+      let id = item.opts.picId;
       if (typeof id === 'string') {
         id = +id.replace('pic-', '');
       }
       const post = this.items.find(i => i.post.id === id).post;
-      const tmpl = `<div class="fb-like" 
-        data-href="https://lidikart.com.ua/picture/${id}" 
-        data-layout="standard" 
-        data-action="like"
-        data-show-faces="false">
+      const tmpl = `<div class="fb-like"
+      data-href="https://lidikart.com.ua/picture/${id}" 
+      data-layout="standard" 
+      data-action="like"
+      data-show-faces="false">
       </div>`;
       return `<span>${post.title.rendered}</span>${tmpl}`;
     }

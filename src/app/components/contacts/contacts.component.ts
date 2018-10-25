@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AppDataService } from '../../services/app-data.service'
 
 @Component({
@@ -6,18 +6,14 @@ import { AppDataService } from '../../services/app-data.service'
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.scss']
 })
-export class ContactsComponent implements OnInit {
+export class ContactsComponent {
   social:Array<any> = [];
   contacts;
   shops:Array<any> = [];
-  constructor(private dataService:AppDataService) {
+  constructor(private dataService: AppDataService) {
     const {social, contacts, shops} = dataService.getContactsData();
     this.social = social;
     this.contacts = contacts;
     this.shops = shops;
   }
-
-  ngOnInit() {
-  }
-
 }

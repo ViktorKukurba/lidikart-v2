@@ -6,16 +6,16 @@ import { Directive, OnInit, Input, ElementRef } from '@angular/core';
 export class ImgLoaderDirective implements OnInit {
   @Input('img-loader')
   url: string;
-  constructor(private element:ElementRef) {}
+  constructor(private element: ElementRef) {}
 
   private setBackgroung() {
-    const element:HTMLElement = this.element.nativeElement;
+    const element: HTMLElement = this.element.nativeElement;
     element.style.backgroundImage = `url(${this.url})`;
     element.classList.add('loaded');
   }
 
   ngOnInit() {
-    var img:HTMLImageElement = <HTMLImageElement>document.createElement('IMG');
+    const img: HTMLImageElement = <HTMLImageElement>document.createElement('IMG');
     img.src = this.url;
     img.style.display = 'none';
     if (img.complete) {

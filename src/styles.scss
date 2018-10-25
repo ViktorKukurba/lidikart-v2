@@ -1,15 +1,11 @@
-@import '~@ngx-gallery/core/styles/gallery';
-@import '~@ngx-gallery/core/styles/lightbox';
+@import 'vars_.scss';
 
-$linkHover: rgba(130,40,80, 0.8);
-
-$icons: 'youtube' 'facebook' 'phone' 'mail' 'vkontakte' 'twitter' 'instagram' 'behance';
 html, body {
     height: 100%;
 }
 body {
-    font-family: "Comfortaa", "Open Sans", sans-serif;
-    background: #F6F6F6;
+    font-family: $fonts;
+    background: $backgroundColor;
 }
 
 .fancybox-caption > span {
@@ -17,7 +13,7 @@ body {
 }
 
 a {
-    color: #1B242F;
+    color: $linkColor;
     text-decoration: none;
     transition: 0.5s all;
 }

@@ -7,6 +7,7 @@ import { filter } from 'rxjs/operators';
 import { langRoutes } from './app.routes';
 import { AppDataService } from './services/app-data.service';
 import { routerAnimation } from './animations/router.animation';
+import { WpPage } from './interfaces/wp-page';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit {
   private bannerComponent;
   @ViewChild('footer')
   private footer;
-  contentHeight:string|number = 0;
+  contentHeight: string|number = 0;
   constructor(private router: Router, private dataService: AppDataService, private route: ActivatedRoute) {
     const resizeStream = fromEvent(window, 'resize');
     const routeChangeStream = router.events.pipe(filter(e => e instanceof NavigationEnd));
@@ -37,10 +38,10 @@ export class AppComponent implements OnInit {
       setTimeout(() => this.setContentHeight());
     });
     router.config.unshift(...langRoutes);
-    dataService.pages.subscribe((pages:Array<any>) => {
-      this.pages = pages.reduce((pages, {slug, menu_order}) => {
-        pages[slug] = menu_order;
-        return pages;
+    dataService.pages.subscribe((pages: Array<WpPage>) => {
+      this.pages = pages.reduce((map, {slug, menu_order}) => {
+        map[slug] = menu_order;
+        return map;
       }, {});
     });
   }
@@ -59,19 +60,18 @@ export class AppComponent implements OnInit {
       value: newPage,
       params: {
         offsetEnter: isNext ? 100 : -100,
-        offsetLeave: isNext ? -100: 100
+        offsetLeave: isNext ? -100 : 100
       }
     };
   }
 
   private getHeight(...args) {
     return args.reduce((sum, el) => {
-      return sum + el.nativeElement.offsetHeight
-    }, 0)
+      return sum + el.nativeElement.offsetHeight;
+    }, 0);
   }
 
   private setContentHeight() {
-    console.log('111', this.getHeight(this.footer, this.header), this.bannerComponent.height, window.innerHeight)
     this.contentHeight = window.innerHeight - this.getHeight(this.footer, this.header) - this.bannerComponent.height + 'px';
   }
 }

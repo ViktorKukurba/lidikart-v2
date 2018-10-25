@@ -5,7 +5,7 @@
         <li *ngFor="let page of pages"><a [routerLink]="page.link">{{page.title.rendered}}</a></li>
       </ul>
       <div class="col-md-4 col-xs-12 col-sm-4 contacts-footer">
-        <h4><a class="section-title" href="contacts" [translate]="'Contact'"></a></h4>
+        <h5 class="text-left"><a class="section-title" href="contacts" [translate]="'Contact'"></a></h5>
         <ul>
           <li>
             <a [href]="'mailto:' + contacts.email" target="_top">
@@ -16,7 +16,7 @@
         </ul>
       </div>
       <div class="col-md-4 col-xs-12 col-sm-4 social-footer">
-        <h4 translate="social.title" class="section-title" [translate]="'JoinSocial'"></h4>
+        <h5 translate="social.title" class="section-title text-left" [translate]="'JoinSocial'"></h5>
         <ul class="social">
           <li *ngFor="let s of social"><a [href]="s.url" target="_blank"><div class="la-icon {{s.network}}"></div></a></li>
         </ul>

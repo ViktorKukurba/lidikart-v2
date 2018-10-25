@@ -9,10 +9,10 @@ import { AppDataService } from '../../services/app-data.service';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent {
-  pages:Array<Object> = [];
+  pages: Array<Object> = [];
   social = [];
-  contacts:Contacts;
-  constructor(private dataService:AppDataService) {
+  contacts: Contacts;
+  constructor(private dataService: AppDataService) {
     dataService.pages.subscribe(pages => {
       this.pages = pages;
     });
