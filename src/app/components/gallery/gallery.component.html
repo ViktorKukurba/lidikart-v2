@@ -1,5 +1,5 @@
 <div id="galleries-navigation" #filter>
-  <ul *ngIf="categories && categories.length" class="nav">
+  <ul *ngIf="categories && categories.length" class="nav d-none d-lg-block">
     <li *ngFor="let cat of categories; let i = index" class="nav-item">
       <a *ngIf="cat.id" [routerLink]="[urlPath, {'serie': cat.id}]" class="nav-link" [ngClass]="{active: cat.id === serie_}">{{cat.name}}</a>
       <a *ngIf="!cat.id" [routerLink]="[urlPath]" class="nav-link" [ngClass]="{active: !serie_}">{{cat.name}}</a>

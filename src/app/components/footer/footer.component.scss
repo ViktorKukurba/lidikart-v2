@@ -1,28 +1,11 @@
-/*** Footer ***/
-$footerColor: #2680c9;
-//$footerColor: rgba(80, 187, 229, 1);
-//$footerColor: #456f7f;
-//$footerColor: #02354d;
-//$footerColor: #7a7a7a;
-//$footerColor: #072438;
-
-//$footerColor1: #7db9e8;
-//$footerColor1: #822850;
-$footerColor1: #ccc;
-//$footerColor1: rgba(130, 40, 80, .5);
-//$footerColor2: #2680c9;
-//$footerColor2: #bd90a4;
-$footerColor2: rgba(130, 40, 80, .7);
-
+@import '../../../vars_.scss';
 
 .footer {
-  .container {
-    padding: 15px;
+  background: $footerBackground;
+  margin: 0;
+  > div {
     border-left: white 1px solid;
     border-right: white 1px solid;
-    h4 {
-      text-align: left;
-    }
   }
 
   ul.site-map {
@@ -30,7 +13,6 @@ $footerColor2: rgba(130, 40, 80, .7);
     -webkit-columns: 2;
     -moz-columns: 2;
     padding: 0 1rem;
-    margin: 0;
     li a {
       color: rgba(0,0,0,.9);
     }
@@ -40,30 +22,13 @@ $footerColor2: rgba(130, 40, 80, .7);
       color: rgba(0,0,0,.9);
   }
 
-  h3 {
-    text-shadow: 5px 5px 5px rgba(50, 50, 50, 0.5);
-    margin-bottom: 5px;
-//    color: #F94B4B;
-  }
-
-  .gallery-footer {
-    text-align: left;
-  }
-
-  .social-footer span {
-    text-align: left;
-    float: left;
-    padding-top: 10px;
-  }
-
   .contacts-footer {
     ul {
-    //   font-family: $defaultFont;
       padding-bottom: 10px;
       margin: 0;
       li {
         > a {
-          text-decoration:none;
+          text-decoration: none;
         }
         padding-bottom: 10px;
       }
@@ -84,30 +49,10 @@ $footerColor2: rgba(130, 40, 80, .7);
       }
     }
   }
-
-//  padding: 0;
-  margin-top: 3em;
-  background: $footerColor1;
-
-
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7db9e8+10,2680c9+50,7db9e8+90 */
-//  background: #7db9e8; /* Old browsers */
-//  background: -moz-linear-gradient(left,  $footerColor1 10%, $footerColor2 50%, $footerColor1 90%); /* FF3.6+ */
-//  background: -webkit-gradient(linear, left top, right top, color-stop(10%,$footerColor1), color-stop(50%,$footerColor2), color-stop(90%,$footerColor1)); /* Chrome,Safari4+ */
-//  background: -webkit-linear-gradient(left,  $footerColor1 10%,$footerColor2 50%,$footerColor1 90%); /* Chrome10+,Safari5.1+ */
-//  background: -o-linear-gradient(left,  $footerColor1 10%,$footerColor2 50%,$footerColor1 90%); /* Opera 11.10+ */
-//  background: -ms-linear-gradient(left,  $footerColor1 10%,$footerColor2 50%,$footerColor1 90%); /* IE10+ */
-//  background: linear-gradient(to right,  $footerColor1 10%,$footerColor2 50%,$footerColor1 90%); /* W3C */
-//  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$footerColor1, endColorstr=$footerColor1,GradientType=1 ); /* IE6-9 */
-
-
-
-  text-align: center;
+  
   ul {
     list-style:none;
     padding: 0;
-    text-align: left;
-    color: white;
   }
 
   .gallery-footer ul:nth-of-type(1) {
@@ -115,7 +60,6 @@ $footerColor2: rgba(130, 40, 80, .7);
   }
 
   .social {
-//    text-align: center;
     li {
       display: inline-block;
       width: 23%;
@@ -127,63 +71,22 @@ $footerColor2: rgba(130, 40, 80, .7);
       height: 39px;
     }
   }
-  .about-footer {
-    text-align: justify;
-    color: white;
-
-    h3 {
-      text-align: center;
-    }
-  }
-  .copy_right {
-    // font-family: $defaultFont;
+  .copy-right {
     font-size: 0.95em;
     color: #000000;
-    clear:both;
-//    float: right;
     p {
       font-size:0.95em;
-//      color:#FFF;
     }
 
     a {
       color:#F94B4B;
-    //   font-family: $mainFont;
       &:hover {
-        color:#FFF;
+        color: #000000;
         text-decoration:underline;
       }
     }
   }
-  .about-message {
-    min-height: 10em;
-  }
-
-  .footer_bottom{
-    margin: 1em 0;
-  }
-  .footer_nav{
-    float:right;
-    margin-top: 1.5em;
-  }
-  .footer_nav li{
-    display:inline;
-  }
-  .footer_nav ul{
-    padding:0;
-  }
-  .footer_nav li a{
-    color:#FFF;
-    font-family: 'Open Sans', sans-serif;
-    text-decoration: none;
-    font-size:0.95em;
-    margin: 0 8px;
-    -webkit-transition: all .5s;
-    -moz-transition: all .5s;
-    -o-transition: all .5s;
-    -ms-transition: all .5s;
-    transition: all .5s;
-  }
+ 
   .footer_nav li a:hover{
     color:#F94B4B;
   }
@@ -197,10 +100,6 @@ $footerColor2: rgba(130, 40, 80, .7);
 
 @media all and (max-width: 420px) {
   .footer {
-    h3 {
-      font-size:20px;
-    }
-
     .container>div {
       padding-left:10px;
       padding-right:10px;
@@ -239,10 +138,6 @@ $footerColor2: rgba(130, 40, 80, .7);
   }
 }
 
-.header_bottom {
-  // visibility: hidden;
-}
-
 .loaded {
   .lang {
     visibility: visible;
@@ -260,10 +155,6 @@ $footerColor2: rgba(130, 40, 80, .7);
 }
 
 .footer {
-  // visibility: hidden;
-
-
-  // position: absolute;
   width: 100%;
   left: 0;
   .container {

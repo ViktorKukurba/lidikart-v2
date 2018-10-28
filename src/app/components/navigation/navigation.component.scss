@@ -1,3 +1,5 @@
+@import '../../../vars_.scss';
+
 nav {
   align-items: stretch;
   padding: 0;
@@ -50,7 +52,7 @@ h1 span {
   text-transform: uppercase;
   font-size: 20px;
   font-weight: 600;
-  color: #000;
+  color: $fontColor;
   display: block;
 }
 
@@ -80,6 +82,57 @@ ul.lang {
     &.active > a {
       color: rgba(0,0,0,.9);
     }
+  }
+}
+
+$duration: .5s;
+
+.navicon-button {
+  display: inline-block;
+  position: relative;
+  padding: 2.0625rem 1.5rem;
+  transition: $duration/2;
+  background: none;
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  opacity: .8;
+  outline: none;
+  .navicon:before, .navicon:after {
+    transition: $duration/2;
+  }
+}
+
+.navicon {
+  position: relative;
+  width: 2.5em;
+  height: .3125rem;
+  background: $fontColor;
+  transition: $duration;
+  border-radius: 2.5rem;
+
+  &:before, &:after {
+    display: block;
+    content: "";
+    height: .3125rem;
+    width: 2.5rem;
+    background: $fontColor;
+    position: absolute;
+    z-index: -1;
+    transition: $duration $duration/2;
+    border-radius: 1rem;
+  }
+
+  &:before { top: .625rem; }
+  &:after { top: - .625rem; }
+}
+
+[aria-expanded="true"].x {
+  .navicon {
+    background: transparent;
+    &:before, &:after { top: 0; }
+    &:before { transform: rotate(-45deg); }
+    &:after { transform: rotate(45deg); }
   }
 }
 

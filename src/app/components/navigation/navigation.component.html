@@ -3,13 +3,18 @@
     <h1>LidikART<span class="ng-scope">{{'Title' | translate }}</span></h1>
     <div class="logo-image"></div>
   </a>
-  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+  <button class="navicon-button x d-lg-none" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <!-- <span class="navbar-toggler-icon"></span> -->
+    <div class="navicon"></div>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav dropdown" *ngFor="let page of pages" routerLinkActive="active" [ngClass]="{active2: page.slug === 'gallery' && router.url === '/'}">
-        <a class="nav-item nav-link" [routerLink]="page.link">{{page.title.rendered}}</a>
+        <a class="nav-item nav-link w-100 text-center p-md-2 py-2" [routerLink]="page.link">{{page.title.rendered}}</a>
         <!-- <a class="nav-item nav-link" [routerLink]="[{ outlets: { primary: [page.link],banner: ['about'] } }]" routerLinkActive="active">{{page.title.rendered}}</a> -->
+    </div>
+    <div class="dropdown-divider"></div>
+    <div *ngFor="let lang of languages" class="navbar-nav dropdown d-lg-none">
+      <a class="nav-item nav-link text-center p-md-2 py-2" (click)="selectLanguage(lang.value)" [ngClass]="{active: lang.value===dataService.langValue}">{{lang.label}}</a>
     </div>
   </div>
   <ul class="lang d-none d-lg-flex">
