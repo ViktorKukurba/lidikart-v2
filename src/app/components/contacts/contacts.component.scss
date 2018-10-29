@@ -2,7 +2,7 @@
   .contact-items {
     > div {
       padding: 20px 0;
-      a {
+      a:not(.mail-contact) {
         text-transform: capitalize;
         margin: 1em;
       }

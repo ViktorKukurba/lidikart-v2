@@ -51,6 +51,7 @@ export class AppDataService {
 
   private setTranslations() {
     this.translate.setTranslation('en', {
+      Series: 'Series',
       Download: 'Download',
       All: 'All',
       Title: 'another world',
@@ -60,6 +61,7 @@ export class AppDataService {
       GoShops: 'Visit me'
     });
     this.translate.setTranslation('ua', {
+      Series: 'Серії',
       Download: 'Скачати',
       All: 'Усе',
       Title: 'інший світ',

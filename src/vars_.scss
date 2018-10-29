@@ -5,8 +5,9 @@ $icons: 'youtube' 'facebook' 'phone' 'mail' 'vkontakte' 'twitter' 'instagram' 'b
 $fonts: "Comfortaa", "Open Sans", sans-serif;
 
 // Colors
+$fontColorBase: rgba(0, 0, 0, 0);
 $linkColor: #1B242F;
-$fontColor: #000;
+$fontColor: opacify($color: $fontColorBase, $amount: 1);
 $linkHover: rgba(130,40,80, 0.8);
 $backgroundColor: #F6F6F6;
 $footerBackground: #ccc;

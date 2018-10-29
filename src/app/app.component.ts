@@ -51,9 +51,13 @@ export class AppComponent implements OnInit {
   }
 
   getState(outlet) {
-    const path = outlet.activatedRoute.snapshot.routeConfig.path;
+    if (outlet.activated) {
+      const path = outlet.activatedRoute.snapshot.routeConfig.path;
     const langPrefix = this.dataService.langURLPrefix;
-    const newPage = langPrefix ? path.replace(`${langPrefix}/`, '') : path;
+    let newPage = langPrefix ? path.replace(`${langPrefix}/`, '') : path;
+    if (!this.pages[newPage]) {
+      newPage = 'gallery';
+    }
     const isNext = this.prevPage <= this.pages[newPage];
     this.prevPage = this.pages[newPage];
     return {
@@ -63,6 +67,7 @@ export class AppComponent implements OnInit {
         offsetLeave: isNext ? -100 : 100
       }
     };
+    }
   }
 
   private getHeight(...args) {

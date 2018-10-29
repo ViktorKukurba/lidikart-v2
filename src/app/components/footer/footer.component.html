@@ -1,24 +1,28 @@
 <div class="footer row">
   <div class="col-xl-10 offset-xl-1 col-lg-10 offset-lg-1 col-md-10 offset-md-1 pb-0 pt-3">
-    <div class="row text-left">
-      <ul class="site-map col-md-4 col-xs-12 col-sm-4" >
-        <li *ngFor="let page of pages"><a [routerLink]="page.link">{{page.title.rendered}}</a></li>
-      </ul>
+    <div class="row text-center text-md-left">
+      <div class="col-md-4 col-xs-12 col-sm-4">
+        <ul class="site-map" >
+          <li *ngFor="let page of pages">
+            <a [routerLink]="page.link">{{page.title.rendered}}</a>
+          </li>
+        </ul>
+      </div>
       <div class="col-md-4 col-xs-12 col-sm-4 contacts-footer">
-        <h5 class="text-left"><a class="section-title" href="contacts" [translate]="'Contact'"></a></h5>
+        <h5><a class="section-title" href="contacts" [translate]="'Contact'"></a></h5>
         <ul>
           <li>
             <a [href]="'mailto:' + contacts.email" target="_top">
-              <span class="la-icon mail"></span>
+              <span class="la-icon mail md"></span>
               <span class="contact-info">{{contacts.email}}</span>
             </a>
           </li>
         </ul>
       </div>
       <div class="col-md-4 col-xs-12 col-sm-4 social-footer">
-        <h5 translate="social.title" class="section-title text-left" [translate]="'JoinSocial'"></h5>
-        <ul class="social">
-          <li *ngFor="let s of social"><a [href]="s.url" target="_blank"><div class="la-icon {{s.network}}"></div></a></li>
+        <h5 translate="social.title" class="section-title" [translate]="'JoinSocial'"></h5>
+        <ul class="social d-flex justify-content-around">
+          <li *ngFor="let s of social"><a [href]="s.url" target="_blank"><span class="la-icon {{s.network}} md"></span></a></li>
         </ul>
       </div>
       <div class="col-12 copy-right text-center">

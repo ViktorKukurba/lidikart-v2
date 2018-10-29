@@ -1,3 +1,5 @@
+@import '../../../vars_.scss';
+
 #galleries-navigation {
   &.fixed {
     position: fixed;
@@ -5,45 +7,30 @@
     left: 0;
     top: 0;
     z-index: 1;
-    background: #F6F6F6;
+    background: $backgroundColor;
     margin: 0 15px;
     ul {
       width: 85%;
       margin: auto;
     }
   }
-    ul {
-        display: table;
-        list-style-type: none;
-        margin: 0;
-        padding: 10px;
-        text-align: center;
-        width: 100%;
-        li {
-          display: table-cell;
-          padding: .5em;
-          font-weight: 800;
-          text-align: center;
-          text-align-last: end;
+  ul {
+    list-style-type: none;
+    li {
+      display: inline-block;
+      font-weight: 800;
           a {
             color: #888;
             font-weight: 500;
             font-size: 14px;
             &.active {
-              color: rgba(0,0,0,.9);
+              color: opacify($color: $fontColor, $amount: .9);
             }
           }
     
           a:hover {
-            color: black;
-            //color: rgba(130, 40, 80, 0.8);
+            color: opacify($color: $fontColor, $amount: .9);
           }
         }
       }
-}
-
-@media only screen and (max-width: 420px) {
-    #galleries-navigation {
-        overflow-x: scroll;
-    }
 }

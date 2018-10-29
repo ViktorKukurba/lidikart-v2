@@ -20,6 +20,7 @@ export class GalleryComponent implements AfterViewInit {
   @ViewChild('filter')
   private navigation;
   private top_;
+  category;
   GALLERY_PATH = AppSettings.ROUTE.GALLERY;
   constructor(
     private galleryService: GalleryService,
@@ -36,7 +37,8 @@ export class GalleryComponent implements AfterViewInit {
 
     this.route.params.subscribe(params => {
       this.albumState = params;
-      this.serie_ = Number(params.serie);
+      this.serie_ = params.serie ? Number(params.serie) : undefined;
+      this.category = this.categories.find(c => c.id === this.serie_);
       this.galleryService.setImagesSerie(params.serie);
     });
 
@@ -58,5 +60,10 @@ export class GalleryComponent implements AfterViewInit {
 
   get urlPath() {
     return `/${this.appService.langURLPrefix}/${this.GALLERY_PATH}`;
+  }
+
+  get serie() {
+    console.log('serie', this.serie_, this.categories.find(c => c.id === this.serie_))
+    return this.categories.find(c => c.id === this.serie_);
   }
 }

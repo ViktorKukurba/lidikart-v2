@@ -1,24 +1,12 @@
 @import '../../../vars_.scss';
 
-nav {
-  align-items: stretch;
-  padding: 0;
-}
-
-.navbar-collapse {
-  align-items: stretch;
-}
 .navbar {
   .dropdown {
-    align-items: center;
     &.active, &.active2 {
       background: #bd90a4;
     }
     &:hover {
       background: #822850;
-      .dropdown-menu {
-        display: block;
-      }
       a {
         color: white;
       }
@@ -27,7 +15,6 @@ nav {
   .nav-link {
     cursor: pointer;
     font-weight: bolder;
-    padding: 0 1em;
   }
   .navbar-toggler {
     border: none;
@@ -41,10 +28,8 @@ nav {
   }
   h1 {
     color: rgba(130, 40, 80, 0.8);
-    text-align: center;
     font-size: 2em;
     font-weight: 800;
-    margin-bottom: 0;
   }
 }
 
@@ -64,23 +49,18 @@ h1 span {
   background-position: 50% 45%;
 }
 
-.dropdown-menu {
-  margin: 0;
-}
-
 ul.lang {
-  padding: 0;
-  margin: 0;
-  align-items: center;
   li {
-    display: inline-block;
-    padding: 0 .5em;
+    list-style-type: none;
     cursor: pointer;
     > a {
-      color: rgba(0,0,0,.5);
+      color: opacify($color: $fontColorBase, $amount: .5);
+      &:hover {
+        color: opacify($color: $fontColorBase, $amount: .75);
+      }
     }
     &.active > a {
-      color: rgba(0,0,0,.9);
+      color:  opacify($color: $fontColorBase, $amount: .9);
     }
   }
 }
@@ -89,7 +69,8 @@ $duration: .5s;
 
 .navicon-button {
   display: inline-block;
-  position: relative;
+  position: absolute;
+  right: 0;
   padding: 2.0625rem 1.5rem;
   transition: $duration/2;
   background: none;
