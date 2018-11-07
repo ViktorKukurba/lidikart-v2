@@ -1,12 +1,6 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-  <script>
+<?php get_header(); ?>
+<!------------ Start Content ---------------->
+<script>
     (function(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
@@ -16,5 +10,4 @@
     }(document, 'script', 'facebook-jssdk'));
   </script>
   <app-root></app-root>
-</body>
-</html>
+<?php get_footer(); ?>

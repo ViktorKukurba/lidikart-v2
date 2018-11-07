@@ -13,15 +13,17 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 @Injectable()
 export class AppInterceptor implements HttpInterceptor {
 
-    private count: number = 0;
+    private count = 0;
 
     constructor(private spinner: Ng4LoadingSpinnerService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         this.count++;
-        if (this.count > 0) this.spinner.show();
+        if (this.count > 0) {
+            this.spinner.show();
+        }
 
-        let handleObs: Observable<HttpEvent<any>> = next.handle(req);
+        const handleObs: Observable<HttpEvent<any>> = next.handle(req);
 
         handleObs.pipe(catchError((err: any) => {
             this.count--;
@@ -29,7 +31,9 @@ export class AppInterceptor implements HttpInterceptor {
         }), tap(event => {
             if (event instanceof HttpResponse) {
                 this.count--;
-                if (this.count == 0) this.spinner.hide();
+                if (this.count === 0) {
+                    this.spinner.hide();
+                }
             }
         }));
 

@@ -1,7 +1,7 @@
 <div class="footer row">
   <div class="col-xl-10 offset-xl-1 col-lg-10 offset-lg-1 col-md-10 offset-md-1 pb-0 pt-3">
     <div class="row text-center text-md-left">
-      <div class="col-md-4 col-xs-12 col-sm-4">
+      <div class="col-md-4 col-xs-12 col-sm-4 d-none d-sm-inline-block">
         <ul class="site-map" >
           <li *ngFor="let page of pages">
             <a [routerLink]="page.link">{{page.title.rendered}}</a>
@@ -19,7 +19,7 @@
           </li>
         </ul>
       </div>
-      <div class="col-md-4 col-xs-12 col-sm-4 social-footer">
+      <div class="col-md-4 col-xs-12 col-sm-4 social-footer mt-2 mt-sm-0">
         <h5 translate="social.title" class="section-title" [translate]="'JoinSocial'"></h5>
         <ul class="social d-flex justify-content-around">
           <li *ngFor="let s of social"><a [href]="s.url" target="_blank"><span class="la-icon {{s.network}} md"></span></a></li>

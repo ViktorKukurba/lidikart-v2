@@ -15,14 +15,10 @@ const SERVICE_URL = '//lidikart.com.ua/wp-json/wp/v2';
 @Injectable()
 export class AppDataService {
   languages = AppSettings.LANGUAGES;
-  private pages_ = new BehaviorSubject<Array<WpPage>>([]);
-  private categories_ = new BehaviorSubject<Array<WpCategory>>([]);
-  private posts_ = new BehaviorSubject<Array<WpPost>>([]);
-  private category_ = new Subject<number>();
-  pages = this.pages_.asObservable();
-  categories = this.categories_.asObservable();
-  posts = this.posts_.asObservable();
-  category = this.category_.asObservable();
+  pages = new BehaviorSubject<Array<WpPage>>([]);
+  categories = new BehaviorSubject<Array<WpCategory>>([]);
+  posts = new BehaviorSubject<Array<WpPost>>([]);
+  category = new Subject<number>();
 
   postsMap = {};
   get params() {
@@ -30,7 +26,7 @@ export class AppDataService {
       per_page: '100',
       lang: this.langValue
     };
-  };
+  }
 
   constructor(
     public http: HttpClient,
@@ -40,13 +36,13 @@ export class AppDataService {
         await this.loadPageCategories();
       });
       this.setTranslations();
-      translate.use(location.pathname.startsWith("/en") ? 'en' : 'ua');
+      translate.use(location.pathname.startsWith('/en') ? 'en' : 'ua');
 
     this.category.pipe(distinctUntilChanged()).subscribe(categoryId => {
       this.getPostsByCategories([categoryId]).subscribe((posts) => {
-        this.posts_.next(posts);
-      })
-    })
+        this.posts.next(posts);
+      });
+    });
   }
 
   private setTranslations() {
@@ -73,18 +69,18 @@ export class AppDataService {
   }
 
   public setCategory(categoryId) {
-    this.category_.next(categoryId);
+    this.category.next(categoryId);
   }
 
   get langURLPrefix() {
-    return AppSettings.LANGUAGES.find(l => l.value === this.langValue).path
+    return AppSettings.LANGUAGES.find(l => l.value === this.langValue).path;
   }
 
-  get langValue():string {
+  get langValue(): string {
     return this.translate.currentLang;
   }
 
-  getPostsByCategories(categoriesIds:Array<number|string>): Observable<WpPost[]> {
+  getPostsByCategories(categoriesIds: Array<number|string>): Observable<WpPost[]> {
     const url = `${SERVICE_URL}/posts?per_page=100&categories=${categoriesIds.join(',')}&lang=${this.langValue}`;
     return new Observable(observer => {
       if (this.postsMap[url]) {
@@ -100,14 +96,14 @@ export class AppDataService {
   }
 
   loadPageCategories() {
-    let pages =  this.http.get(`${SERVICE_URL}/pages`, {params: this.params});
-    let categories = this.http.get(`${SERVICE_URL}/categories`, {params: this.params});
-    return forkJoin([pages, categories]).subscribe((response: [Array<WpPage>, Array<WpCategory>]) => {
+    const pagesReq =  this.http.get(`${SERVICE_URL}/pages`, {params: this.params});
+    const categoriesReq = this.http.get(`${SERVICE_URL}/categories`, {params: this.params});
+    return forkJoin([pagesReq, categoriesReq]).subscribe((response: [Array<WpPage>, Array<WpCategory>]) => {
       const pages = response[0].filter(page => page.slug !== 'production').sort((a, b) => {
         return a.menu_order - b.menu_order;
       });
       const categories = response[1];
-      this.categories_.next(categories);
+      this.categories.next(categories);
       const langUrl = this.langURLPrefix;
 
       pages.forEach(function(page) {
@@ -119,16 +115,16 @@ export class AppDataService {
         }).forEach(function(category) {
           const parentId = category.parent;
           if (parentId) {
-            const parent = categories.filter(function(category) {
-              return category.id === parentId;
+            const parent = categories.filter((cat) => {
+              return cat.id === parentId;
             })[0];
             page.categories[parent.slug] = page.categories[parent.slug] || [];
             page.categories[parent.slug].push(category);
           }
         });
       });
-      this.pages_.next(pages);
-    })
+      this.pages.next(pages);
+    });
   }
 
   public getContactsData() {
@@ -154,7 +150,7 @@ export class AppDataService {
       title: 'behance',
       image: Utils.imagePath + 'shops/behance-thumb.png',
       link: 'https://www.behance.net/LidikArt'
-    }, 
+    },
       // {
       //   title: 'shutterstock',
       //   image: Utils.imagePath + 'shops/shutterstock-thumb.jpg',
@@ -175,6 +171,6 @@ export class AppDataService {
       //   link: 'http://fineartamerica.com/profiles/lidia-matviyenko.html'
       // }
     ]
-    }
+    };
   }
 }

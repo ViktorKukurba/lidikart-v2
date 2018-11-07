@@ -18,4 +18,4 @@ import {
         animate('0.4s ease-in-out', style({ transform: 'translateX({{offsetLeave}}%)', opacity: 0}))
       ], { optional: true }),
     ])
-  ])
+  ]);

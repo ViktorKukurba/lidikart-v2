@@ -1,6 +1,6 @@
 import { Directive, OnInit, Input, ElementRef } from '@angular/core';
 
-const DEFAULT_IMG =  '../../../assets/images/lidikart.jpg';
+const DEFAULT_IMG =  require('../../assets/images/lidikart.jpg');
 
 @Directive({
   selector: '[img-loader]',

@@ -1,6 +1,6 @@
-<div class="album-wrapper row no-gutters">
+<div class="album-wrapper row">
   <ng-content></ng-content>
-  <div *ngFor="let item of items" class="col-lg-4 col-xl-3 col-md-4 col-xs-6 col-sm-6 image">
+  <div *ngFor="let item of items" class="image">
     <a *ngIf="item && item.post.format === 'standard'" href="{{item.src}}"
       class="thumbnail fancybox slide"
       attr.data-pic-id="{{item.post.id}}"

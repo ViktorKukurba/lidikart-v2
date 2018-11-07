@@ -11,7 +11,7 @@ import { WpPage } from '../../interfaces/wp-page';
 })
 export class NavigationComponent {
   private routeParams: {lang?: String} = {};
-  private url: String = '';
+  private url = '';
   pages: Array<WpPage> = [];
   languages: Array<any>;
 

@@ -1,9 +1,8 @@
-import { Component, OnInit, Input, ViewContainerRef, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { AppSettings } from '../../constants';
 import { LAGalleryItem } from '../../types';
-
 declare var jQuery: any
 
 @Component({
@@ -18,13 +17,10 @@ export class FancyAlbumComponent implements OnInit {
   pic: number;
   url: String;
   routeParams;
-  @ViewChild(TemplateRef)
-  like:TemplateRef<any>;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private viewContainer: ViewContainerRef,
   ) { }
 
   ngOnInit() {
@@ -67,14 +63,14 @@ export class FancyAlbumComponent implements OnInit {
       }
       const post = this.items.find(i => i.post.id === id).post;
       const tmpl = `<div class="fb-like"
-      data-href="https://lidikart.com.ua/picture/${id}" 
-      data-layout="standard" 
+      data-href="https://lidikart.com.ua/picture/${id}"
+      data-layout="standard"
       data-action="like"
       data-show-faces="false">
       </div>`;
       return `<span>${post.title.rendered}</span>${tmpl}`;
-    }
-    jQuery.fancybox.defaults.thumbs.autoStart = true; 
+    };
+    jQuery.fancybox.defaults.thumbs.autoStart = true;
     jQuery(document).on({
       'beforeShow.fb': (e, instance, current, firstRun) => {
         this.pic = current.opts.picId;

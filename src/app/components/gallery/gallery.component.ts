@@ -25,7 +25,7 @@ export class GalleryComponent implements AfterViewInit {
   constructor(
     private galleryService: GalleryService,
     private appService: AppDataService,
-    private route:ActivatedRoute) {
+    private route: ActivatedRoute) {
 
     this.galleryService.galleryCategories.subscribe((categories: Array<WpCategory>) => {
       this.categories = categories.filter(c => c.slug !== 'general' && !(c.slug && c.slug.includes('-no-show')));
@@ -51,7 +51,7 @@ export class GalleryComponent implements AfterViewInit {
       } else {
         nav.classList.remove('fixed');
       }
-    })
+    });
   }
 
   ngAfterViewInit() {
@@ -63,7 +63,6 @@ export class GalleryComponent implements AfterViewInit {
   }
 
   get serie() {
-    console.log('serie', this.serie_, this.categories.find(c => c.id === this.serie_))
     return this.categories.find(c => c.id === this.serie_);
   }
 }

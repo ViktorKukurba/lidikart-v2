@@ -10,12 +10,12 @@ import { AppDataService } from '../../services/app-data.service';
 })
 export class BiographyComponent implements OnInit {
   pageData;
-  resumeLink:string;
+  resumeLink: string;
   constructor(private appData: AppDataService, private element: ElementRef) {
     appData.pages.pipe(filter(pages => Boolean(pages.length))).subscribe(pages => {
       this.pageData = pages.find(p => p.slug === 'about');
       this.resumeLink = this.pageData.acf[`resume_${appData.langValue}`].url;
-    })
+    });
   }
 
   ngOnInit() {

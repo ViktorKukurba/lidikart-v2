@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AppDataService } from '../../services/app-data.service'
+
+import { AppDataService } from '../../services/app-data.service';
 
 @Component({
   selector: 'app-contacts',
@@ -7,9 +8,9 @@ import { AppDataService } from '../../services/app-data.service'
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent {
-  social:Array<any> = [];
+  social: Array<any> = [];
   contacts;
-  shops:Array<any> = [];
+  shops: Array<any> = [];
   constructor(private dataService: AppDataService) {
     const {social, contacts, shops} = dataService.getContactsData();
     this.social = social;
