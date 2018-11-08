@@ -1,27 +1,25 @@
-import { Directive, OnInit, Input, ElementRef } from '@angular/core';
+import { Directive, OnInit, Input, HostBinding } from '@angular/core';
 
 const DEFAULT_IMG =  require('../../assets/images/lidikart.jpg');
 
 @Directive({
   selector: '[img-loader]',
-  host: {
-    '[style.background-size]': '"cover"',
-    '[style.background-repeat]': '"no-repeat"',
-    '[style.background-position]': '"50%"'
-  }
 })
 export class ImgLoaderDirective implements OnInit {
+  @HostBinding('style.background-size') bgSize = 'cover';
+  @HostBinding('style.background-repeat') bgRepeat = 'no-repeat';
+  @HostBinding('style.background-position') bgPosition = '50%';
+  @HostBinding('style.background-image') 
+  private bgImage = `url(${DEFAULT_IMG})`;
+  @HostBinding('class.loaded')
+  private loaded = false;
+
   @Input('img-loader')
-  url: string;
-  private loaded: Boolean = false;
-  constructor(private element: ElementRef) {
-    this.setImage();
-  }
+  private url: string;
 
   private setImage() {
-    const element = this.element.nativeElement;
-    element.style.backgroundImage = this.loaded ? `url(${this.url})` : `url(${DEFAULT_IMG})`;
-    this.loaded && element.classList.add('loaded');
+    this.loaded = true;
+    this.bgImage = `url(${this.url})`;
   }
 
   ngOnInit() {
@@ -29,11 +27,9 @@ export class ImgLoaderDirective implements OnInit {
     img.src = this.url;
     img.style.display = 'none';
     if (img.complete) {
-      this.loaded = true;
       this.setImage();
     } else {
       img.onload = () => {
-        this.loaded = true;
         this.setImage();
       };
     }

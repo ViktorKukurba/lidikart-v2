@@ -53,7 +53,9 @@ const langRoutes: Routes = ROUTES.reduce((routes, route) => {
     lRoute.path = language.path + (language.path && lRoute.path ? '/' : '') + lRoute.path;
     return lRoute;
   });
-  lRoutes.forEach(lRoute => {routes = routes.concat(lRoute)});
+  lRoutes.forEach(lRoute => {
+    routes = routes.concat(lRoute);
+  });
   return routes;
 }, []);
 

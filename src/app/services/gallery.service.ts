@@ -21,18 +21,27 @@ export class GalleryService {
     }).map(p => GalleryService.toImageItem(p));
   }
 
-  public static toImageItem(post):LAGalleryItem {
+  public static toImageItem(post): LAGalleryItem {
     if (post.format === 'video') {
+      const thumb = `https://img.youtube.com/vi/${GalleryService.extractVideoID(post.acf.url)}/mqdefault.jpg`;
       return {
         post,
         format: post.format,
-        thumb: `https://img.youtube.com/vi/${GalleryService.extractVideoID(post.acf.url)}/mqdefault.jpg`
+        thumb: {
+          small: thumb,
+          big: thumb
+        },
+        src: post.acf.url
       };
     }
+    const img = post.better_featured_image.media_details.sizes['img-768'] || post.better_featured_image.media_details.sizes.medium;
     return {
       post,
       format: post.format,
-      thumb: post.better_featured_image.media_details.sizes.medium.source_url,
+      thumb: {
+        small: post.better_featured_image.media_details.sizes.medium.source_url,
+        big: img.source_url
+      },
       src: post.better_featured_image.source_url
     };
   }
@@ -53,7 +62,7 @@ export class GalleryService {
     combineLatest(this.posts, this.category).subscribe((res: [Array<WpPost>, number]) => {
       const [posts, category] = res;
       this.filteredImages.next(posts.filter(post => {
-        return (post.better_featured_image || post.format === 'video') && (!category || category && post.categories.includes(category))
+        return (post.better_featured_image || post.format === 'video') && (!category || category && post.categories.includes(category));
       }).map(p => GalleryService.toImageItem(p)));
     });
 
@@ -90,7 +99,7 @@ export class GalleryService {
     });
   }
 
-  public setImagesSerie(category:Number):void {
+  public setImagesSerie(category: Number): void {
     this.category.next(+category);
   }
 }

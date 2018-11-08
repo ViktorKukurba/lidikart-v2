@@ -1,50 +1,87 @@
-$thumbWidth: 158px;
-$thumbHeight: 225px;
+@import '../../../../node_modules/bootstrap/scss/functions';
+@import '../../../../node_modules/bootstrap/scss/variables';
+@import '../../../../node_modules/bootstrap/scss/mixins/breakpoints';
+
+// only affects xs and below
+$smallThumbWidth: 225px;
+$smallThumbHeight: 158px;
+
+$bigThumbWidth: 600px;
+$bigThumbHeight: 400px;
+
+@mixin imageSize($w, $h, $m) {
+    .image {
+        margin: $m;
+        a {
+            height: $h;
+            width: $w;
+            max-width: 100%;
+        }
+        img {
+            min-height: $h;
+            min-width: $w;
+        }
+    }
+}
 
 .album-wrapper {
     justify-content: center;
-}
 
-.image {
-    a {
-        overflow: hidden;
-        margin: 1em;
-        display: block;
-        position: relative;
-        background-size: cover;
-        height: $thumbWidth;
-        width: $thumbHeight;
+    &.size-small {
+        @include imageSize($smallThumbWidth, $smallThumbHeight, 1em);
     }
 
-    a:hover {
-        box-shadow: 10px 10px 10px rgba(50, 50, 50, 0.5);
-        transform: scale(1.05);
-        .youtube-video::after {
+    @include imageSize($bigThumbWidth, $bigThumbHeight, 1em);
+
+    .image {
+        a {
+            overflow: hidden;
+            display: inline-block;
+            position: relative;
+            background-size: cover;
+            background-color: white;
+        }
+
+        img:not(.loaded) {
+            background-size: contain !important;
+        }
+    
+        a:hover {
+            box-shadow: 10px 10px 10px rgba(50, 50, 50, 0.5);
+            transform: scale(1.05);
+            .youtube-video::after {
+                opacity: 1;
+            }
+        }
+    
+        .video::after {
+            content: '';
+            display: block;
+            position: absolute;
+            opacity: .5;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: url(../../../assets/images/youtube_play.png) center no-repeat;
+            transition: opacity 1s;
+        }
+    
+        .youtube-video:hover::after {
             opacity: 1;
         }
     }
+}
 
-    img {
-        min-height: $thumbWidth;
-        min-width: $thumbHeight;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
+@include media-breakpoint-down(xs) {
+    .album-wrapper {
+        @include imageSize($smallThumbWidth, $smallThumbHeight, 1em);
+    }   
+}
 
-    .youtube-video::after {
-        content: '';
-        display: block;
-        position: absolute;
-        opacity: .5;
-        width: 100%;
-        height: 100%;
-        background: url(../../../assets/images/youtube_play.png) center no-repeat;
-        transition: opacity 1s;
-    }
-
-    .youtube-video:hover::after {
-        opacity: 1;
-    }
+@include media-breakpoint-up(xl) {
+    .album-wrapper.size-big {
+        .image:nth-child(odd) {
+            margin-right: 2em;
+        }
+    }   
 }

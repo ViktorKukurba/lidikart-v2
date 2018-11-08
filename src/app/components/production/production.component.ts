@@ -26,7 +26,7 @@ export class ProductionComponent implements OnDestroy {
         if (ids.length) {
           this.dataService.getPostsByCategories(ids).subscribe(response => {
             this.posts = response.map(p => GalleryService.toImageItem(p));
-        })
+          });
         }
 
       route.params.subscribe(params => {

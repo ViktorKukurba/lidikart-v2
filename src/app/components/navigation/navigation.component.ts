@@ -48,7 +48,7 @@ export class NavigationComponent {
           params = params || {};
           params[prop] = val;
         }
-      })
+      });
 
       this.dataService.translate.use(lang);
       if (params) {

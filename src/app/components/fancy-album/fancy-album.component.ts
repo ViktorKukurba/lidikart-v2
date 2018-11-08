@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { AppSettings } from '../../constants';
 import { LAGalleryItem } from '../../types';
-declare var jQuery: any
+declare var jQuery: any;
 
 @Component({
   selector: 'app-fancy-album',
@@ -15,6 +15,8 @@ export class FancyAlbumComponent implements OnInit {
   items: Array<LAGalleryItem> = [];
   @Input()
   pic: number;
+  @Input()
+  size: 'big';
   url: String;
   routeParams;
 
@@ -41,6 +43,19 @@ export class FancyAlbumComponent implements OnInit {
     this.openPic();
   }
 
+  get sizeClass() {
+    if (this.size) {
+      return {
+        [`size-${this.size}`]: true
+      };
+    }
+    return null;
+  }
+
+  get sizeVal() {
+    return this.size || 'big';
+  }
+
   private openPic() {
     if (this.pic) {
       const click = () => {
@@ -49,7 +64,7 @@ export class FancyAlbumComponent implements OnInit {
         } else {
           setTimeout(click, 1e1);
         }
-      }
+      };
       click();
     }
   }

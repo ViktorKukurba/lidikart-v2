@@ -1,8 +1,8 @@
 <div *ngIf="exhibition" class="album-container exhibition-container">
     <h3 *ngIf="exhibition.name" class="p-2 text-center">{{exhibition.name}}</h3>
-    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 poster-wrapper">
+    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 poster-wrapper p-0">
         <div class="row">
-            <app-fancy-album [pic]="pic" [items]="pictures" class="exhibition-album">
+            <app-fancy-album [pic]="pic" size="small" [items]="pictures" class="exhibition-album">
                 <div class="col-sm-12 col-md-6">
                     <img class="banner w-100" [src]="exhibition.img" alt=""/>
                     <div [innerHTML]="exhibition.acf.additional_information"></div>
