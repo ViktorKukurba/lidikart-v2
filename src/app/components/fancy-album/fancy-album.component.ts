@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { AppSettings } from '../../constants';
@@ -10,7 +10,7 @@ declare var jQuery: any;
   templateUrl: './fancy-album.component.html',
   styleUrls: ['./fancy-album.component.scss']
 })
-export class FancyAlbumComponent implements OnInit {
+export class FancyAlbumComponent implements OnInit, OnDestroy {
   @Input()
   items: Array<LAGalleryItem> = [];
   @Input()
@@ -19,6 +19,29 @@ export class FancyAlbumComponent implements OnInit {
   size: 'big';
   url: String;
   routeParams;
+
+  private fancyConfig = {
+    'beforeShow.fb': (e, instance, current, firstRun) => {
+      this.pic = current.opts.picId;
+      this.routeParams.pic = this.pic;
+      this.router.navigate([this.url || AppSettings.ROUTE.GALLERY, this.routeParams]);
+    },
+    'afterLoad.fb': () => {
+      const el = document.getElementById(`fb-like-${this.pic}`);
+      el.setAttribute('data-href', location.href);
+      (<any>window).FB.XFBML.parse(el.parentNode);
+    },
+
+    'beforeClose.fb': () => {
+      this.pic = null;
+      delete this.routeParams.pic;
+      if (Object.keys(this.routeParams).length) {
+        this.router.navigate([this.url, this.routeParams]);
+      } else {
+        this.router.navigate([this.url]);
+      }
+    }
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -41,6 +64,11 @@ export class FancyAlbumComponent implements OnInit {
 
     this.initFancyBox();
     this.openPic();
+  }
+
+  ngOnDestroy() {
+    jQuery.fancybox.defaults.caption = undefined;
+    jQuery(document).off(this.fancyConfig);
   }
 
   get sizeClass() {
@@ -77,34 +105,16 @@ export class FancyAlbumComponent implements OnInit {
         id = +id.replace('pic-', '');
       }
       const post = this.items.find(i => i.post.id === id).post;
-      const tmpl = `<div class="fb-like"
-      data-href="https://lidikart.com.ua/picture/${id}"
+      const tmpl = `<div class="fb-like" id=fb-like-${id}
+      data-href="https://lidikart.com.ua"
       data-layout="standard"
       data-action="like"
+      data-share="true"
       data-show-faces="false">
       </div>`;
       return `<span>${post.title.rendered}</span>${tmpl}`;
     };
     jQuery.fancybox.defaults.thumbs.autoStart = true;
-    jQuery(document).on({
-      'beforeShow.fb': (e, instance, current, firstRun) => {
-        this.pic = current.opts.picId;
-        this.routeParams.pic = this.pic;
-        this.router.navigate([this.url || AppSettings.ROUTE.GALLERY, this.routeParams]);
-      },
-      'beforeLoad.fb': () => {
-        (<any>window).FB.XFBML.parse(document.getElementById(`fb-like-${this.pic}`));
-      },
-
-      'beforeClose.fb': () => {
-        this.pic = null;
-        delete this.routeParams.pic;
-        if (Object.keys(this.routeParams).length) {
-          this.router.navigate([this.url, this.routeParams]);
-        } else {
-          this.router.navigate([this.url]);
-        }
-      }
-    });
+    jQuery(document).on(this.fancyConfig);
   }
 }

@@ -1,7 +1,8 @@
 export class AppSettings {
     public static ROUTE: any = {
         GALLERY: 'gallery',
-        DECOR: 'decor'
+        DECOR: 'decor',
+        BLOG: 'blog'
     };
 
     public static LANGUAGES = [{

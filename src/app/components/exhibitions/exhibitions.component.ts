@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { AppDataService } from '../../services/app-data.service';
 
@@ -7,16 +7,18 @@ import { AppDataService } from '../../services/app-data.service';
   templateUrl: './exhibitions.component.html',
   styleUrls: ['./exhibitions.component.scss']
 })
-export class ExhibitionsComponent {
+export class ExhibitionsComponent implements OnInit {
 
   exhibitions = [];
   pageData;
 
-  constructor(private dataService: AppDataService) {
-    dataService.pages.subscribe(pages => {
+  constructor(private dataService: AppDataService) { }
+
+  ngOnInit() {
+    this.dataService.pages.subscribe(pages => {
       this.pageData = pages.find(p => p.slug === 'exhibitions');
       if (this.pageData) {
-        this.exhibitions = this.pageData.categories.exhibitions;
+        this.exhibitions = this.pageData.categoriesMap.exhibitions;
       }
     });
   }

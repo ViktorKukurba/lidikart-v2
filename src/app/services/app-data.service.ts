@@ -12,6 +12,8 @@ import { WpPost } from '../interfaces/wp-post';
 
 const SERVICE_URL = '//lidikart.com.ua/wp-json/wp/v2';
 
+// const SERVICE_URL = '//lidikart.loc/wp-json/wp/v2';
+
 @Injectable()
 export class AppDataService {
   languages = AppSettings.LANGUAGES;
@@ -19,6 +21,7 @@ export class AppDataService {
   categories = new BehaviorSubject<Array<WpCategory>>([]);
   posts = new BehaviorSubject<Array<WpPost>>([]);
   category = new Subject<number>();
+  blogs = new BehaviorSubject<Array<any>>([]);
 
   postsMap = {};
   get params() {
@@ -34,15 +37,16 @@ export class AppDataService {
       translate.setDefaultLang('en');
       translate.onLangChange.subscribe(async (event: LangChangeEvent) => {
         await this.loadPageCategories();
+        await this.loadBlogs();
       });
       this.setTranslations();
       translate.use(location.pathname.startsWith('/en') ? 'en' : 'ua');
 
-    this.category.pipe(distinctUntilChanged()).subscribe(categoryId => {
-      this.getPostsByCategories([categoryId]).subscribe((posts) => {
-        this.posts.next(posts);
+      this.category.pipe(distinctUntilChanged()).subscribe(categoryId => {
+        this.getPostsByCategories([categoryId]).subscribe((posts) => {
+          this.posts.next(posts);
+        });
       });
-    });
   }
 
   private setTranslations() {
@@ -54,7 +58,9 @@ export class AppDataService {
       Contact: 'Contact',
       JoinSocial: 'Join us' ,
       FollowSocial: 'Find us in social networks',
-      GoShops: 'Visit me'
+      GoShops: 'Visit me',
+      Details: 'See more',
+      HideDetails: 'Show less'
     });
     this.translate.setTranslation('ua', {
       Series: 'Серії',
@@ -64,7 +70,9 @@ export class AppDataService {
       Contact: 'Контакти',
       JoinSocial: 'Приєднуйтесь',
       FollowSocial: 'Слідкуйте в мережах',
-      GoShops: 'Завітайте на'
+      GoShops: 'Завітайте на',
+      Details: 'Показати більше...',
+      HideDetails: 'Згорнути'
     });
   }
 
@@ -82,16 +90,23 @@ export class AppDataService {
 
   getPostsByCategories(categoriesIds: Array<number|string>): Observable<WpPost[]> {
     const url = `${SERVICE_URL}/posts?per_page=100&categories=${categoriesIds.join(',')}&lang=${this.langValue}`;
-    return new Observable(observer => {
-      if (this.postsMap[url]) {
-        observer.next(this.postsMap[url]);
-        return observer.complete();
-      }
-      this.http.get(url).subscribe((posts) => {
-          this.postsMap[url] = posts;
-          observer.next(this.postsMap[url]);
-          observer.complete();
-        });
+    return this.http.get<WpPost[]>(url);
+    // return new Observable(observer => {
+    //   if (this.postsMap[url]) {
+    //     observer.next(this.postsMap[url]);
+    //     return observer.complete();
+    //   }
+    //   this.http.get(url).subscribe((posts) => {
+    //       this.postsMap[url] = posts;
+    //       observer.next(this.postsMap[url]);
+    //       observer.complete();
+    //     });
+    // });
+  }
+
+  loadBlogs() {
+    this.http.get(`${SERVICE_URL}/blogs`, {params: this.params}).subscribe((blogs: any) => {
+      this.blogs.next(blogs);
     });
   }
 
@@ -105,10 +120,9 @@ export class AppDataService {
       const categories = response[1];
       this.categories.next(categories);
       const langUrl = this.langURLPrefix;
-
       pages.forEach(function(page) {
         const ids = page.categories;
-        page.categories = {};
+        page.categoriesMap = {};
         page.link = langUrl ? `${langUrl}/${page.slug}` : page.slug;
         categories.filter(function(category) {
           return ids.indexOf(category.id) !== -1;
@@ -118,8 +132,8 @@ export class AppDataService {
             const parent = categories.filter((cat) => {
               return cat.id === parentId;
             })[0];
-            page.categories[parent.slug] = page.categories[parent.slug] || [];
-            page.categories[parent.slug].push(category);
+            page.categoriesMap[parent.slug] = page.categoriesMap[parent.slug] || [];
+            page.categoriesMap[parent.slug].push(category);
           }
         });
       });

@@ -3,4 +3,5 @@ export interface WpPage {
     menu_order: number;
     categories: any;
     link?: string;
+    categoriesMap?: any;
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, RoutesRecognized, RouterEvent } from '@angular/router';
+import { Router, RoutesRecognized } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 @Component({

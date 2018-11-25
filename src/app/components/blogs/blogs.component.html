@@ -1,0 +1,10 @@
+<div class="row justify-content-center">
+  <app-post *ngFor="let blog of blogs"
+    class="blog-post-wrapper col-x-sm-12 col-md-9"
+    [class.open]="selectedPost === blog.id"
+    [open]="selectedPost === blog.id"
+    (select)="selectPost($event)"
+    [class.col]="selectedPost === blog.id"
+    [class.col]="selectedPost !== blog.id"
+    [data]="blog"></app-post>
+</div>

@@ -78,7 +78,9 @@ add_filter('image_size_names_choose', 'display_image_sizes');
 remove_filter('template_redirect', 'redirect_canonical');
 // add_action( 'wp_enqueue_scripts', 'my_scripts' );
 add_theme_support('post-thumbnails');
-add_theme_support( 'post-formats', array( 'video' ) );
+add_theme_support('post-formats', array('video'));
+
+require get_parent_theme_file_path( '/inc/blog.php' );
 
 /**
  * Customizer additions.

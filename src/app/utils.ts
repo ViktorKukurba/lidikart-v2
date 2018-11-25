@@ -14,3 +14,16 @@ export default class Utils {
       return str;
     }
 }
+
+export function getTextFromHtml(html) {
+  const div = document.createElement('DIV');
+  div.innerHTML = html;
+  return div.textContent;
+}
+
+export function getShortText(text, len = 300) {
+  if (text.length > len) {
+      return `${text.substr(0, len)}...`;
+  }
+  return text;
+}

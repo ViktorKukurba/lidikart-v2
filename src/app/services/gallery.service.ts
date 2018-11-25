@@ -23,7 +23,7 @@ export class GalleryService {
 
   public static toImageItem(post): LAGalleryItem {
     if (post.format === 'video') {
-      const thumb = `https://img.youtube.com/vi/${GalleryService.extractVideoID(post.acf.url)}/mqdefault.jpg`;
+      const thumb = `https://img.youtube.com/vi/${GalleryService.extractVideoID(post.acf.url)}/sddefault.jpg`;
       return {
         post,
         format: post.format,
@@ -34,16 +34,30 @@ export class GalleryService {
         src: post.acf.url
       };
     }
-    const img = post.better_featured_image.media_details.sizes['img-768'] || post.better_featured_image.media_details.sizes.medium;
+
+    const imgUrl = this.getBigThumbUrl(post);
     return {
       post,
       format: post.format,
       thumb: {
         small: post.better_featured_image.media_details.sizes.medium.source_url,
-        big: img.source_url
+        big: imgUrl
       },
-      src: post.better_featured_image.source_url
+      // src: post.better_featured_image.source_url
+      src: this.getLargestImage(post).source_url
     };
+  }
+
+  private static getLargestImage(post): any {
+    const sizes = post.better_featured_image.media_details.sizes;
+    const maxSize = Object.values(sizes).reduce((prev: any, curr: any) => prev.width > curr.width ? prev : curr);
+    return maxSize;
+  }
+
+  private static getBigThumbUrl(post): any {
+    return (Object.values(post.better_featured_image.media_details.sizes).find((img: any) => {
+      return img.width >= 600;
+    }) || post.better_featured_image).source_url;
   }
 
   private static extractVideoID(url) {
@@ -83,10 +97,10 @@ export class GalleryService {
       if (pages.length) {
         const galleryCategories = pages.filter(function(page) {
           return page.slug === 'gallery';
-        })[0].categories.art;
+        })[0].categoriesMap.art;
         const wallCategories = pages.filter(function(page) {
           return page.slug === 'decor';
-        })[0].categories.production;
+        })[0].categoriesMap.production;
 
         if (galleryCategories.length) {
           galleryCategories.unshift({

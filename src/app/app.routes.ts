@@ -7,6 +7,7 @@ import { ExhibitionsComponent } from './components/exhibitions/exhibitions.compo
 import { ExhibitionComponent } from './components/exhibition/exhibition.component';
 import { StatementComponent } from './components/statement/statement.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
+import { BlogsComponent } from './components/blogs/blogs.component';
 
 import { AppSettings } from './constants';
 
@@ -18,7 +19,7 @@ const ROUTES = [{
     path: AppSettings.ROUTE.GALLERY,
     component: GalleryComponent,
   }, {
-    path: 'decor',
+    path: AppSettings.ROUTE.DECOR,
     component: ProductionComponent
   }, {
     path: 'about',
@@ -44,6 +45,9 @@ const ROUTES = [{
     data: {
       banner: true
     }
+  }, {
+    path: AppSettings.ROUTE.BLOG,
+    component: BlogsComponent
   }
 ];
 
