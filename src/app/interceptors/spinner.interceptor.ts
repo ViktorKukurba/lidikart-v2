@@ -11,7 +11,7 @@ import {
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Injectable()
-export class AppInterceptor implements HttpInterceptor {
+export class SpinnerInterceptor implements HttpInterceptor {
 
     private count = 0;
 

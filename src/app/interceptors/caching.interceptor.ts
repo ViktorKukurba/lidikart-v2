@@ -11,7 +11,6 @@ export class CachingInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
         const cache = this.cache.get(req);
         if (cache) {
-            console.log('cache', cache);
             return of(cache);
         }
         return this.sendRequest(req, next);
@@ -20,13 +19,12 @@ export class CachingInterceptor implements HttpInterceptor {
     private sendRequest(
         req: HttpRequest<any>,
         next: HttpHandler): Observable<HttpEvent<any>> {
-        
-        return next.handle(req).pipe(
-            tap(event => {
-            // There may be other events besides the response.
-            if (event instanceof HttpResponse) {
-                this.cache.set(req, event); // Update the cache.
-            }
-        }));
+            return next.handle(req).pipe(
+                tap(event => {
+                // There may be other events besides the response.
+                if (event instanceof HttpResponse) {
+                    this.cache.set(req, event); // Update the cache.
+                }
+            }));
     }
 }

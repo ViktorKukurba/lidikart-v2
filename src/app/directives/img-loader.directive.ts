@@ -3,7 +3,7 @@ import { Directive, OnInit, Input, HostBinding } from '@angular/core';
 const DEFAULT_IMG =  require('../../assets/images/lidikart.jpg');
 
 @Directive({
-  selector: '[img-loader]',
+  selector: '[appImgLoader]',
 })
 export class ImgLoaderDirective implements OnInit {
   @HostBinding('style.background-size') bgSize = 'cover';
@@ -14,17 +14,17 @@ export class ImgLoaderDirective implements OnInit {
   @HostBinding('class.loaded')
   private loaded = false;
 
-  @Input('img-loader')
-  private url: string;
+  @Input()
+  private appImgLoader: string;
 
   private setImage() {
     this.loaded = true;
-    this.bgImage = `url(${this.url})`;
+    this.bgImage = `url(${this.appImgLoader})`;
   }
 
   ngOnInit() {
     const img: HTMLImageElement = <HTMLImageElement>document.createElement('IMG');
-    img.src = this.url;
+    img.src = this.appImgLoader;
     img.style.display = 'none';
     if (img.complete) {
       this.setImage();

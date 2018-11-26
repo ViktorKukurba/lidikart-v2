@@ -12,7 +12,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 
 import { AppDataService } from './services/app-data.service';
 import { GalleryService } from './services/gallery.service';
-import { AppInterceptor } from './app.interceptor';
+import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 import { CachingInterceptor } from './interceptors/caching.interceptor';
 
 import { GalleryComponent } from './components/gallery/gallery.component';
@@ -60,7 +60,7 @@ import { AppRoutingModule } from './app-routing.module';
   exports: [TranslateModule],
   providers: [AppDataService, GalleryService,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true, },
-    { provide: HTTP_INTERCEPTORS, useClass: AppInterceptor, multi: true, }, ],
+    { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true, }, ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

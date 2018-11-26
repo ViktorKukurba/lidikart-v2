@@ -1,26 +1,4 @@
 <?php
-
-function my_scripts() {
-	$styles = array(
-		'/css/bootstrap.css',
-		'/node_modules/@fancyapps/fancybox/dist/jquery.fancybox.css',
-		'/bower_components/slick-carousel/slick/slick-theme.css',
-		'/bower_components/slick-carousel/slick/slick.css',
-		'/fonts/css/font-awesome.min.css',
-		'/build/lidik-art.css',
-	);
-	add_filter('script_loader_tag', 'add_attribute_to_script', 10, 2);
-	function add_attribute_to_script($tag, $handle) {
-		$format = ' data-main="%s/build/main.js" src';
-    	$dataAttr = sprintf($format, get_template_directory_uri());
-		return str_replace( ' src', $dataAttr, $tag );
-	}
-	wp_enqueue_script('script', get_template_directory_uri() . '/bower_components/requirejs/require.js');
-	foreach ($styles as $index=>$style ) {
-		wp_enqueue_style('style' . $index, get_template_directory_uri() . $style);
-	}
-}
-
 function addScripts() {
 	$scripts = array(
 		'runtime',
@@ -76,7 +54,6 @@ function display_image_sizes($sizes) {
 
 add_filter('image_size_names_choose', 'display_image_sizes');
 remove_filter('template_redirect', 'redirect_canonical');
-// add_action( 'wp_enqueue_scripts', 'my_scripts' );
 add_theme_support('post-thumbnails');
 add_theme_support('post-formats', array('video'));
 

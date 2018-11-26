@@ -34,6 +34,9 @@ $bigThumbHeight: 400px;
     @include imageSize($bigThumbWidth, $bigThumbHeight, 1em);
 
     .image {
+        img {
+            display: inline-block;
+        }
         a {
             overflow: hidden;
             display: inline-block;

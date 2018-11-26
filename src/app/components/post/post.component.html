@@ -3,11 +3,11 @@
         <h3 *ngIf="title" class="d-inline-block mr-2" [innerHTML]="title"></h3><span>{{publishDate}}</span>
     </header>
     <div *ngIf="!open; else fullPost" class="text-justify">
-        <img class="thumbnail" [img-loader]="image">
+        <img class="thumbnail" [appImgLoader]="image">
       <!-- <a href="{{image}}"
         class="thumbnail fancybox slide post"
         data-fancybox="blog">
-        <img [img-loader]="image">
+        <img [appImgLoader]="image">
       </a> -->
       {{shortText}} <a (click)="toggle()" translate>Details</a>
     </div>

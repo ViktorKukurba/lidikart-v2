@@ -21,7 +21,7 @@ export class BlogsComponent implements OnInit {
     this.selectedPost = Number(this.route.snapshot.params.post);
     this.route.params.subscribe(params => {
       this.selectedPost = +params.post;
-    })
+    });
   }
 
   get urlPath() {
