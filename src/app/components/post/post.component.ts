@@ -25,13 +25,13 @@ export class PostComponent implements OnInit {
   }
 
   get images() {
-    const pattern = /src="([^\"]+)/mg;
-    const images = this.data.content.rendered.match(pattern);
-    return images.map(i => i.replace('src="', ''));
+    const pattern = /<img.*src="([^\"]+)/mg;
+    const images = pattern.exec(this.data.content.rendered);
+    return images;
   }
 
   get image() {
-    return this.images.length && this.images[0];
+    return this.images.length && this.images[1];
   }
 
   get publishDate() {

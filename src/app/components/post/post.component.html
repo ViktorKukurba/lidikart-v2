@@ -1,6 +1,6 @@
-<div *ngIf="data" class="blog-post p-4 m-2" [class.open]="open">
+<div *ngIf="data" class="blog-post p-4 my-2" [class.open]="open">
     <header>
-        <h3 *ngIf="title" class="d-inline-block mr-2" [innerHTML]="title"></h3><span>{{publishDate}}</span>
+        <h4 *ngIf="title" class="d-inline-block mr-2" [innerHTML]="title"></h4><span>{{publishDate}}</span>
     </header>
     <div *ngIf="!open; else fullPost" class="text-justify">
         <img class="thumbnail" [appImgLoader]="image">

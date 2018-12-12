@@ -1,5 +1,6 @@
+
+import { throwError as observableThrowError,  Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import {
     HttpEvent,
@@ -27,7 +28,7 @@ export class SpinnerInterceptor implements HttpInterceptor {
 
         handleObs.pipe(catchError((err: any) => {
             this.count--;
-            return Observable.throw(err);
+            return observableThrowError(err);
         }), tap(event => {
             if (event instanceof HttpResponse) {
                 this.count--;

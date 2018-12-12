@@ -65,7 +65,7 @@
             $lang = (strpos($_SERVER[REQUEST_URI], "/en/") === 0) ? 'en' : 'uk';
             $title = qtrans_use($lang, $post->post_title,false);
             $content = $post->post_content;
-            preg_match('/ src="([^\"]+)/', $content, $image);
+            preg_match('/img.*src="([^\"]+)/', $content, $image);
             $lang = (strpos($_SERVER[REQUEST_URI], "/en/") === 0) ? 'en' : 'uk';
             $desc = qtrans_use($lang, $content, false);
 
@@ -81,4 +81,3 @@
     }
 
     add_action('wp_head', 'hook_meta');
-    

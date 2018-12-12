@@ -6,13 +6,18 @@
     }
 }
 
+:host ::ng-deep img.aligncenter {
+  display: block;
+  margin: auto
+}
+
 // .col-8 {
 //     flex-grow: 1;
 //     transition: all 400ms ease;
 //   }
-  
+
 //   .col-0 {
-//     width: 0; 
+//     width: 0;
 //     flex-shrink: 1;
 //     transition: all 400ms ease;
 //   }
