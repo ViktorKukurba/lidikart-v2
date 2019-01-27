@@ -10,7 +10,7 @@ bundler.bundleTemplates();
 
 const baseDestination = `/var/www/wp_lidikart/wp-content/themes/lidikart-v${pjson.version}/`;
 const FOLDERS_FILES_TO_COPY = ['dist', 'inc', 'functions.php', 'index.php', 'header.php', 'footer.php', 'style.css', 'screenshot.png'];
-
+console.log('baseDestination', baseDestination);
 const errorHandler = function(source) {
   return function (err) {
     if (err) {

@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AppDataService } from '../../services/app-data.service';
+import { Store } from '@ngrx/store';
+import { AppState, selectPageBySlug, selectPageCategories } from '../../store/reducers';
+import { Observable } from 'rxjs';
+import { WpPage } from '../../interfaces/wp-page';
+import { WpCategory } from '../../interfaces/wp-category';
 
 @Component({
   selector: 'app-exhibitions',
@@ -8,18 +12,14 @@ import { AppDataService } from '../../services/app-data.service';
   styleUrls: ['./exhibitions.component.scss']
 })
 export class ExhibitionsComponent implements OnInit {
+  exhibitions: Observable<WpCategory[]>;
+  pageData: Observable<WpPage>;
 
-  exhibitions = [];
-  pageData;
-
-  constructor(private dataService: AppDataService) { }
+  private readonly slug = 'exhibitions';
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
-    this.dataService.pages.subscribe(pages => {
-      this.pageData = pages.find(p => p.slug === 'exhibitions');
-      if (this.pageData) {
-        this.exhibitions = this.pageData.categoriesMap.exhibitions;
-      }
-    });
+    this.pageData = this.store.select(selectPageBySlug, this.slug);
+    this.exhibitions = this.store.select(selectPageCategories(this.slug));
   }
 }

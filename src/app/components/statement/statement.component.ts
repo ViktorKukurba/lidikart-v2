@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
-import { AppDataService } from '../../services/app-data.service';
 import { WpPage } from '../../interfaces/wp-page';
+import { AppState, selectPageBySlug } from '../../store/reducers';
 
 @Component({
   selector: 'app-statement',
@@ -9,10 +11,8 @@ import { WpPage } from '../../interfaces/wp-page';
   styleUrls: ['./statement.component.scss']
 })
 export class StatementComponent {
-  pageData: WpPage;
-  constructor(private dataService: AppDataService) {
-    dataService.pages.subscribe(pages => {
-      this.pageData = pages.find(p => p.slug === 'statement');
-    });
+  pageData: Observable<WpPage>;
+  constructor(private store: Store<AppState>) {
+    this.pageData = this.store.select(selectPageBySlug, 'statement');
   }
 }

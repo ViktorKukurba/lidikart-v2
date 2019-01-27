@@ -1,5 +1,5 @@
 <div class="row grids exhibitions text-center mt-4 mr-0 ml-0">
-    <div class="col-md-5 col-xs-12 offset-md-1 pb-4 exhibition" *ngFor="let exhibition of exhibitions">
+    <div class="col-md-5 col-xs-12 offset-md-1 pb-4 exhibition" *ngFor="let exhibition of (exhibitions | async)">
         <div class="view view-tenth">
             <a [routerLink]="exhibition.id">
                 <div class="exhibition-image pt-1">

@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { switchMap, map, filter } from 'rxjs/operators';
 
-import { GalleryService } from '../../services/gallery.service';
 import { AppDataService } from '../../services/app-data.service';
 import Utils from '../../utils';
-import { WpPost } from '../../interfaces/wp-post';
+import { AppState, selectCategoryById, selectExhibitionImages } from '../../store/reducers';
+import { WpCategory } from '../../interfaces/wp-category';
+import { LAGalleryItem } from '../../types';
+import { LoadExhibitionPosts } from '../../store/actions/posts';
 
 @Component({
   selector: 'app-exhibition',
@@ -12,28 +17,26 @@ import { WpPost } from '../../interfaces/wp-post';
   styleUrls: ['./exhibition.component.scss']
 })
 export class ExhibitionComponent {
-  pictures = [];
+  pictures: Observable<LAGalleryItem[]>;
   categoryId: number;
-  exhibition;
+  exhibition$: Observable<WpCategory>;
   pic;
   constructor(
+    private store: Store<AppState>,
     private dataService: AppDataService,
-    private galleryService: GalleryService,
     private route: ActivatedRoute) {
-      route.params.subscribe(p => {
-        this.pic = p.pic;
-        this.categoryId = Number(p.id);
-        dataService.setCategory(this.categoryId);
-      });
-
-      dataService.categories.subscribe(categories => {
-        if (this.categoryId && categories.length) {
-          this.exhibition = categories.find(c => c.id === this.categoryId);
-          this.exhibition.description = Utils.translate(this.exhibition.description, dataService.langValue);
-        }
-      });
-      dataService.posts.subscribe((posts: Array<WpPost>) => {
-        this.pictures = GalleryService.formatPosts(posts, this.categoryId);
-      });
+      this.exhibition$ = this.route.params.pipe(
+        switchMap(({pic, id}) => {
+          const catId = Number(id);
+          this.pic = pic;
+          this.store.dispatch(new LoadExhibitionPosts([catId]));
+          return this.store.pipe(select(selectCategoryById, catId));
+        }),
+        filter(exhibition => Boolean(exhibition)),
+        map(exhibition => {
+          exhibition.description = Utils.translate(exhibition.description, this.dataService.langValue);
+          return exhibition;
+        }));
+      this.pictures = this.store.select(selectExhibitionImages);
   }
 }

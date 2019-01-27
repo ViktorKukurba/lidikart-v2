@@ -12,7 +12,6 @@ export class HttpCache {
     get(req: HttpRequest<any>): HttpResponse<any> | null {
         const entry = this.cacheMap.get(req.urlWithParams);
         if (entry) {
-            console.log((Date.now() - entry.time));
             if ((Date.now() - entry.time) > MAX_CACHE_AGE) {
                 this.cacheMap.delete(req.urlWithParams);
                 return null;

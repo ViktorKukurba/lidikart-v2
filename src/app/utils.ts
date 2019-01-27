@@ -27,3 +27,7 @@ export function getShortText(text, len = 300) {
   }
   return text;
 }
+
+export function pageY() {
+  return window.pageYOffset || document.documentElement.scrollTop;
+}

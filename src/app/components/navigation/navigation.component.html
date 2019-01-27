@@ -7,7 +7,7 @@
     <div class="navicon"></div>
   </button>
   <div class="collapse navbar-collapse align-items-stretch" id="navbarNavAltMarkup">
-    <div class="navbar-nav dropdown align-items-center" *ngFor="let page of pages" routerLinkActive="active" [ngClass]="{active2: page.slug === 'gallery' && router.url === ('/' + dataService.langURLPrefix)}">
+    <div class="navbar-nav dropdown align-items-center" *ngFor="let page of (pages | async)" routerLinkActive="active" [ngClass]="{active2: page.slug === 'gallery' && router.url === ('/' + dataService.langURLPrefix)}">
       <a class="nav-item nav-link w-100 text-center p-md-2 py-2" [routerLink]="page.link">{{page.title.rendered}}</a>
     </div>
     <div class="dropdown-divider"></div>

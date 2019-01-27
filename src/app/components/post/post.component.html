@@ -4,11 +4,6 @@
     </header>
     <div *ngIf="!open; else fullPost" class="text-justify">
         <img class="thumbnail" [appImgLoader]="image">
-      <!-- <a href="{{image}}"
-        class="thumbnail fancybox slide post"
-        data-fancybox="blog">
-        <img [appImgLoader]="image">
-      </a> -->
       {{shortText}} <a (click)="toggle()" translate>Details</a>
     </div>
     <ng-template #fullPost>

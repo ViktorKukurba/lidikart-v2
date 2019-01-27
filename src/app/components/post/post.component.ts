@@ -78,15 +78,18 @@ export class PostComponent implements OnInit {
       post: this.data.id,
       selected: !this.open
     });
-    setTimeout(() => {
-      FB.XFBML.parse(this.container.nativeElement);
-    });
+    this.openHandler();
   }
 
   ngOnInit() {
     jQuery.fancybox.defaults.hash = false;
+    this.openHandler();
+  }
+
+  private openHandler() {
     if (this.open) {
       setTimeout(() => {
+        window.scrollTo(0, this.container.nativeElement.getBoundingClientRect().top);
         FB.XFBML.parse(this.container.nativeElement);
       });
     }

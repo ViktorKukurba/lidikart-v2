@@ -4,4 +4,5 @@ export interface WpPage {
     categories: any;
     link?: string;
     categoriesMap?: any;
+    content?: any;
 }

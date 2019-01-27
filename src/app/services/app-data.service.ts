@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, forkJoin, BehaviorSubject, Subject } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 
 import { AppSettings } from '../constants';
 import { WpPage } from '../interfaces/wp-page';
 import { WpCategory } from '../interfaces/wp-category';
 import Utils from '../utils';
 import { WpPost } from '../interfaces/wp-post';
+import { AppState } from '../store/reducers';
+import { LoadPages } from '../store/actions/pages';
+import { LoadCategories } from '../store/actions/categories';
 
 const SERVICE_URL = '//lidikart.com.ua/wp-json/wp/v2';
 
@@ -17,11 +20,6 @@ const SERVICE_URL = '//lidikart.com.ua/wp-json/wp/v2';
 @Injectable()
 export class AppDataService {
   languages = AppSettings.LANGUAGES;
-  pages = new BehaviorSubject<Array<WpPage>>([]);
-  categories = new BehaviorSubject<Array<WpCategory>>([]);
-  posts = new BehaviorSubject<Array<WpPost>>([]);
-  category = new Subject<number>();
-  blogs = new BehaviorSubject<Array<any>>([]);
 
   postsMap = {};
   get params() {
@@ -32,21 +30,16 @@ export class AppDataService {
   }
 
   constructor(
+    private store: Store<AppState>,
     public http: HttpClient,
     public translate: TranslateService) {
       translate.setDefaultLang('en');
       translate.onLangChange.subscribe(async (event: LangChangeEvent) => {
-        await this.loadPageCategories();
-        await this.loadBlogs();
+        this.store.dispatch(new LoadPages());
+        this.store.dispatch(new LoadCategories());
       });
       this.setTranslations();
       translate.use(location.pathname.startsWith('/en') ? 'en' : 'ua');
-
-      this.category.pipe(distinctUntilChanged()).subscribe(categoryId => {
-        this.getPostsByCategories([categoryId]).subscribe((posts) => {
-          this.posts.next(posts);
-        });
-      });
   }
 
   private setTranslations() {
@@ -76,10 +69,6 @@ export class AppDataService {
     });
   }
 
-  public setCategory(categoryId) {
-    this.category.next(categoryId);
-  }
-
   get langURLPrefix() {
     return AppSettings.LANGUAGES.find(l => l.value === this.langValue).path;
   }
@@ -88,57 +77,21 @@ export class AppDataService {
     return this.translate.currentLang;
   }
 
-  getPostsByCategories(categoriesIds: Array<number|string>): Observable<WpPost[]> {
+  loadPostsByCategories(categoriesIds: Array<number|string>): Observable<WpPost[]> {
     const url = `${SERVICE_URL}/posts?per_page=100&categories=${categoriesIds.join(',')}&lang=${this.langValue}`;
     return this.http.get<WpPost[]>(url);
-    // return new Observable(observer => {
-    //   if (this.postsMap[url]) {
-    //     observer.next(this.postsMap[url]);
-    //     return observer.complete();
-    //   }
-    //   this.http.get(url).subscribe((posts) => {
-    //       this.postsMap[url] = posts;
-    //       observer.next(this.postsMap[url]);
-    //       observer.complete();
-    //     });
-    // });
   }
 
-  loadBlogs() {
-    this.http.get(`${SERVICE_URL}/blogs`, {params: this.params}).subscribe((blogs: any) => {
-      this.blogs.next(blogs);
-    });
+  loadPages(): Observable<WpPage[]> {
+    return this.http.get<WpPage[]>(`${SERVICE_URL}/pages`, {params: this.params});
   }
 
-  loadPageCategories() {
-    const pagesReq =  this.http.get(`${SERVICE_URL}/pages`, {params: this.params});
-    const categoriesReq = this.http.get(`${SERVICE_URL}/categories`, {params: this.params});
-    return forkJoin([pagesReq, categoriesReq]).subscribe((response: [Array<WpPage>, Array<WpCategory>]) => {
-      const pages = response[0].filter(page => page.slug !== 'production').sort((a, b) => {
-        return a.menu_order - b.menu_order;
-      });
-      const categories = response[1];
-      this.categories.next(categories);
-      const langUrl = this.langURLPrefix;
-      pages.forEach(function(page) {
-        const ids = page.categories;
-        page.categoriesMap = {};
-        page.link = langUrl ? `${langUrl}/${page.slug}` : page.slug;
-        categories.filter(function(category) {
-          return ids.indexOf(category.id) !== -1;
-        }).forEach(function(category) {
-          const parentId = category.parent;
-          if (parentId) {
-            const parent = categories.filter((cat) => {
-              return cat.id === parentId;
-            })[0];
-            page.categoriesMap[parent.slug] = page.categoriesMap[parent.slug] || [];
-            page.categoriesMap[parent.slug].push(category);
-          }
-        });
-      });
-      this.pages.next(pages);
-    });
+  loadCategories(): Observable<WpCategory[]> {
+    return this.http.get<WpCategory[]>(`${SERVICE_URL}/categories`, {params: this.params});
+  }
+
+  loadBlogs(): Observable<[]> {
+    return this.http.get<[]>(`${SERVICE_URL}/blogs`, {params: this.params});
   }
 
   public getContactsData() {

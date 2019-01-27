@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { AppDataService } from '../../services/app-data.service';
 import { WpPage } from '../../interfaces/wp-page';
+import { AppState, selectPages } from '../../store/reducers';
 
 @Component({
   selector: 'app-navigation',
@@ -10,19 +14,19 @@ import { WpPage } from '../../interfaces/wp-page';
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent {
-  private routeParams: {lang?: String} = {};
-  private url = '';
-  pages: Array<WpPage> = [];
+  pages: Observable<WpPage[]>;
   languages: Array<any>;
 
   constructor(
     public dataService: AppDataService,
+    private store: Store<AppState>,
     private router: Router) {
       this.languages = this.dataService.languages;
-
-      this.dataService.pages.subscribe((pages: Array<WpPage>) => {
-        this.pages = pages;
-      });
+      const langUrl = this.dataService.langURLPrefix;
+      this.pages = this.store.pipe(select(selectPages), map(pages => pages.map(page => {
+        page.link = langUrl ? `${langUrl}/${page.slug}` : page.slug;
+        return page;
+      })));
     }
 
   navigateTo(page) {

@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { AppSettings } from '../../constants';
 import { LAGalleryItem } from '../../types';
+import { Observable } from 'rxjs';
 declare var jQuery: any;
 
 @Component({
@@ -12,13 +13,15 @@ declare var jQuery: any;
 })
 export class FancyAlbumComponent implements OnInit, OnDestroy {
   @Input()
-  items: Array<LAGalleryItem> = [];
+  items: Observable<LAGalleryItem[]>;
   @Input()
   pic: number;
   @Input()
   size: 'big';
   url: String;
   routeParams;
+
+  private pictures: LAGalleryItem[] = [];
 
   private fancyConfig = {
     'beforeShow.fb': (e, instance, current, firstRun) => {
@@ -62,6 +65,10 @@ export class FancyAlbumComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.items.subscribe(items => {
+      this.pictures = items;
+    });
+
     this.initFancyBox();
     this.openPic();
   }
@@ -87,7 +94,7 @@ export class FancyAlbumComponent implements OnInit, OnDestroy {
   private openPic() {
     if (this.pic) {
       const click = () => {
-        if (this.items.length) {
+        if (this.pictures.length) {
           jQuery(`[data-pic-id="${this.pic}"]`).click();
         } else {
           setTimeout(click, 1e1);
@@ -104,7 +111,7 @@ export class FancyAlbumComponent implements OnInit, OnDestroy {
       if (typeof id === 'string') {
         id = +id.replace('pic-', '');
       }
-      const post = this.items.find(i => i.post.id === id).post;
+      const post = this.pictures.find(i => i.post.id === id).post;
       const tmpl = `<div class="fb-like" id=fb-like-${id}
       data-href="https://lidikart.com.ua"
       data-layout="standard"

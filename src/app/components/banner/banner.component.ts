@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RoutesRecognized } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-banner',
@@ -8,14 +9,10 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./banner.component.scss']
 })
 export class BannerComponent {
-  show = false;
+  show$: Observable<Boolean>;
   constructor(private router: Router) {
-    router.events.pipe(filter(e => e instanceof RoutesRecognized)).subscribe((e: RoutesRecognized) => {
-      this.show = Boolean(e.state.root.firstChild.data.banner);
-    });
-  }
-
-  get height() {
-    return this.show ? 101 : 1;
+    this.show$ = this.router.events.pipe(
+      filter(e => e instanceof RoutesRecognized),
+      map((e: RoutesRecognized) => Boolean(e.state.root.firstChild.data.banner)));
   }
 }

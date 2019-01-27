@@ -3,7 +3,7 @@
     <div class="row text-center text-md-left">
       <div class="col-md-4 col-xs-12 col-sm-4 d-none d-sm-inline-block">
         <ul class="site-map" >
-          <li *ngFor="let page of pages">
+          <li *ngFor="let page of (pages | async)">
             <a [routerLink]="page.link">{{page.title.rendered}}</a>
           </li>
         </ul>
@@ -26,7 +26,7 @@
         </ul>
       </div>
       <div class="col-12 copy-right text-center">
-          <p>&copy; 2015 All Rights Reserved Designed by <a href="#">LidikART</a> </p>
+          <p>&copy; 2015 All Rights Reserved Designed by <a [routerLink]="dataService.langURLPrefix">LidikART</a><span class="version">ver. {{version}}</span></p>
         </div>
     </div>
   </div>

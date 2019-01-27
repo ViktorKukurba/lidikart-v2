@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { TranslateModule } from '@ngx-translate/core';
@@ -10,8 +12,10 @@ import 'hammerjs';
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 
+import { pagesReducer, categoriesReducer, blogsReducer, postsReducer, errorReducer } from './store/reducers';
+import { PagesEffects, CategoriesEffects, BlogsEffects, PostsEffects } from './store/effects';
+
 import { AppDataService } from './services/app-data.service';
-import { GalleryService } from './services/gallery.service';
 import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 import { CachingInterceptor } from './interceptors/caching.interceptor';
 
@@ -53,12 +57,19 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    StoreModule.forRoot({}),
+    StoreModule.forFeature('pages', pagesReducer),
+    StoreModule.forFeature('categories', categoriesReducer),
+    StoreModule.forFeature('blogs', blogsReducer),
+    StoreModule.forFeature('posts', postsReducer),
+    StoreModule.forFeature('errorList', errorReducer),
+    EffectsModule.forRoot([PagesEffects, CategoriesEffects, BlogsEffects, PostsEffects]),
     TranslateModule.forRoot(),
     Ng4LoadingSpinnerModule.forRoot(),
     AppRoutingModule,
   ],
   exports: [TranslateModule],
-  providers: [AppDataService, GalleryService,
+  providers: [AppDataService,
     { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true, },
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true, }, ],
   bootstrap: [AppComponent]

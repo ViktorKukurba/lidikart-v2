@@ -1,4 +1,4 @@
-<div class="banner-wrapper" [ngClass]="{open: show}">
+<div class="banner-wrapper" [ngClass]="{open: (show$ | async)}">
   <div class="banner" appImgLoader="https://lidikart.com.ua/wp-content/themes/lidik-art/images/banner.jpg"></div>
   <div class="line"></div>
 </div>

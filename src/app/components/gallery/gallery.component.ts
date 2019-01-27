@@ -1,68 +1,75 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { map, filter, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
-import { GalleryService } from '../../services/gallery.service';
+import { pageY } from '../../utils';
 import { AppDataService } from '../../services/app-data.service';
 import { AppSettings } from '../../constants';
 import { WpCategory } from '../../interfaces/wp-category';
 import { LAGalleryItem } from '../../types';
+import { AppState, selectGalleryImages, selectPageCategories, selectGallery, selectCategoryById } from '../../store/reducers';
+import { LoadGalleryPosts, SelectGalleryCategory } from '../../store/actions/posts';
 
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.scss']
 })
-export class GalleryComponent implements AfterViewInit {
-  categories: Array<any> = [];
-  pictures = [];
+export class GalleryComponent implements AfterViewInit, OnDestroy {
+  categories$: Observable<WpCategory[]>;
+  pictures: Observable<LAGalleryItem[]>;
   albumState: {pic?: string} = {};
-  private serie_;
+  serie$: Observable<WpCategory>;
   @ViewChild('filter')
-  private navigation;
-  private top_;
-  category;
-  GALLERY_PATH = AppSettings.ROUTE.GALLERY;
+  private navigation: ElementRef;
+  private top_: number;
+  private slug = AppSettings.ROUTE.GALLERY;
+  private scrollHandler = (evt => {
+    const nav = this.navigation.nativeElement;
+    if (pageY() >= this.top_) {
+      nav.classList.add('fixed');
+    } else {
+      nav.classList.remove('fixed');
+    }
+  }).bind(this);
   constructor(
-    private galleryService: GalleryService,
+    private store: Store<AppState>,
     private appService: AppDataService,
     private route: ActivatedRoute) {
+      this.categories$ = this.store.pipe(
+        select(selectPageCategories(this.slug)),
+        map(categories => {
+          return categories.filter(c => c.slug !== 'general' && !(c.slug && c.slug.includes('-no-show')));
+        }));
+      this.categories$.pipe(filter(categories => Boolean(categories.length))).subscribe(categories => {
+        this.store.dispatch(new LoadGalleryPosts(categories.map(c => c.id)));
+      });
+      this.pictures = this.store.select(selectGalleryImages);
 
-    this.galleryService.galleryCategories.subscribe((categories: Array<WpCategory>) => {
-      this.categories = categories.filter(c => c.slug !== 'general' && !(c.slug && c.slug.includes('-no-show')));
-    });
+      this.serie$ = this.store.pipe(
+        select(selectGallery),
+        switchMap(({category}) => this.store.select(selectCategoryById, category)));
 
-    this.galleryService.filteredImages.subscribe((posts: Array<LAGalleryItem>) => {
-      this.pictures = posts;
-    });
+      this.route.params.subscribe(params => {
+        this.albumState = params;
+        const serie = params.serie ? Number(params.serie) : null;
+        this.store.dispatch(new SelectGalleryCategory(serie));
+      });
 
-    this.route.params.subscribe(params => {
-      this.albumState = params;
-      this.serie_ = params.serie ? Number(params.serie) : undefined;
-      this.category = this.categories.find(c => c.id === this.serie_);
-      this.galleryService.setImagesSerie(params.serie);
-    });
-
-    window.addEventListener('scroll', evt => {
-      const pageY = window.pageYOffset || document.documentElement.scrollTop,
-          nav = this.navigation.nativeElement;
-
-      if (pageY >= this.top_) {
-        nav.classList.add('fixed');
-      } else {
-        nav.classList.remove('fixed');
-      }
-    });
+      window.addEventListener('scroll', this.scrollHandler);
   }
 
   ngAfterViewInit() {
-    this.top_ = this.navigation.nativeElement.getBoundingClientRect().top;
+    this.top_ = pageY() + this.navigation.nativeElement.getBoundingClientRect().top;
+  }
+
+  ngOnDestroy() {
+    window.removeEventListener('scroll', this.scrollHandler);
   }
 
   get urlPath() {
-    return `/${this.appService.langURLPrefix}/${this.GALLERY_PATH}`;
-  }
-
-  get serie() {
-    return this.categories.find(c => c.id === this.serie_);
+    return `/${this.appService.langURLPrefix}/${this.slug}`;
   }
 }

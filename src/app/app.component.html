@@ -5,7 +5,7 @@
             <app-navigation></app-navigation>
         </div>
         <app-banner #banner class="col-12"></app-banner>
-        <div [@myAnimation]="getState(o)" class="col-md-10 offset-md-1 app-content" [ngStyle]="{'min-height': contentHeight}">
+        <div [@pagesAnimation]="getState(o)" class="col-md-10 offset-md-1 app-content" [ngStyle]="{'min-height': contentHeight}">
             <router-outlet #o="outlet" class="route-content"></router-outlet>
         </div>
         <div #footer class="col-12">
@@ -13,3 +13,14 @@
         </div>
     </div>
 </div>
+<ng-container *ngIf="(errorList$ | async) as errorList">
+    <div class="error-list px-3 pb-0 pt-3" *ngIf="errorList.length">
+        <div class="alert alert-danger alert-dismissible" role="alert" aria-label="Close" *ngFor="let error of errorList">
+          Error message: {{error}}
+          Try to reload page or check internet connection.
+          <button type="button" class="close" (click)="dismissError(error)" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+      </div>
+</ng-container>

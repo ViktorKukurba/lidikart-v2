@@ -8,6 +8,10 @@
     border-right: white 1px solid;
   }
 
+  .version {
+    opacity: .5;
+  }
+
   ul.site-map {
     columns: 2;
     -webkit-columns: 2;
@@ -46,7 +50,7 @@
       }
     }
   }
-  
+
   ul {
     list-style:none;
     padding: 0;

@@ -1,19 +1,24 @@
 <div id="galleries-navigation" #filter>
-  <ul *ngIf="categories && categories.length" class="nav d-none d-lg-block text-center p-1">
-    <li *ngFor="let cat of categories; let i = index" class="nav-item p-2">
-      <a *ngIf="cat.id" [routerLink]="[urlPath, {'serie': cat.id}]" class="nav-link" [ngClass]="{active: cat.id === serie_}">{{cat.name}}</a>
-      <a *ngIf="!cat.id" [routerLink]="[urlPath]" class="nav-link" [ngClass]="{active: !serie_}">{{cat.name}}</a>
+  <ul *ngIf="(categories$ | async).length" class="nav d-none d-lg-block text-center p-1">
+    <li class="nav-item p-2">
+        <a [routerLink]="[urlPath]" class="nav-link" [ngClass]="{active: !(serie$ | async)}" translate>All</a>
+    </li>
+    <li *ngFor="let cat of (categories$ | async); let i = index" class="nav-item p-2">
+      <a *ngIf="cat.id" [routerLink]="[urlPath, {'serie': cat.id}]" class="nav-link" [ngClass]="{active: (serie$ | async) && cat.id === (serie$ | async).id}">{{cat.name}}</a>
     </li>
   </ul>
-  <div *ngIf="serie" class="dropdown d-lg-none text-center p-1">
+  <div class="dropdown d-lg-none text-center p-1">
     <span translate>Series</span>:
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      {{serie.name}}
+      <ng-container *ngIf="(serie$ | async)">
+          {{(serie$ | async).name}}
+      </ng-container>
+      <ng-container *ngIf="!(serie$ | async)"><span translate>All</span></ng-container>
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <ng-container *ngFor="let cat of categories; let i = index">
-          <a *ngIf="!cat.id" [routerLink]="[urlPath]" class="nav-link" [ngClass]="{active: !serie_}" translate>All</a>
-          <a *ngIf="cat.id" [routerLink]="[urlPath, {'serie': cat.id}]"  class="nav-link" [ngClass]="{active: cat.id === serie_}">{{cat.name}}</a>
+      <a [routerLink]="[urlPath]" class="nav-link" [ngClass]="{active: !(serie$ | async)}" translate>All</a>
+      <ng-container *ngFor="let cat of (categories$ | async); let i = index">
+        <a *ngIf="cat.id" [routerLink]="[urlPath, {'serie': cat.id}]"  class="nav-link" [ngClass]="{active: (serie$ | async) && cat.id === (serie$ | async).id}">{{cat.name}}</a>
       </ng-container>
     </div>
   </div>
