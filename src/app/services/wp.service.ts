@@ -27,7 +27,7 @@ export class WpService {
 
   loadPostsByCategories(categoriesIds: Array<number>): Observable<WpPost[]> {
     return this.http.get<WpPost[]>(`${this.SERVICE_URL}/posts`, {
-      params: {...this.params, categories: categoriesIds.map(String)}});
+      params: {...this.params, categories: categoriesIds.map(String).join(',')}});
   }
 
   loadPages(): Observable<WpPage[]> {

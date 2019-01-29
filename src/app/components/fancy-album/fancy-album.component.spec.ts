@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
+import { of } from 'rxjs';
 
 import { FancyAlbumComponent } from './fancy-album.component';
-import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
 import { MockRouter } from '../../mocks/router';
-import { of } from 'rxjs';
 import { ImgLoaderDirective } from '../../directives/img-loader.directive';
 
 describe('FancyAlbumComponent', () => {
@@ -17,7 +17,7 @@ describe('FancyAlbumComponent', () => {
         {provide: Router, useClass: MockRouter},
         {provide: ActivatedRoute, useValue: {
           params: of(convertToParamMap({})),
-          url: of('')
+          url: of([{path: ''}])
         }}
       ]
     })

@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "9"
+  - "10"
 dist: trusty
 sudo: required
 
@@ -13,4 +13,14 @@ before_script:
 
 script:
 - ng lint
-- ng build --prod --base-href https://viktorkukurba.gitlab.io/lidikart-v2
+- npm run test:headless
+- ng build --prod --base-href /lidikart-v2/
+- cp dist/lidikart-v2/index.html dist/lidikart-v2/404.html
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: dist/lidikart-v2
+  on:
+    branch: master

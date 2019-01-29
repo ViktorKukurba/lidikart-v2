@@ -27,7 +27,7 @@ import { DismissErrorAction } from './store/actions';
 export class AppComponent implements OnInit {
   errorList$: Observable<string[]>;
   private prevPage;
-  private pagesOrderMap;
+  private pagesOrderMap = {};
   @ViewChild('header')
   private header;
   @ViewChild('banner', {read: ElementRef})

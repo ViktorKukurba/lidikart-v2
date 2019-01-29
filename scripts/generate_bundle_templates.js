@@ -1,6 +1,6 @@
 var path = require('path');
 var fs = require('fs');
-var distFolder = path.resolve(__dirname, '../dist');
+var distFolder = path.resolve(__dirname, '../dist/lidikart-v2');
 var index = path.resolve(distFolder, 'index.html');
 var header = path.resolve(distFolder, 'header.html');
 var body = path.resolve(distFolder, 'body.html');

@@ -57,7 +57,7 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({...reducers}),
+    StoreModule.forRoot(reducers),
     EffectsModule.forRoot([PagesEffects, CategoriesEffects, BlogsEffects, PostsEffects]),
     TranslateModule.forRoot(),
     Ng4LoadingSpinnerModule.forRoot(),

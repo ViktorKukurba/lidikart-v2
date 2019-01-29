@@ -31,7 +31,6 @@ export const reducers: ActionReducerMap<AppState> = {
 };
 
 export function errorReducer(state = [], action: ErrorActions) {
-  console.log('action.type', action.type);
   switch (action.type) {
     case ErrorTypes.ActionError: return [action.payload, ...state];
     case ErrorTypes.DismissError: return state.filter(e => e !== action.payload);

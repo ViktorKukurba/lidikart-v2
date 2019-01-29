@@ -8,9 +8,9 @@
     ga('send', 'pageview');
 
 </script>
-<?php 
-wp_footer(); 
-require get_template_directory()."/dist/body.html";
+<?php
+wp_footer();
+require get_template_directory()."/dist/lidikart-v2/body.html";
 ?>
 
 </body>

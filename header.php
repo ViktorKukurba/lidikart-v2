@@ -12,7 +12,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <?php
     require get_parent_theme_file_path('/inc/meta.php');
-    require get_template_directory()."/dist/header.html";
+    require get_template_directory()."/dist/lidikart-v2/header.html";
     wp_head();
     ?>
 </head>

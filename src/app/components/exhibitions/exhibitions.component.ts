@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Store } from '@ngrx/store';
-import { AppState, selectPageBySlug, selectPageCategories } from '../../store/reducers';
 import { Observable } from 'rxjs';
+
+import { AppState, selectPageBySlug, selectPageCategories } from '../../store/reducers';
 import { WpPage } from '../../interfaces/wp-page';
 import { WpCategory } from '../../interfaces/wp-category';
 

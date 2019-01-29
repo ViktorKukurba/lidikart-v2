@@ -1,7 +1,7 @@
 const exec = require('child_process').exec;
 const pjson = require('../package.json');
 
-const deployUrl = `wp-content/themes/lidikart-v${pjson.version}/dist/`
+const deployUrl = `wp-content/themes/lidikart-v${pjson.version}/dist/lidikart-v2/`
 
 const cmd = `ng build --prod --deploy-url=\"${deployUrl}\"`
 

@@ -2,7 +2,7 @@ import { Component, ViewChild, AfterViewInit, ElementRef, OnDestroy } from '@ang
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { map, filter, switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { pageY } from '../../utils';
 import { AppDataService } from '../../services/app-data.service';
@@ -18,7 +18,7 @@ import { LoadGalleryPosts, SelectGalleryCategory } from '../../store/actions/pos
   styleUrls: ['./gallery.component.scss']
 })
 export class GalleryComponent implements AfterViewInit, OnDestroy {
-  categories$: Observable<WpCategory[]>;
+  categories$: Observable<WpCategory[]> = of([]);
   pictures: Observable<LAGalleryItem[]>;
   albumState: {pic?: string} = {};
   serie$: Observable<WpCategory>;

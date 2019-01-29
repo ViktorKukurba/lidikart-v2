@@ -8,7 +8,7 @@ function addScripts() {
 		'main',
 	);
 	foreach ($scripts as $script ) {
-		wp_enqueue_script($script, get_template_directory_uri() . '/dist/' . $script . '.js', null, 'v2.0', true);
+		wp_enqueue_script($script, get_template_directory_uri() . '/dist/lidikart-v2' . $script . '.js', null, 'v2.0', true);
 	}
 }
 
