@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ExhibitionsComponent } from './exhibitions.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from '../../store/reducers';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ImgLoaderDirective } from '../../directives/img-loader.directive';
 
 describe('ExhibitionsComponent', () => {
   let component: ExhibitionsComponent;
@@ -8,7 +12,11 @@ describe('ExhibitionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExhibitionsComponent ]
+      imports: [
+        StoreModule.forRoot({...reducers}),
+        RouterTestingModule
+      ],
+      declarations: [ ExhibitionsComponent, ImgLoaderDirective ]
     })
     .compileComponents();
   }));

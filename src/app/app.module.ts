@@ -12,7 +12,7 @@ import 'hammerjs';
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 
-import { pagesReducer, categoriesReducer, blogsReducer, postsReducer, errorReducer } from './store/reducers';
+import { reducers } from './store/reducers';
 import { PagesEffects, CategoriesEffects, BlogsEffects, PostsEffects } from './store/effects';
 
 import { AppDataService } from './services/app-data.service';
@@ -57,12 +57,7 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({}),
-    StoreModule.forFeature('pages', pagesReducer),
-    StoreModule.forFeature('categories', categoriesReducer),
-    StoreModule.forFeature('blogs', blogsReducer),
-    StoreModule.forFeature('posts', postsReducer),
-    StoreModule.forFeature('errorList', errorReducer),
+    StoreModule.forRoot({...reducers}),
     EffectsModule.forRoot([PagesEffects, CategoriesEffects, BlogsEffects, PostsEffects]),
     TranslateModule.forRoot(),
     Ng4LoadingSpinnerModule.forRoot(),

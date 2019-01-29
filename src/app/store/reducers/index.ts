@@ -1,9 +1,9 @@
-import { createSelector, select } from '@ngrx/store';
-import { PagesState } from './pages';
-import { CategoriesState } from './categories';
-import { BlogsState } from './blogs';
+import { createSelector, ActionReducerMap } from '@ngrx/store';
+import { PagesState, pagesReducer } from './pages';
+import { CategoriesState, categoriesReducer } from './categories';
+import { BlogsState, blogsReducer } from './blogs';
 import { WpPage } from '../../interfaces/wp-page';
-import { PostsState } from './posts';
+import { PostsState, postsReducer } from './posts';
 import { GalleryService } from '../../services/gallery.service';
 import { WpPost } from '../../interfaces/wp-post';
 import { WpCategory } from '../../interfaces/wp-category';
@@ -21,6 +21,14 @@ export interface AppState {
   posts: PostsState;
   errorList: string[];
 }
+
+export const reducers: ActionReducerMap<AppState> = {
+  pages: pagesReducer,
+  categories: categoriesReducer,
+  blogs: blogsReducer,
+  posts: postsReducer,
+  errorList: errorReducer
+};
 
 export function errorReducer(state = [], action: ErrorActions) {
   console.log('action.type', action.type);

@@ -1,6 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NavigationComponent } from './navigation.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from '../../store/reducers';
+import { Router } from '@angular/router';
+import { MockRouter } from '../../mocks/router';
+import { AppDataService } from '../../services/app-data.service';
+import { MockAppDataService } from '../../mocks/app-data.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
+
 
 describe('NavigationComponent', () => {
   let component: NavigationComponent;
@@ -8,7 +17,12 @@ describe('NavigationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavigationComponent ]
+      imports: [RouterTestingModule, StoreModule.forRoot(reducers), TranslateModule.forRoot()],
+      declarations: [ NavigationComponent ],
+      providers: [
+        // {provide: Router, useClass: MockRouter},
+        {provide: AppDataService, useClass: MockAppDataService}
+      ]
     })
     .compileComponents();
   }));

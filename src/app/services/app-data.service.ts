@@ -1,45 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Store } from '@ngrx/store';
-import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AppSettings } from '../constants';
-import { WpPage } from '../interfaces/wp-page';
-import { WpCategory } from '../interfaces/wp-category';
 import Utils from '../utils';
-import { WpPost } from '../interfaces/wp-post';
-import { AppState } from '../store/reducers';
-import { LoadPages } from '../store/actions/pages';
-import { LoadCategories } from '../store/actions/categories';
-
-const SERVICE_URL = '//lidikart.com.ua/wp-json/wp/v2';
-
-// const SERVICE_URL = '//lidikart.loc/wp-json/wp/v2';
 
 @Injectable()
 export class AppDataService {
   languages = AppSettings.LANGUAGES;
 
   postsMap = {};
-  get params() {
-    return {
-      per_page: '100',
-      lang: this.langValue
-    };
-  }
 
-  constructor(
-    private store: Store<AppState>,
-    public http: HttpClient,
-    public translate: TranslateService) {
-      translate.setDefaultLang('en');
-      translate.onLangChange.subscribe(async (event: LangChangeEvent) => {
-        this.store.dispatch(new LoadPages());
-        this.store.dispatch(new LoadCategories());
-      });
-      this.setTranslations();
-      translate.use(location.pathname.startsWith('/en') ? 'en' : 'ua');
+  constructor(public translate: TranslateService) {
+    translate.setDefaultLang('en');
+    this.setTranslations();
+    translate.use(location.pathname.startsWith('/en') ? 'en' : 'ua');
   }
 
   private setTranslations() {
@@ -75,23 +49,6 @@ export class AppDataService {
 
   get langValue(): string {
     return this.translate.currentLang;
-  }
-
-  loadPostsByCategories(categoriesIds: Array<number|string>): Observable<WpPost[]> {
-    const url = `${SERVICE_URL}/posts?per_page=100&categories=${categoriesIds.join(',')}&lang=${this.langValue}`;
-    return this.http.get<WpPost[]>(url);
-  }
-
-  loadPages(): Observable<WpPage[]> {
-    return this.http.get<WpPage[]>(`${SERVICE_URL}/pages`, {params: this.params});
-  }
-
-  loadCategories(): Observable<WpCategory[]> {
-    return this.http.get<WpCategory[]>(`${SERVICE_URL}/categories`, {params: this.params});
-  }
-
-  loadBlogs(): Observable<[]> {
-    return this.http.get<[]>(`${SERVICE_URL}/blogs`, {params: this.params});
   }
 
   public getContactsData() {

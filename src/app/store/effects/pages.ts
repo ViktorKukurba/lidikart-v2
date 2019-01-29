@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { switchMap, map, catchError } from 'rxjs/operators';
 import { Effect, Actions, ofType } from '@ngrx/effects';
+import { switchMap, map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import { ActionTypes, LoadedPages } from '../actions/pages';
 import { ErrorAction } from '../actions';
-import { AppDataService } from '../../services/app-data.service';
-import { of } from 'rxjs';
+import { WpService } from '../../services/wp.service';
 
 @Injectable()
 export class PagesEffects {
-  constructor(private actions: Actions, private wpService: AppDataService) {}
+  constructor(private actions: Actions, private wpService: WpService) {}
 
   @Effect()
   pages = this.actions.pipe(

@@ -1,5 +1,8 @@
+import { Router } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
+import { MockRouter } from '../../mocks/router';
 import { BannerComponent } from './banner.component';
 
 describe('BannerComponent', () => {
@@ -8,7 +11,9 @@ describe('BannerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BannerComponent ]
+      declarations: [ BannerComponent ],
+      imports: [ RouterTestingModule ],
+      providers: [{provide: Router, useValue: new MockRouter()}]
     })
     .compileComponents();
   }));

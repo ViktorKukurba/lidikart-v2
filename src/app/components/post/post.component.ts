@@ -4,6 +4,7 @@ import { AppDataService } from '../../services/app-data.service';
 import { getTextFromHtml, getShortText } from '../../utils';
 
 declare const FB: any;
+declare const jQuery: any;
 
 @Component({
   selector: 'app-post',

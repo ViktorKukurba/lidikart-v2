@@ -5,7 +5,7 @@ export interface BlogsState {
   loading: Boolean;
 }
 
-const initialState = {
+const initialState: BlogsState = {
   list: [],
   loading: false
 };

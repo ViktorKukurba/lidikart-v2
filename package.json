@@ -1,6 +1,6 @@
 {
   "name": "lidik-art",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "license": "MIT",
   "author": {
     "name": "Viktor Kukurba",
@@ -16,7 +16,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy:wp:loc": "node scripts/build_to_wp && node scripts/copy_to_wp.js",
-    "postinstall": "ng build --aot --prod"
+    "postinstall": "ng build --aot --prod",
+    "test:headless": "ng test --watch=false --browsers=ChromeHeadless"
   },
   "private": true,
   "dependencies": {

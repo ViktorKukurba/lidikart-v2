@@ -1,11 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { AppDataService } from './app-data.service';
+import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 
 describe('AppDataService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AppDataService]
+      imports: [TranslateModule.forRoot({
+        loader: { provide: TranslateLoader, useClass: TranslateFakeLoader}
+      })],
+      providers: [AppDataService, TranslateService]
     });
   });
 

@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StatementComponent } from './statement.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from '../../store/reducers';
 
 describe('StatementComponent', () => {
   let component: StatementComponent;
@@ -8,6 +10,7 @@ describe('StatementComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [StoreModule.forRoot(reducers)],
       declarations: [ StatementComponent ]
     })
     .compileComponents();

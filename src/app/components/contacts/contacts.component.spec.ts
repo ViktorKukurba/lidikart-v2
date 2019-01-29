@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ContactsComponent } from './contacts.component';
+import { AppDataService } from '../../services/app-data.service';
+import { MockAppDataService } from '../../mocks/app-data.service';
 
 describe('ContactsComponent', () => {
   let component: ContactsComponent;
@@ -8,7 +10,8 @@ describe('ContactsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ContactsComponent ]
+      declarations: [ ContactsComponent ],
+      providers: [{provide: AppDataService, useClass: MockAppDataService}]
     })
     .compileComponents();
   }));

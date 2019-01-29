@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductionComponent } from './production.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from '../../store/reducers';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { of } from 'rxjs';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ProductionComponent', () => {
   let component: ProductionComponent;
@@ -8,7 +13,12 @@ describe('ProductionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProductionComponent ]
+      imports: [StoreModule.forRoot(reducers)],
+      declarations: [ ProductionComponent ],
+      providers: [{ provide: ActivatedRoute, useValue: {
+        params: of(convertToParamMap({}))
+      }}],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   }));

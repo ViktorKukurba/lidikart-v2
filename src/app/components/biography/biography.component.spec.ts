@@ -1,19 +1,29 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BiographyComponent } from './biography.component';
+import { AppDataService } from '../../services/app-data.service';
+import { MockAppDataService } from '../../mocks/app-data.service';
+import { StoreModule, Store } from '@ngrx/store';
+import { reducers, AppState } from '../../store/reducers';
 
 describe('BiographyComponent', () => {
   let component: BiographyComponent;
   let fixture: ComponentFixture<BiographyComponent>;
+  let store: Store<AppState>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BiographyComponent ]
+      imports: [StoreModule.forRoot({...reducers})],
+      declarations: [ BiographyComponent ],
+      providers: [{ provide: AppDataService, useClass: MockAppDataService}]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
+    store = TestBed.get(Store);
+    spyOn(store, 'dispatch').and.callThrough();
+
     fixture = TestBed.createComponent(BiographyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

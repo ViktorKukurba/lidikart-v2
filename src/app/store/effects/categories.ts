@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { AppDataService } from '../../services/app-data.service';
 import { Actions, ofType, Effect } from '@ngrx/effects';
-import { ActionTypes, LoadedCategories } from '../actions/categories';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+
+import { ActionTypes, LoadedCategories } from '../actions/categories';
 import { ErrorAction } from '../actions';
+import { WpService } from '../../services/wp.service';
 
 @Injectable()
 export class CategoriesEffects {
-  constructor(private actions: Actions, private wpService: AppDataService) {}
+  constructor(private actions: Actions, private wpService: WpService) {}
 
   @Effect()
   categories = this.actions.pipe(

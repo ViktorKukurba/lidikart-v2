@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
 import * as PostsActions from '../actions/posts';
-import { AppDataService } from '../../services/app-data.service';
-import { of } from 'rxjs';
 import { ErrorAction } from '../actions';
+import { WpService } from '../../services/wp.service';
 
 @Injectable()
 export class PostsEffects {
-  constructor(private actions: Actions, private wpService: AppDataService) {}
+  constructor(private actions: Actions, private wpService: WpService) {}
 
   @Effect()
   gallery = this.actions.pipe(

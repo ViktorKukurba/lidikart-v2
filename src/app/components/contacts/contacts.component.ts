@@ -12,7 +12,7 @@ export class ContactsComponent {
   contacts;
   shops: Array<any> = [];
   constructor(private dataService: AppDataService) {
-    const {social, contacts, shops} = dataService.getContactsData();
+    const {social, contacts, shops} = this.dataService.getContactsData();
     this.social = social;
     this.contacts = contacts;
     this.shops = shops;

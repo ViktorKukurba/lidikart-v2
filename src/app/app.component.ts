@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { transition, trigger, useAnimation } from '@angular/animations';
 import { fromEvent, merge, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -38,11 +38,11 @@ export class AppComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private router: Router,
-    private dataService: AppDataService) {}
+    private appService: AppDataService) {}
 
   ngOnInit() {
-    this.store.dispatch(new LoadPages());
-    this.store.dispatch(new LoadCategories());
+    this.dispatchLoad();
+    this.appService.translate.onLangChange.subscribe(this.dispatchLoad.bind(this));
     this.errorList$ = this.store.select('errorList');
     const resizeStream = fromEvent(window, 'resize');
     const routeChangeStream = this.router.events.pipe(filter(e => e instanceof NavigationEnd));
@@ -59,10 +59,15 @@ export class AppComponent implements OnInit {
     this.setContentHeight();
   }
 
+  private dispatchLoad() {
+    this.store.dispatch(new LoadPages());
+    this.store.dispatch(new LoadCategories());
+  }
+
   getState(outlet) {
     if (outlet.activated) {
       const path = outlet.activatedRoute.snapshot.routeConfig.path;
-      const langPrefix = this.dataService.langURLPrefix;
+      const langPrefix = this.appService.langURLPrefix;
       let newPage = langPrefix ? path.replace(`${langPrefix}/`, '') : path;
       if (!this.pagesOrderMap[newPage]) {
         newPage = AppSettings.ROUTE.GALLERY;
