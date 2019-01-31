@@ -56,6 +56,9 @@
 @include media-breakpoint-down(sm) {
     .blog-post {
         max-height: 750px;
+        &.open {
+          max-height: 15000px;
+        }
     }
     :host ::ng-deep .blog-post {
         .alignleft, .alignright, img.thumbnail {

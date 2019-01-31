@@ -1,3 +1,5 @@
+import { of } from 'rxjs';
+
 const contactsData = {
   social: [{
     network: 'facebook',
@@ -18,5 +20,7 @@ declare const jasmine: any;
 export class MockAppDataService {
   constructor() {}
   getContactsData = jasmine.createSpy('getContactsData').and.returnValue(contactsData);
-  translate = jasmine.createSpy('translate');
+  translate = {
+    onLangChange: of() // jasmine.createSpy('translate')
+  };
 }

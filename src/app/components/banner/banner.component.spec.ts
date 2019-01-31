@@ -1,9 +1,8 @@
-import { Router } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 
-import { MockRouter } from '../../mocks/router';
 import { BannerComponent } from './banner.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from '../../store/reducers';
 
 describe('BannerComponent', () => {
   let component: BannerComponent;
@@ -12,8 +11,7 @@ describe('BannerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ BannerComponent ],
-      imports: [ RouterTestingModule ],
-      providers: [{provide: Router, useValue: new MockRouter()}]
+      imports: [ StoreModule.forRoot(reducers) ]
     })
     .compileComponents();
   }));
@@ -26,5 +24,13 @@ describe('BannerComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  xit('shoold show', (done) => {
+    component.show$.subscribe(show => {
+      console.log('SHOW', show);
+      expect(show).toBe(true);
+      done();
+    });
   });
 });

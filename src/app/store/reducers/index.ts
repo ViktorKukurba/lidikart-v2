@@ -1,4 +1,4 @@
-import { createSelector, ActionReducerMap } from '@ngrx/store';
+import { createSelector, ActionReducerMap, createFeatureSelector } from '@ngrx/store';
 import { PagesState, pagesReducer } from './pages';
 import { CategoriesState, categoriesReducer } from './categories';
 import { BlogsState, blogsReducer } from './blogs';
@@ -8,6 +8,9 @@ import { GalleryService } from '../../services/gallery.service';
 import { WpPost } from '../../interfaces/wp-post';
 import { WpCategory } from '../../interfaces/wp-category';
 import { ErrorTypes, ErrorActions } from '../actions';
+import { Injectable } from '@angular/core';
+import { RouterStateSerializer, RouterReducerState, routerReducer } from '@ngrx/router-store';
+import { RouterStateSnapshot, Params, ActivatedRouteSnapshot } from '@angular/router';
 
 export * from './pages';
 export * from './categories';
@@ -20,6 +23,7 @@ export interface AppState {
   blogs: BlogsState;
   posts: PostsState;
   errorList: string[];
+  router: RouterReducerState<RouterStateUrl>;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -27,7 +31,8 @@ export const reducers: ActionReducerMap<AppState> = {
   categories: categoriesReducer,
   blogs: blogsReducer,
   posts: postsReducer,
-  errorList: errorReducer
+  errorList: errorReducer,
+  router: routerReducer
 };
 
 export function errorReducer(state = [], action: ErrorActions) {
@@ -37,6 +42,28 @@ export function errorReducer(state = [], action: ErrorActions) {
   }
 
   return state;
+}
+
+export interface RouterStateUrl {
+  url: string;
+  params: Params;
+  queryParams: Params;
+  route: ActivatedRouteSnapshot;
+}
+
+@Injectable()
+export class CustomSerializer implements RouterStateSerializer<RouterStateUrl> {
+  serialize(routerState: RouterStateSnapshot): RouterStateUrl {
+    let route = routerState.root;
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+    const { url, root: { queryParams } } = routerState;
+    const { params } = route;
+    // Only return an object including the URL, params and query params
+    // instead of the entire snapshot
+    return { url, params, queryParams, route };
+  }
 }
 
 const filterCategories = (page, list) => {
@@ -84,3 +111,15 @@ export const selectBlogs = (state: AppState) => state.blogs.list;
 export const selectPageCategories = (slug: string) => createSelector(pageSelector(slug), selectCategories, filterCategories);
 export const selectCategoryById = createSelector(selectCategories,
   (categories: WpCategory[], id) => categories.find(c => c.id === id));
+
+export const selectReducerState = (state: AppState) => state.router;
+export const selectReducerState2 = createFeatureSelector<RouterReducerState<RouterStateUrl>>('router');
+export const selectRouterInfo = createSelector(
+  selectReducerState,
+  s => s ? s.state : null
+);
+
+export const selectRouteData = createSelector(
+  selectRouterInfo,
+  s => s && s.route ? s.route.data : {}
+);

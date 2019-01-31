@@ -7,12 +7,13 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { TranslateModule } from '@ngx-translate/core';
+import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 import 'hammerjs';
 
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 
-import { reducers } from './store/reducers';
+import { reducers, CustomSerializer } from './store/reducers';
 import { PagesEffects, CategoriesEffects, BlogsEffects, PostsEffects } from './store/effects';
 
 import { AppDataService } from './services/app-data.service';
@@ -62,6 +63,9 @@ import { AppRoutingModule } from './app-routing.module';
     TranslateModule.forRoot(),
     Ng4LoadingSpinnerModule.forRoot(),
     AppRoutingModule,
+    StoreRouterConnectingModule.forRoot({
+      serializer: CustomSerializer
+    })
   ],
   exports: [TranslateModule],
   providers: [AppDataService,
