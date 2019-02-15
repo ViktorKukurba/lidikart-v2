@@ -34,7 +34,10 @@ import { ContactsComponent } from './components/contacts/contacts.component';
 import { BlogsComponent } from './components/blogs/blogs.component';
 import { PostComponent } from './components/post/post.component';
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './routing/app-routing.module';
+import { BlogComponent } from './components/blog/blog.component';
+import { BlogPageComponent } from './components/blog-page/blog-page.component';
+import { FixedDirective } from './directives/fixed.directive';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,10 @@ import { AppRoutingModule } from './app-routing.module';
     StatementComponent,
     ContactsComponent,
     BlogsComponent,
-    PostComponent
+    PostComponent,
+    BlogComponent,
+    BlogPageComponent,
+    FixedDirective
   ],
   imports: [
     BrowserModule,

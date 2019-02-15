@@ -1,10 +1,9 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
+import { Component, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { map, filter, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-import { pageY } from '../../utils';
 import { AppDataService } from '../../services/app-data.service';
 import { AppSettings } from '../../constants';
 import { WpCategory } from '../../interfaces/wp-category';
@@ -15,25 +14,17 @@ import { LoadGalleryPosts, SelectGalleryCategory } from '../../store/actions/pos
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.scss']
+  styleUrls: ['./gallery.component.scss', '../../styles/sub-navigation.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GalleryComponent implements AfterViewInit, OnDestroy {
+export class GalleryComponent {
   categories$: Observable<WpCategory[]> = of([]);
   pictures: Observable<LAGalleryItem[]>;
   albumState: {pic?: string} = {};
   serie$: Observable<WpCategory>;
-  @ViewChild('filter')
-  private navigation: ElementRef;
-  private top_: number;
+
   private slug = AppSettings.ROUTE.GALLERY;
-  private scrollHandler = (evt => {
-    const nav = this.navigation.nativeElement;
-    if (pageY() >= this.top_) {
-      nav.classList.add('fixed');
-    } else {
-      nav.classList.remove('fixed');
-    }
-  }).bind(this);
+
   constructor(
     private store: Store<AppState>,
     private appService: AppDataService,
@@ -57,16 +48,6 @@ export class GalleryComponent implements AfterViewInit, OnDestroy {
         const serie = params.serie ? Number(params.serie) : null;
         this.store.dispatch(new SelectGalleryCategory(serie));
       });
-
-      window.addEventListener('scroll', this.scrollHandler);
-  }
-
-  ngAfterViewInit() {
-    this.top_ = pageY() + this.navigation.nativeElement.getBoundingClientRect().top;
-  }
-
-  ngOnDestroy() {
-    window.removeEventListener('scroll', this.scrollHandler);
   }
 
   get urlPath() {

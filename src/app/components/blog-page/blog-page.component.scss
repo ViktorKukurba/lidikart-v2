@@ -1,0 +1,22 @@
+.route-content > * {
+  position: relative;
+}
+
+.app-content {
+  position: relative;
+}
+
+a.nav-link.disabled {
+  opacity: 0.5; cursor: not-allowed
+}
+
+.sub-navigation {
+  height: 0px;
+  transition: .4s height ease-in-out;
+  transition-delay: 0.4s;
+  overflow: hidden;
+
+  &.open {
+    height: 60px;
+  }
+}

@@ -3,8 +3,8 @@ import { Component, OnInit, Input, ElementRef, Output, EventEmitter } from '@ang
 import { AppDataService } from '../../services/app-data.service';
 import { getTextFromHtml, getShortText } from '../../utils';
 
-declare const FB: any;
 declare const jQuery: any;
+const FB = (<any>window).FB;
 
 @Component({
   selector: 'app-post',
@@ -50,6 +50,10 @@ export class PostComponent implements OnInit {
     return this.data.content.rendered;
   }
 
+  get baseUrl() {
+    return `/${this.dataService.langURLPrefix}/blog`;
+  }
+
   get fancyText() {
     const content = this.data.content.rendered;
     const wrapper = document.createElement('DIV');
@@ -70,16 +74,12 @@ export class PostComponent implements OnInit {
     return wrapper.innerHTML;
   }
 
-  get shareUrl() {
+  get shareUrl_DEP() {
     return `https://lidikart.com.ua/${this.dataService.langURLPrefix}/blog;post=${this.data.id}`;
   }
 
-  toggle() {
-    this.select.emit({
-      post: this.data.id,
-      selected: !this.open
-    });
-    this.openHandler();
+  get shareUrl() {
+    return `https://lidikart.com.ua/${this.dataService.langURLPrefix}/blog/${this.data.id}`;
   }
 
   ngOnInit() {
@@ -88,11 +88,11 @@ export class PostComponent implements OnInit {
   }
 
   private openHandler() {
-    if (this.open) {
-      setTimeout(() => {
-        window.scrollTo(0, this.container.nativeElement.getBoundingClientRect().top);
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      if (FB) {
         FB.XFBML.parse(this.container.nativeElement);
-      });
-    }
+      }
+    });
   }
 }

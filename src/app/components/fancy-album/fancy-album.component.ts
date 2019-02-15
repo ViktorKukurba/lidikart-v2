@@ -1,15 +1,16 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { AppSettings } from '../../constants';
 import { LAGalleryItem } from '../../types';
 import { Observable } from 'rxjs';
 declare var jQuery: any;
-
+const FB = (<any>window).FB;
 @Component({
   selector: 'app-fancy-album',
   templateUrl: './fancy-album.component.html',
-  styleUrls: ['./fancy-album.component.scss']
+  styleUrls: ['./fancy-album.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FancyAlbumComponent implements OnInit, OnDestroy {
   @Input()
@@ -23,6 +24,11 @@ export class FancyAlbumComponent implements OnInit, OnDestroy {
 
   private pictures: LAGalleryItem[] = [];
 
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+  ) { }
+
   private fancyConfig = {
     'beforeShow.fb': (e, instance, current, firstRun) => {
       this.pic = current.opts.picId;
@@ -32,7 +38,7 @@ export class FancyAlbumComponent implements OnInit, OnDestroy {
     'afterLoad.fb': () => {
       const el = document.getElementById(`fb-like-${this.pic}`);
       el.setAttribute('data-href', location.href);
-      (<any>window).FB.XFBML.parse(el.parentNode);
+      FB.XFBML.parse(el.parentNode);
     },
 
     'beforeClose.fb': () => {
@@ -45,11 +51,6 @@ export class FancyAlbumComponent implements OnInit, OnDestroy {
       }
     }
   };
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-  ) { }
 
   ngOnInit() {
     this.route.url.subscribe(url => {

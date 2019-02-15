@@ -1,14 +1,15 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ChangeDetectionStrategy } from '@angular/core';
+import { Store, select } from '@ngrx/store';
 import { filter } from 'rxjs/operators';
 
 import { AppDataService } from '../../services/app-data.service';
 import { AppState, selectPageBySlug } from '../../store/reducers';
-import { Store, select } from '@ngrx/store';
 
 @Component({
   selector: 'app-biography',
   templateUrl: './biography.component.html',
-  styleUrls: ['./biography.component.scss']
+  styleUrls: ['./biography.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BiographyComponent implements OnInit {
   pageData;

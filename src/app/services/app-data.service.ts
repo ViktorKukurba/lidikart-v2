@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AppSettings } from '../constants';
-import Utils from '../utils';
+import Utils, { pageY } from '../utils';
+import { Observable, fromEvent } from 'rxjs';
+import { map, distinctUntilChanged, startWith } from 'rxjs/operators';
 
 @Injectable()
 export class AppDataService {
@@ -27,7 +29,7 @@ export class AppDataService {
       FollowSocial: 'Find us in social networks',
       GoShops: 'Visit me',
       Details: 'See more',
-      HideDetails: 'Show less'
+      HideDetails: 'Show less',
     });
     this.translate.setTranslation('ua', {
       Series: 'Серії',
@@ -39,7 +41,10 @@ export class AppDataService {
       FollowSocial: 'Слідкуйте в мережах',
       GoShops: 'Завітайте на',
       Details: 'Показати більше...',
-      HideDetails: 'Згорнути'
+      HideDetails: 'Згорнути',
+      Previous: 'Попередній',
+      Next: 'Наступний',
+      'All posts': 'Усі дописи'
     });
   }
 
@@ -49,6 +54,15 @@ export class AppDataService {
 
   get langValue(): string {
     return this.translate.currentLang;
+  }
+
+  isElementTop(element: Element): Observable<boolean> {
+    const top_ = pageY() + element.getBoundingClientRect().top;
+    return fromEvent(window, 'scroll').pipe(
+      map(() => top_ >= pageY()),
+      distinctUntilChanged(),
+      startWith(top_ >= pageY())
+    );
   }
 
   public getContactsData() {

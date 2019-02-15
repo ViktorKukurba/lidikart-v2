@@ -5,5 +5,7 @@
 
 export const environment = {
   production: false,
-  VERSION: require('../../package.json').version
+  VERSION: require('../../package.json').version,
+  // SERVICE_URL: '//lidikart.loc/wp-json/wp/v2'
+  SERVICE_URL: 'https://lidikart.com.ua/wp-json/wp/v2'
 };

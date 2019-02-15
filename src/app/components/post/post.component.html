@@ -1,14 +1,18 @@
-<div *ngIf="data" class="blog-post p-4 my-2" [class.open]="open">
+<div *ngIf="data" class="blog-post p-4 my-2">
     <header>
-        <h4 *ngIf="title" class="d-inline-block mr-2" [innerHTML]="title"></h4><span>{{publishDate}}</span>
+        <a [routerLink]="[baseUrl, data.id]">
+            <h4 *ngIf="title" class="d-inline-block mr-2" [innerHTML]="title"></h4><span>{{publishDate}}</span>
+        </a>
     </header>
     <div *ngIf="!open; else fullPost" class="text-justify">
         <img class="thumbnail" [appImgLoader]="image">
-      {{shortText}} <a (click)="toggle()" translate>Details</a>
+      {{shortText}}
+      <a [routerLink]="[baseUrl, data.id]" translate>Details</a>
     </div>
     <ng-template #fullPost>
       <div [innerHTML]="text" class="text-justify"></div>
-      <a (click)="toggle()" class="mr-2" translate>HideDetails</a>
+
+      <a [routerLink]="[baseUrl]" class="mr-2" translate>HideDetails</a>
       <div class="fb-like"
         attr.data-href="{{shareUrl}}"
         data-layout="standard"

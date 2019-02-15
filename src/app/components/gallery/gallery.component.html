@@ -1,4 +1,4 @@
-<div id="galleries-navigation" #filter>
+<div appFixed class="sub-navigation">
   <ul *ngIf="(categories$ | async)?.length" class="nav d-none d-lg-block text-center p-1">
     <li class="nav-item p-2">
         <a [routerLink]="[urlPath]" class="nav-link" [ngClass]="{active: !(serie$ | async)}" translate>All</a>

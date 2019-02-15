@@ -1,14 +1,14 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { transition, trigger, useAnimation } from '@angular/animations';
 import { fromEvent, merge, Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
-import { langRoutes } from './app.routes';
+import { langRoutes } from './routing/app.routes';
 import { AppDataService } from './services/app-data.service';
 import { routerAnimation } from './animations/router.animation';
-import { selectPages, AppState } from './store/reducers';
+import { selectPages, AppState, selectRouteData } from './store/reducers';
 import { LoadPages } from './store/actions/pages';
 import { LoadCategories } from './store/actions/categories';
 import { AppSettings } from './constants';
@@ -30,8 +30,6 @@ export class AppComponent implements OnInit {
   private pagesOrderMap = {};
   @ViewChild('header')
   private header;
-  @ViewChild('banner', {read: ElementRef})
-  private banner;
   @ViewChild('footer')
   private footer;
   contentHeight: string|number = 0;
@@ -46,8 +44,9 @@ export class AppComponent implements OnInit {
     this.errorList$ = this.store.select('errorList');
     const resizeStream = fromEvent(window, 'resize');
     const routeChangeStream = this.router.events.pipe(filter(e => e instanceof NavigationEnd));
-    merge(resizeStream, routeChangeStream).subscribe(e => {
-      setTimeout(() => this.setContentHeight());
+    merge(resizeStream, routeChangeStream).pipe(
+    switchMap((): Observable<any> => this.store.select(selectRouteData))).subscribe(data => {
+      setTimeout(() => this.setContentHeight(data.banner));
     });
     this.store.pipe(select(selectPages), map(p => p.reduce((pages, {slug, menu_order}) => {
        pages[slug] = menu_order;
@@ -56,7 +55,6 @@ export class AppComponent implements OnInit {
         this.pagesOrderMap = orderMap;
       });
     this.router.config.unshift(...langRoutes);
-    this.setContentHeight();
   }
 
   private dispatchLoad() {
@@ -94,7 +92,12 @@ export class AppComponent implements OnInit {
     }, 0);
   }
 
-  private setContentHeight() {
-    this.contentHeight = window.innerHeight - this.getHeight(this.footer, this.header, this.banner) + 'px';
+  private setContentHeight(showBanner = false) {
+    const inPage = [this.header];
+    if (showBanner) {
+      inPage.push(this.footer);
+    }
+    this.contentHeight = window.innerHeight - this.getHeight(...inPage) -
+    (showBanner ? 101 : 1) + 'px';
   }
 }

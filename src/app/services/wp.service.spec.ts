@@ -6,6 +6,9 @@ import { AppDataService } from './app-data.service';
 import { MockAppDataService } from '../mocks/app-data.service';
 import { WpPage } from '../interfaces/wp-page';
 import { mapToQueryString } from '../mocks/utils';
+import { environment } from '../../environments/environment';
+
+const {SERVICE_URL} = environment;
 
 describe('WpService', () => {
 
@@ -41,7 +44,7 @@ describe('WpService', () => {
       expect(pages.length).toBe(2);
       expect(pages).toEqual(dummyPages);
     });
-    const http = httpMock.expectOne(`${service.SERVICE_URL}/pages?` + mapToQueryString(service.params));
+    const http = httpMock.expectOne(`${SERVICE_URL}/pages?` + mapToQueryString(service.params));
     expect(http.request.method).toBe('GET');
     expect(http.request.params.get('per_page')).toBe('100');
     http.flush(dummyPages);

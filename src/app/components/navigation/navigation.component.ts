@@ -22,8 +22,8 @@ export class NavigationComponent {
     private store: Store<AppState>,
     private router: Router) {
       this.languages = this.dataService.languages;
-      const langUrl = this.dataService.langURLPrefix;
       this.pages = this.store.pipe(select(selectPages), map(pages => pages.map(page => {
+        const langUrl = this.dataService.langURLPrefix;
         page.link = langUrl ? `${langUrl}/${page.slug}` : page.slug;
         return page;
       })));

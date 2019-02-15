@@ -107,6 +107,9 @@ export const selectExhibitionImages = createSelector(
   }).map(p => GalleryService.toImageItem(p)));
 
 export const selectBlogs = (state: AppState) => state.blogs.list;
+export const selectBlog = createSelector(
+  selectBlogs,
+  (blogs: any[], id) => blogs.find(b => b.id === id));
 
 export const selectPageCategories = (slug: string) => createSelector(pageSelector(slug), selectCategories, filterCategories);
 export const selectCategoryById = createSelector(selectCategories,

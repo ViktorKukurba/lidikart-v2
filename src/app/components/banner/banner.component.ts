@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import { Router, RoutesRecognized } from '@angular/router';
-import { filter, map } from 'rxjs/operators';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AppState, selectRouteData } from '../../store/reducers';
 import { Store } from '@ngrx/store';
@@ -8,7 +7,8 @@ import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-banner',
   templateUrl: './banner.component.html',
-  styleUrls: ['./banner.component.scss']
+  styleUrls: ['./banner.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BannerComponent {
   show$: Observable<Boolean>;

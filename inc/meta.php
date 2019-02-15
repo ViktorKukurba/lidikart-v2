@@ -30,8 +30,32 @@
         <?php
     }
 
-    function getBlogMeta() {
-        preg_match('/blog;(post=(\d+))/', $_SERVER[REQUEST_URI], $blog_array);
+    function getBlogMeta($re = '/blog\/(\d+)/') {
+      preg_match($re, $_SERVER[REQUEST_URI], $blog_array);
+      if (count($blog_array) == 2) {
+          $post_id = $blog_array[1];
+          $post = get_post($post_id, OBJECT);
+          $content = $post->post_content;
+          preg_match('/ src="([^\"]+)/', $content, $image);
+          $lang = (strpos($_SERVER[REQUEST_URI], "/en/") === 0) ? 'en' : 'uk';
+          $trans = qtrans_use($lang, $content, false);
+          $doc = new DOMDocument();
+          $doc->loadHTML('<?xml encoding="utf-8" ?>' . $trans);
+          $doc->saveHTML();
+          $desc = $doc->textContent;
+          $title = qtrans_use($lang, $post->post_title,false);
+          return array(
+              img => $image[1],
+              desc => substr($desc, 0, 400) . '...',
+              title => $title
+          );
+      } else {
+          return getBlogMetaDep();
+      }
+  }
+
+    function getBlogMetaDep($re = '/blog;(post=(\d+))/') {
+        preg_match($re, $_SERVER[REQUEST_URI], $blog_array);
         if (count($blog_array) == 3) {
             $post_id = $blog_array[2];
             $post = get_post($post_id, OBJECT);

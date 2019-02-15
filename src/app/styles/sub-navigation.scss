@@ -1,0 +1,35 @@
+@import '../../vars_.scss';
+
+.sub-navigation {
+  &.fixed {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    background: $backgroundColor;
+    ul {
+      width: 85%;
+      margin: auto;
+    }
+  }
+  ul {
+    list-style-type: none;
+    li {
+      display: inline-block;
+      font-weight: 800;
+          a {
+            color: #888;
+            font-weight: 500;
+            font-size: 14px;
+            &.active {
+              color: opacify($color: $fontColor, $amount: .9);
+            }
+          }
+
+          a:hover {
+            color: opacify($color: $fontColor, $amount: .9);
+          }
+        }
+      }
+}

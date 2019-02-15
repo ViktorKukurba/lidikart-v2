@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { Contacts } from '../../types';
@@ -18,6 +18,8 @@ export class FooterComponent {
   social = [];
   contacts: Contacts;
   version: string;
+  @Input()
+  show: boolean;
   constructor(private store: Store<AppState>, public dataService: AppDataService) {
     this.pages = this.store.select(selectPages);
     const {social, contacts} = this.dataService.getContactsData();
