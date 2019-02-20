@@ -1,17 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, RouteReuseStrategy } from '@angular/router';
+import { RouterModule, Router, RouteReuseStrategy, PreloadAllModules } from '@angular/router';
 
-import { ROUTES } from './app.routes';
 import { CustomReuseStrategy } from './route-reuse-strategy';
+import { ROUTES } from './app.routes';
+import { multilangRoutes } from '../utils';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forRoot(
-      ROUTES,
-      // {enableTracing: true} // <-- debugging purposes only
-    )
+    RouterModule.forRoot(ROUTES, { preloadingStrategy: PreloadAllModules})
   ],
   providers: [{
     provide: RouteReuseStrategy,
@@ -19,4 +17,8 @@ import { CustomReuseStrategy } from './route-reuse-strategy';
   }],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+  constructor(private router: Router) {
+    this.router.config.unshift(...multilangRoutes(ROUTES));
+  }
+}

@@ -7,4 +7,5 @@ export class MockRouter {
   public events = this.subject.asObservable();
   //noinspection TypeScriptUnresolvedFunction
   navigate = jasmine.createSpy('navigate');
+  config = jasmine.createSpy('config');
 }

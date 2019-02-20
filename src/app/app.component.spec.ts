@@ -13,6 +13,7 @@ import { MockAppDataService } from './mocks/app-data.service';
 import { LoadPages } from './store/actions/pages';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { LoadCategories } from './store/actions/categories';
+import { blogsReducer } from './blog/store/reducers';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -26,6 +27,7 @@ describe('AppComponent', () => {
         RouterTestingModule.withRoutes([]),
         Ng4LoadingSpinnerModule.forRoot(),
         StoreModule.forRoot(reducers),
+        StoreModule.forFeature('blogFeature', blogsReducer),
         NoopAnimationsModule
       ],
       providers: [

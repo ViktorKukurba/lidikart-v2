@@ -13,7 +13,7 @@ describe('BiographyComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({...reducers})],
+      imports: [StoreModule.forRoot(reducers)],
       declarations: [ BiographyComponent ],
       providers: [{ provide: AppDataService, useClass: MockAppDataService}]
     })

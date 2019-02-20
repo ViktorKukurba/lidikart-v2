@@ -8,8 +8,8 @@ import { AppDataService } from '../../services/app-data.service';
 import Utils from '../../utils';
 import { AppState, selectCategoryById, selectExhibitionImages } from '../../store/reducers';
 import { WpCategory } from '../../interfaces/wp-category';
-import { LAGalleryItem } from '../../types';
 import { LoadExhibitionPosts } from '../../store/actions/posts';
+import { WpPost } from '../../interfaces/wp-post';
 
 @Component({
   selector: 'app-exhibition',
@@ -17,7 +17,7 @@ import { LoadExhibitionPosts } from '../../store/actions/posts';
   styleUrls: ['./exhibition.component.scss']
 })
 export class ExhibitionComponent {
-  pictures: Observable<LAGalleryItem[]>;
+  pictures: Observable<WpPost[]>;
   categoryId: number;
   exhibition$: Observable<WpCategory>;
   pic;

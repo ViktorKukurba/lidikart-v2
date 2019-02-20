@@ -1,0 +1,66 @@
+@import './node_modules/bootstrap/scss/functions';
+@import './node_modules/bootstrap/scss/variables';
+@import './node_modules/bootstrap/scss/mixins/breakpoints';
+
+@import './src/vars_.scss';
+
+.blog-post {
+    background-color: white;
+    width: 100%;
+    overflow: hidden;
+
+    header > a {
+      color: inherit;
+      padding: 0;
+      text-decoration: none;
+    }
+
+    a {
+        cursor: pointer;
+        color: $linkPrimaryColor;
+        padding-left: .5em;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    img {
+        min-height: 200px;
+        min-width: 300px;
+        &.thumbnail {
+            float: right;
+            margin-left: 1em;
+        }
+    }
+}
+
+:host ::ng-deep {
+    .alignleft {
+        float: left;
+        margin-right: 1em;
+        margin-top: 1em;
+    }
+
+    .alignright {
+        float: right;
+        margin-left: 1em;
+        margin-top: 1em;
+    }
+
+    .blog-post {
+        img.size-full {
+            max-width: 100%;
+            height: auto;
+        }
+    }
+}
+@include media-breakpoint-down(sm) {
+    :host ::ng-deep .blog-post {
+        .alignleft, .alignright, img.thumbnail {
+            float: none;
+            margin: 0 auto;
+            display: block;
+            text-align: center;
+        }
+    }
+}

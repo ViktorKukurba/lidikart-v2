@@ -4,7 +4,8 @@ import { of } from 'rxjs';
 
 import { FancyAlbumComponent } from './fancy-album.component';
 import { MockRouter } from '../../mocks/router';
-import { ImgLoaderDirective } from '../../directives/img-loader.directive';
+import { ImgLoaderDirective } from '../../common/directives/img-loader.directive';
+import { ImgUrlPipe } from '../../common/pipes/img-url.pipe';
 
 describe('FancyAlbumComponent', () => {
   let component: FancyAlbumComponent;
@@ -12,7 +13,7 @@ describe('FancyAlbumComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FancyAlbumComponent, ImgLoaderDirective ],
+      declarations: [ FancyAlbumComponent, ImgLoaderDirective, ImgUrlPipe ],
       providers: [
         {provide: Router, useClass: MockRouter},
         {provide: ActivatedRoute, useValue: {

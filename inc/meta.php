@@ -27,6 +27,7 @@
         <meta property="fb:app_id" content="<?php echo get_option('fb_site_app_id') ?>"/>
         <meta property="og:site_name" content="<?php echo get_option('fb_site_name') ?>"/>
         <meta property="og:url" content="<?php echo $url ?>"/>
+        <title><?php echo $title ?></title>
         <?php
     }
 

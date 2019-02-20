@@ -8,6 +8,7 @@ import { WpCategory } from '../../interfaces/wp-category';
 import { AppState, selectPageCategories, selectWallPaintingsImages } from '../../store/reducers';
 import { LoadWallPaintingPosts } from '../../store/actions/posts';
 import { LAGalleryItem } from '../../types';
+import { WpPost } from '../../interfaces/wp-post';
 
 @Component({
   selector: 'app-production',
@@ -15,7 +16,7 @@ import { LAGalleryItem } from '../../types';
   styleUrls: ['./production.component.scss']
 })
 export class ProductionComponent implements OnInit {
-  posts: Observable<LAGalleryItem[]>;
+  posts: Observable<WpPost[]>;
   public albumState;
   constructor(
     private store: Store<AppState>,

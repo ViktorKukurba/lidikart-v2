@@ -4,7 +4,6 @@ import { ErrorTypes } from '../actions';
 
 export * from './pages';
 export * from './categories';
-export * from './blogs';
 export * from './posts';
 
 @Injectable()

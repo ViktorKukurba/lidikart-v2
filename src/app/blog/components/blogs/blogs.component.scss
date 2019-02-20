@@ -1,0 +1,12 @@
+.blog-post-wrapper {
+    flex-grow: 1;
+    transition: all 400ms ease;
+    &.open {
+        flex-shrink: 1;
+    }
+}
+
+:host ::ng-deep img.aligncenter {
+  display: block;
+  margin: auto
+}

@@ -1,18 +1,18 @@
-import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { Router, NavigationEnd, ActivatedRouteSnapshot } from '@angular/router';
 import { transition, trigger, useAnimation } from '@angular/animations';
 import { fromEvent, merge, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
-import { langRoutes } from './routing/app.routes';
 import { AppDataService } from './services/app-data.service';
 import { routerAnimation } from './animations/router.animation';
-import { selectPages, AppState, selectRouteData } from './store/reducers';
+import { selectPages, AppState, selectRouteData, selectRouterInfo, selectPageBySlug } from './store/reducers';
 import { LoadPages } from './store/actions/pages';
 import { LoadCategories } from './store/actions/categories';
 import { AppSettings } from './constants';
 import { DismissErrorAction } from './store/actions';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -36,7 +36,8 @@ export class AppComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private router: Router,
-    private appService: AppDataService) {}
+    private appService: AppDataService,
+    private titleService: Title) {}
 
   ngOnInit() {
     this.dispatchLoad();
@@ -54,7 +55,18 @@ export class AppComponent implements OnInit {
       }, {}))).subscribe(orderMap => {
         this.pagesOrderMap = orderMap;
       });
-    this.router.config.unshift(...langRoutes);
+
+    this.store.select(selectRouterInfo).pipe(
+      filter(info => Boolean(info)),
+      map(info => {
+        const langPrefix = this.appService.langURLPrefix ? `/${this.appService.langURLPrefix}/` : '/';
+        return info.url.replace(langPrefix, '').split('/')[0];
+      }),
+      switchMap(slug => this.store.select(selectPageBySlug, slug || AppSettings.ROUTE.GALLERY)),
+      filter(p => Boolean(p)))
+      .subscribe(page => {
+        this.titleService.setTitle(`LidikArt - ${page.title.rendered}`);
+      });
   }
 
   private dispatchLoad() {
@@ -64,7 +76,7 @@ export class AppComponent implements OnInit {
 
   getState(outlet) {
     if (outlet.activated) {
-      const path = outlet.activatedRoute.snapshot.routeConfig.path;
+      const path = this.getPath(outlet.activatedRoute.snapshot);
       const langPrefix = this.appService.langURLPrefix;
       let newPage = langPrefix ? path.replace(`${langPrefix}/`, '') : path;
       if (!this.pagesOrderMap[newPage]) {
@@ -80,6 +92,19 @@ export class AppComponent implements OnInit {
         }
       };
     }
+  }
+
+  getPath(snapshot: ActivatedRouteSnapshot) {
+    const path = snapshot.routeConfig.path;
+    if (path) {
+      return path;
+    }
+
+    if (snapshot.parent.routeConfig) {
+      return snapshot.parent.routeConfig.path;
+    }
+
+    return path;
   }
 
   dismissError(error: string) {

@@ -1,3 +1,6 @@
+import { AppSettings } from './constants';
+import { Routes } from '@angular/router';
+
 export default class Utils {
   static imagePath = '../../../assets/images/';
   static translate(str: string, lang: string) {
@@ -30,4 +33,18 @@ export function getShortText(text, len = 300) {
 
 export function pageY() {
   return window.pageYOffset || document.documentElement.scrollTop;
+}
+
+export function multilangRoutes(routes: Routes): Routes {
+  return [...routes.reduce((multiRoutes, route) => {
+    const lRoutes = AppSettings.LANGUAGES.filter(l => l.path).map((language) => {
+      const lRoute = {...route};
+      lRoute.path = language.path + (language.path && lRoute.path ? '/' : '') + lRoute.path;
+      return lRoute;
+    });
+    lRoutes.forEach(lRoute => {
+      multiRoutes = multiRoutes.concat(lRoute);
+    });
+    return multiRoutes;
+  }, [])];
 }

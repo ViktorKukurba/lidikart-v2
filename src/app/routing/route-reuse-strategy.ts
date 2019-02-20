@@ -1,7 +1,5 @@
 import { ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy } from '@angular/router';
 
-import { BlogComponent } from '../components/blog/blog.component';
-
 export class CustomReuseStrategy implements RouteReuseStrategy {
 
   handlers: {[key: string]: DetachedRouteHandle} = {};
@@ -26,8 +24,8 @@ export class CustomReuseStrategy implements RouteReuseStrategy {
   }
 
   shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {
-    if (curr.component === BlogComponent) {
-      return false;
+    if (curr.data.hasOwnProperty('reuse')) {
+      return curr.data.reuse;
     }
     return curr.routeConfig === future.routeConfig;
   }

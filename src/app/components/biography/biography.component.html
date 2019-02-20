@@ -1,5 +1,5 @@
 <div class="about-description p-4">
-  <div *ngIf="pageData" class="about-content" [innerHtml]="pageData.content.rendered"></div>
+  <div *ngIf="(pageData |async ) as page" class="about-content" [innerHtml]="page.content.rendered"></div>
   <div class="row">
     <div class="col-6">
       <div class="fb-like"
@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="col-6">
-      <a [href]="resumeLink"target="_blank" class="pdf-link">
+      <a [href]="resumeLink | async"target="_blank" class="pdf-link">
         <span translate>Download</span>
         <span class="la-icon pdf md"></span>
       </a>

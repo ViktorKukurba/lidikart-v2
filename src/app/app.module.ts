@@ -7,14 +7,14 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { TranslateModule } from '@ngx-translate/core';
-import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import 'hammerjs';
 
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 
 import { reducers, CustomSerializer } from './store/reducers';
-import { PagesEffects, CategoriesEffects, BlogsEffects, PostsEffects } from './store/effects';
+import { PagesEffects, CategoriesEffects, PostsEffects } from './store/effects';
 
 import { AppDataService } from './services/app-data.service';
 import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
@@ -27,17 +27,12 @@ import { FooterComponent } from './components/footer/footer.component';
 import { BiographyComponent } from './components/biography/biography.component';
 import { BannerComponent } from './components/banner/banner.component';
 import { ExhibitionsComponent } from './components/exhibitions/exhibitions.component';
-import { ImgLoaderDirective } from './directives/img-loader.directive';
 import { ExhibitionComponent } from './components/exhibition/exhibition.component';
 import { StatementComponent } from './components/statement/statement.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
-import { BlogsComponent } from './components/blogs/blogs.component';
-import { PostComponent } from './components/post/post.component';
 
 import { AppRoutingModule } from './routing/app-routing.module';
-import { BlogComponent } from './components/blog/blog.component';
-import { BlogPageComponent } from './components/blog-page/blog-page.component';
-import { FixedDirective } from './directives/fixed.directive';
+import { AppCommonModule } from './common/common.module';
 
 @NgModule({
   declarations: [
@@ -50,22 +45,17 @@ import { FixedDirective } from './directives/fixed.directive';
     BiographyComponent,
     BannerComponent,
     ExhibitionsComponent,
-    ImgLoaderDirective,
     ExhibitionComponent,
     StatementComponent,
     ContactsComponent,
-    BlogsComponent,
-    PostComponent,
-    BlogComponent,
-    BlogPageComponent,
-    FixedDirective
   ],
   imports: [
+    AppCommonModule,
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([PagesEffects, CategoriesEffects, BlogsEffects, PostsEffects]),
+    EffectsModule.forRoot([PagesEffects, CategoriesEffects, PostsEffects]),
     TranslateModule.forRoot(),
     Ng4LoadingSpinnerModule.forRoot(),
     AppRoutingModule,

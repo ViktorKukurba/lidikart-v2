@@ -1,12 +1,12 @@
 <div class="album-wrapper row justify-content-center no-gutters" [ngClass]="sizeClass">
   <ng-content></ng-content>
   <div *ngFor="let item of (items | async)" class="image text-center" [ngClass]="{'col-12 col-xl-5': sizeVal === 'big'}">
-    <a *ngIf="item" href="{{item.src}}"
-      [class]="'thumbnail fancybox slide ' + item.post.format"
-      attr.data-pic-id="{{item.post.id}}"
+    <a *ngIf="item" href="{{item | imgUrl:'src'}}"
+      [class]="'thumbnail fancybox slide ' + item.format"
+      attr.data-pic-id="{{item.id}}"
       data-fancybox="gallery"
-      title="{{item.post.title.rendered}}">
-      <img [appImgLoader]="item.thumb[sizeVal]">
+      title="{{item.title.rendered}}">
+      <img [appImgLoader]="item | imgUrl: sizeVal">
     </a>
   </div>
 </div>

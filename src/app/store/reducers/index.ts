@@ -1,10 +1,8 @@
 import { createSelector, ActionReducerMap, createFeatureSelector } from '@ngrx/store';
 import { PagesState, pagesReducer } from './pages';
 import { CategoriesState, categoriesReducer } from './categories';
-import { BlogsState, blogsReducer } from './blogs';
 import { WpPage } from '../../interfaces/wp-page';
 import { PostsState, postsReducer } from './posts';
-import { GalleryService } from '../../services/gallery.service';
 import { WpPost } from '../../interfaces/wp-post';
 import { WpCategory } from '../../interfaces/wp-category';
 import { ErrorTypes, ErrorActions } from '../actions';
@@ -14,13 +12,11 @@ import { RouterStateSnapshot, Params, ActivatedRouteSnapshot } from '@angular/ro
 
 export * from './pages';
 export * from './categories';
-export * from './blogs';
 export * from './posts';
 
 export interface AppState {
   pages: PagesState;
   categories: CategoriesState;
-  blogs: BlogsState;
   posts: PostsState;
   errorList: string[];
   router: RouterReducerState<RouterStateUrl>;
@@ -29,7 +25,6 @@ export interface AppState {
 export const reducers: ActionReducerMap<AppState> = {
   pages: pagesReducer,
   categories: categoriesReducer,
-  blogs: blogsReducer,
   posts: postsReducer,
   errorList: errorReducer,
   router: routerReducer
@@ -93,32 +88,32 @@ export const selectGalleryImages = createSelector(
   (gallery) => gallery.list.filter(post => {
     const cat = gallery.category;
     return checkFormat(post) && (!cat || post.categories.includes(cat));
-  }).map(p => GalleryService.toImageItem(p)));
+  }));
 
 export const selectWallPaintingsImages = createSelector(
   selectWallPaintings,
-  (wallPaintings: WpPost[]) => wallPaintings.filter(checkFormat).map(p => GalleryService.toImageItem(p)));
+  (wallPaintings: WpPost[]) => wallPaintings.filter(checkFormat));
 
 export const selectExhibitionImages = createSelector(
   selectExhibitionPosts,
   (exhibition) => exhibition.list.filter(post => {
     const cat = exhibition.category;
     return checkFormat(post) && (!cat || post.categories.includes(cat));
-  }).map(p => GalleryService.toImageItem(p)));
+  }));
 
-export const selectBlogs = (state: AppState) => state.blogs.list;
-export const selectBlog = createSelector(
-  selectBlogs,
-  (blogs: any[], id) => blogs.find(b => b.id === id));
+// export const selectBlogs = (state: AppState) => state.blogs.list;
+// export const selectBlog = createSelector(
+//   selectBlogs,
+//   (blogs: any[], id) => blogs.find(b => b.id === id));
 
 export const selectPageCategories = (slug: string) => createSelector(pageSelector(slug), selectCategories, filterCategories);
 export const selectCategoryById = createSelector(selectCategories,
   (categories: WpCategory[], id) => categories.find(c => c.id === id));
 
-export const selectReducerState = (state: AppState) => state.router;
+export const selectRouterState = (state: AppState) => state.router;
 export const selectReducerState2 = createFeatureSelector<RouterReducerState<RouterStateUrl>>('router');
 export const selectRouterInfo = createSelector(
-  selectReducerState,
+  selectRouterState,
   s => s ? s.state : null
 );
 

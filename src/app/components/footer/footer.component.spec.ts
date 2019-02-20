@@ -14,7 +14,7 @@ describe('FooterComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ FooterComponent ],
-      imports: [ RouterTestingModule, StoreModule.forRoot({...reducers}) ],
+      imports: [ RouterTestingModule, StoreModule.forRoot(reducers) ],
       providers: [ {provide: AppDataService, useClass: MockAppDataService} ]
     })
     .compileComponents();

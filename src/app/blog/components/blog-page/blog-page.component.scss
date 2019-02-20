@@ -1,0 +1,52 @@
+@import './node_modules/bootstrap/scss/functions';
+@import './node_modules/bootstrap/scss/variables';
+@import './node_modules/bootstrap/scss/mixins/breakpoints';
+
+.route-content > * {
+  position: relative;
+}
+
+.app-content {
+  position: relative;
+}
+
+a.nav-link.disabled {
+  opacity: 0.5; cursor: not-allowed
+}
+
+.sub-navigation {
+  height: 0px;
+  transition: .4s height ease-in-out;
+  transition-delay: 0.4s;
+  overflow: hidden;
+
+  &.open {
+    height: 60px;
+  }
+
+  @include media-breakpoint-down(sm) {
+  li:nth-child(1) a {
+    span {
+      display: none;
+    }
+    &::after {
+      content: '<';
+      display: block;
+      font-size: 2.5em;
+      line-height: .6em;
+    }
+  }
+
+  li:nth-child(3) a {
+    span {
+      display: none;
+    }
+    &::after {
+      content: '>';
+      display: block;
+      font-size: 2.5em;
+      line-height: .6em;
+    }
+  }
+}
+}

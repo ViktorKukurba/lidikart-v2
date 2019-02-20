@@ -7,9 +7,9 @@ import { Observable, of } from 'rxjs';
 import { AppDataService } from '../../services/app-data.service';
 import { AppSettings } from '../../constants';
 import { WpCategory } from '../../interfaces/wp-category';
-import { LAGalleryItem } from '../../types';
 import { AppState, selectGalleryImages, selectPageCategories, selectGallery, selectCategoryById } from '../../store/reducers';
 import { LoadGalleryPosts, SelectGalleryCategory } from '../../store/actions/posts';
+import { WpPost } from '../../interfaces/wp-post';
 
 @Component({
   selector: 'app-gallery',
@@ -19,7 +19,7 @@ import { LoadGalleryPosts, SelectGalleryCategory } from '../../store/actions/pos
 })
 export class GalleryComponent {
   categories$: Observable<WpCategory[]> = of([]);
-  pictures: Observable<LAGalleryItem[]>;
+  pictures: Observable<WpPost[]>;
   albumState: {pic?: string} = {};
   serie$: Observable<WpCategory>;
 

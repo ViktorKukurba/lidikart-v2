@@ -7,15 +7,10 @@ import { ExhibitionsComponent } from '../components/exhibitions/exhibitions.comp
 import { ExhibitionComponent } from '../components/exhibition/exhibition.component';
 import { StatementComponent } from '../components/statement/statement.component';
 import { ContactsComponent } from '../components/contacts/contacts.component';
-import { BlogsComponent } from '../components/blogs/blogs.component';
-import { BlogComponent } from '../components/blog/blog.component';
-import { BlogPageComponent } from '../components/blog-page/blog-page.component';
 
 import { AppSettings } from '../constants';
-import { BlogGuard } from '../guards/blog.guard';
 
-
-const ROUTES: Routes = [{
+export const ROUTES: Routes = [{
     path: '',
     component: GalleryComponent
   }, {
@@ -50,34 +45,6 @@ const ROUTES: Routes = [{
     }
   }, {
     path: AppSettings.ROUTE.BLOG,
-    component: BlogPageComponent,
-    children: [{
-      path: '',
-      pathMatch: 'full',
-      component: BlogsComponent,
-    },
-    {
-      path: ':id',
-      component: BlogComponent,
-      resolve: {
-        blog: BlogGuard
-      },
-      canActivate: [BlogGuard]
-    }
-  ]
+    loadChildren: '../blog/blog.module#BlogModule'
   }
 ];
-
-const langRoutes: Routes = ROUTES.reduce((routes, route) => {
-  const lRoutes = AppSettings.LANGUAGES.filter(l => l.path).map((language) => {
-    const lRoute = {...route};
-    lRoute.path = language.path + (language.path && lRoute.path ? '/' : '') + lRoute.path;
-    return lRoute;
-  });
-  lRoutes.forEach(lRoute => {
-    routes = routes.concat(lRoute);
-  });
-  return routes;
-}, []);
-
-export { langRoutes, ROUTES };

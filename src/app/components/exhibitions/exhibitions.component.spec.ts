@@ -4,7 +4,7 @@ import { ExhibitionsComponent } from './exhibitions.component';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from '../../store/reducers';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ImgLoaderDirective } from '../../directives/img-loader.directive';
+import { ImgLoaderDirective } from '../../common/directives/img-loader.directive';
 
 describe('ExhibitionsComponent', () => {
   let component: ExhibitionsComponent;

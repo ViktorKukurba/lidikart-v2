@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
-import { AppSettings } from '../../constants';
-import { LAGalleryItem } from '../../types';
 import { Observable } from 'rxjs';
+import { AppSettings } from '../../constants';
+import { WpPost } from '../../interfaces/wp-post';
 declare var jQuery: any;
 const FB = (<any>window).FB;
 @Component({
@@ -14,7 +13,7 @@ const FB = (<any>window).FB;
 })
 export class FancyAlbumComponent implements OnInit, OnDestroy {
   @Input()
-  items: Observable<LAGalleryItem[]>;
+  items: Observable<WpPost[]>;
   @Input()
   pic: number;
   @Input()
@@ -22,7 +21,7 @@ export class FancyAlbumComponent implements OnInit, OnDestroy {
   url: String;
   routeParams;
 
-  private pictures: LAGalleryItem[] = [];
+  private pictures: WpPost[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -112,7 +111,7 @@ export class FancyAlbumComponent implements OnInit, OnDestroy {
       if (typeof id === 'string') {
         id = +id.replace('pic-', '');
       }
-      const post = this.pictures.find(i => i.post.id === id).post;
+      const post = this.pictures.find(i => i.id === id);
       const tmpl = `<div class="fb-like" id=fb-like-${id}
       data-href="https://lidikart.com.ua"
       data-layout="standard"
